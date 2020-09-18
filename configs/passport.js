@@ -1,6 +1,8 @@
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 let UserModel = require('../models/User');
+let AdminCampusModel = require('../models/AdminCampus');
+
 let officeStrategy = require('Passport-azure-ad-oauth2')
 let bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
@@ -85,7 +87,6 @@ passport.use(new officeStrategy({
 
                 });
             */
-
         UserModel.findOrCreate({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
             .then((id) => {
                 if (id.hasOwnProperty('email')) {
@@ -97,7 +98,19 @@ passport.use(new officeStrategy({
                         .then(user => done(null, user))
                 }
             });
-
+        /* Users 
+        UserModel.findOrCreate({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
+            .then((id) => {
+                if (id.hasOwnProperty('email')) {
+                    console.log("ID HAS email", id)
+                    return UserModel.findByEmail(id.email)
+                        .then(user => done(null, user))
+                } else {
+                    return UserModel.find(id)
+                        .then(user => done(null, user))
+                }
+            });
+            */
     }));
 
 passport.use(fbStrategy);

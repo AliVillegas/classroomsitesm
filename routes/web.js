@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/AuthMiddleware');
 const authValidator = require('../validators/AuthValidators');
 const homepageController = require('../controllers/HomepageController');
 const dashboardController = require('../controllers/DashboardController');
+const admincampusController = require('../controllers/AdminCampusController');
 
 const passport = require('passport');
 
@@ -32,6 +33,15 @@ router.get('/dashboardUser', dashboardController.dashboard);
 router.get('/dashboard/courses', dashboardController.courses);
 router.get('/dashboard/favCourses', dashboardController.favCourses);
 
+router.get('/dashboardAdminCampus', dashboardController.dashboardAdminCampus);
+router.get('/manageClassroomsAdmin', admincampusController.classroomsManagement);
+router.post('/classroomsAdminCampus/:id', admincampusController.updateClassroomData);
+router.get('/classroomsAdminCampus/create', admincampusController.showCreateNewClassroom);
+router.post('/createNewClassroom', admincampusController.createNewClassroom);
+router.post('/classroomsAdminCampus/del/:id', admincampusController.deleteClassroomData);
+
+router.post('/classroomsSearch', admincampusController.classroomsSearch);
+router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
 
 router.get('/auth/office365/success', dashboardController.index);
 

@@ -1,0 +1,37 @@
+<main role="main" class="container">
+    <h2 class="text-primary" > New Classroom</h2>
+
+    <form class="formDisplayBlock" method="POST" action="/createNewClassroom">
+        <div class="container" >
+            <div class="row" >
+                 <div class="form-group col">
+                    <label for="classroomName">Name:</label>
+                    <input name="classroomName" type="text" class="form-control" id="classroomNameInput" aria-describedby="classroom" value="">
+                </div>
+            </div>
+            <div class="row" >
+                 <div class="form-group col">
+                    <label for="classroomCapacity">Capacity:</label>
+                    <input name="classroomCapacity" type="text" class="form-control" id="classroomCapInput" aria-describedby="classroom" value="">
+                </div>
+            </div>
+            <div class="row" >
+                 <div class="form-group col">
+                    <label for="classroomBuilding">Building:</label>
+                    <input name="classroomBuilding" type="text" class="form-control" id="classroomBuilding" aria-describedby="classroom" value="">
+                </div>
+            </div>
+            <div class="row" >
+                 <div class="form-group col">
+                    <label for="classroomFeatures">Features:</label>
+                    <input height="30" name="classroomFeatures" type="text" class="form-control" id="classroomFeatures" aria-describedby="classroom" value="">
+                </div>
+            </div>
+            <div class="row" >
+                <div class="form-group col">
+                    <button id= "editClassroomAdmin" type="submit" class="btn btn-sm btn-primary" >Create new Classroom</button>
+                </div>
+            </div>
+        </div>
+    </form> 
+</main>

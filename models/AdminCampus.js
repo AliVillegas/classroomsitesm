@@ -1,5 +1,4 @@
 const knex = require('../database/connection');
-const bcrypt = require('bcryptjs');
 
 /**
  * Encuentra al usuario que tenga el correo indicado
@@ -7,7 +6,7 @@ const bcrypt = require('bcryptjs');
 exports.find = (id) => {
     return knex
         .select('*')
-        .from('users')
+        .from('admins_campus')
         .where('id', id)
         .first();
 }
@@ -18,7 +17,7 @@ exports.find = (id) => {
 exports.findByEmail = (email) => {
     return knex
         .select('*')
-        .from('users')
+        .from('admins_campus')
         .where('email', email)
         .first();
 }
@@ -29,16 +28,13 @@ exports.findOrCreate = (user) => {
     let email = user.email
     return knex
         .select('*')
-        .from('users')
+        .from('admins_campus')
         .where('email', email)
         .first().then(res => {
 
             if (res == undefined) {
-                let pass = user.password;
-                // Encripta la contraseña
-                pass = bcrypt.hashSync(pass, 10);
-                return knex('users')
-                    .insert({ name: user.name, email: user.email, role: 'admin' });
+                return knex('admins_campus')
+                    .insert({ campus_id: 1, name: user.name, email: user.email });
 
             } else {
                 return res
@@ -54,9 +50,7 @@ exports.findOrCreate = (user) => {
  */
 exports.create = (user) => {
     // Obtiene la contraseña definida por el usuario
-    let pass = user.password;
     // Encripta la contraseña
-    pass = bcrypt.hashSync(pass, 10);
-    return knex('users')
-        .insert({ name: user.name, email: user.email, password: pass });
+    return knex('admins_campus')
+        .insert({ campus_id: 1, name: user.name, email: user.email });
 }

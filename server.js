@@ -21,21 +21,23 @@ const hbshelpers = require("handlebars-helpers");
 const multihelpers = hbshelpers();
 const extNameHbs = 'hbs';
 const hbs = exphbs.create({
-  extname: extNameHbs,
-  helpers: multihelpers
+    extname: extNameHbs,
+    helpers: multihelpers
 });
 app.engine(extNameHbs, hbs.engine);
 app.set('view engine', extNameHbs);
+
 
 // Session configurations
 let sessionStore = new session.MemoryStore;
 app.use(cookieParser());
 app.use(session({
-  cookie: { maxAge: 60000 },
-  store: sessionStore,
-  saveUninitialized: true,
-  resave: 'true',
-  secret: appConfig.secret
+    cookie: { maxAge: 60000 },
+    store: sessionStore,
+    rolling: true,
+    saveUninitialized: true,
+    resave: 'true',
+    secret: appConfig.secret
 }));
 app.use(flash());
 
@@ -45,8 +47,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Receive parameters from the Form requests
-app.use(express.urlencoded({ extended: true }));
-
+//app.use(express.urlencoded({ extended: true }));
+let methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+let bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 // Route for static files
 app.use('/', express.static(__dirname + '/public'));
 
@@ -55,5 +60,5 @@ app.use('/', webRoutes);
 
 // App init
 app.listen(appConfig.expressPort, () => {
-  console.log(`Server is listenning on ${appConfig.expressPort}! (http://localhost:${appConfig.expressPort})`);
+    console.log(`Server is listenning on ${appConfig.expressPort}! (http://localhost:${appConfig.expressPort})`);
 });

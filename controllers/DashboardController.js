@@ -1,5 +1,5 @@
 exports.index = (req, res) => {
-    res.redirect('/dashboardUser')
+    res.redirect('/dashboardAdminCampus')
 }
 
 exports.dashboard = (req, res) => {
@@ -7,6 +7,19 @@ exports.dashboard = (req, res) => {
     console.log(req.user)
     if (req.user != null) {
         res.render('dashboard/mainDashboard', {
+            name: req.user.name,
+            email: req.user.email
+        });
+    } else {
+        res.redirect('/')
+    }
+}
+
+exports.dashboardAdminCampus = (req, res) => {
+    console.log("USER")
+    console.log(req.user)
+    if (req.user != null && req.user.role == 'admin') {
+        res.render('dashboard/adminCampusDashboard', {
             name: req.user.name,
             email: req.user.email
         });
