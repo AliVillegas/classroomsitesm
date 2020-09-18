@@ -24,11 +24,14 @@ router.get('/protected', authMiddleware.isAuth, (req, res) => {
 })
 router.get('/auth/office365/login', passport.authenticate('azure_ad_oauth2'));
 router.get('/auth/office365/logout', dashboardController.logout);
-
 router.get('/auth/office365/callback', passport.authenticate('azure_ad_oauth2', {
     successRedirect: '/auth/office365/success',
     failureRedirect: '/auth/office365/fail'
 }));
+router.get('/dashboardUser', dashboardController.dashboard);
+router.get('/dashboard/courses', dashboardController.courses);
+router.get('/dashboard/favCourses', dashboardController.favCourses);
+
 
 router.get('/auth/office365/success', dashboardController.index);
 

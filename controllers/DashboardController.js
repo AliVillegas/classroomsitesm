@@ -1,8 +1,36 @@
 exports.index = (req, res) => {
+    res.redirect('/dashboardUser')
+}
+
+exports.dashboard = (req, res) => {
     console.log("USER")
     console.log(req.user)
     if (req.user != null) {
-        res.render('dashboard/main', {
+        res.render('dashboard/mainDashboard', {
+            name: req.user.name,
+            email: req.user.email
+        });
+    } else {
+        res.redirect('/')
+    }
+}
+exports.courses = (req, res) => {
+    console.log("USER")
+    console.log(req.user)
+    if (req.user != null) {
+        res.render('courses/coursesView', {
+            name: req.user.name,
+            email: req.user.email
+        });
+    } else {
+        res.redirect('/')
+    }
+}
+exports.favCourses = (req, res) => {
+    console.log("USER")
+    console.log(req.user)
+    if (req.user != null) {
+        res.render('courses/coursesFavorite', {
             name: req.user.name,
             email: req.user.email
         });
