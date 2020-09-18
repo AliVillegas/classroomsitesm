@@ -4,7 +4,9 @@ Proyecto final de Laboratorio de aplicaciones web.
 Integrantes:
 
 Saúl Neri 
+
 Ali Villegas
+
 Fernando Romero 
 
 ## Instalación
