@@ -9,13 +9,15 @@ exports.all = () => {
     return knex
         .select('*')
         .from("classrooms")
-        .then(res => {
-            return res
-        })
-        .catch((err) => console.log(err));
+
 }
-exports.allClassrooms = () => {
-    return knex.from('classrooms').select("*")
+
+
+exports.allClassroomsSameCampus = (campusId) => {
+    return knex.from('classrooms')
+        .select("*")
+        .where('campus_id', campusId)
+        /*
         .then((rows) => {
             console.log(rows)
             return rows
@@ -23,6 +25,12 @@ exports.allClassrooms = () => {
             console.log(err);
             throw err
         });
+        */
+}
+
+exports.allClassrooms = () => {
+    return knex.from('classrooms').select("*")
+
 }
 exports.findByName = (name) => {
     console.log("RECEIVED NAME", name)
@@ -31,13 +39,33 @@ exports.findByName = (name) => {
         .from('classrooms')
         .where('name', 'like', '%' + name + '%')
         //.where('name', name)
-        .then((rows) => {
-            console.log(rows)
-            return rows
-        }).catch((err) => {
-            console.log(err);
-            throw err
-        });
+
+}
+exports.findByNameSameCampus = (campusId, name) => {
+    console.log("RECEIVED NAME", name)
+    return knex
+        .select("*")
+        .from('classrooms')
+        .where('campus_id', campusId)
+        .andWhere('name', 'like', '%' + name + '%')
+        //.where('name', name)
+}
+exports.findByAnySameCampus = (campusId, name) => {
+    console.log("RECEIVED NAME", name)
+    return knex
+        .select("*")
+        .from('classrooms')
+        .where('campus_id', campusId)
+        .andWhere(function() {
+            this
+                .where('name', 'like', '%' + name + '%')
+                .orWhere('building', 'like', '%' + name + '%')
+                .orWhere('features', 'like', '%' + name + '%')
+        })
+
+
+    //.where('name', name)
+
 }
 exports.find = (id) => {
     return knex
@@ -92,13 +120,7 @@ exports.update = (id, classroom) => {
         .update(classroom)
         .update('updated_at', knex.fn.now())
         .where('id', id)
-        .then((rows) => {
-            console.log(rows)
-            return rows
-        }).catch((err) => {
-            console.log(err);
-            throw err
-        });
+
 }
 
 exports.delete = (id) => {

@@ -1,15 +1,21 @@
 let classroomModel = require('../models/Classroom')
+let CampusAdminModel = require('../models/CampusAdmin')
+
 exports.classroomsManagement = (req, res) => {
     console.log("USER")
     console.log(req.user)
     if (req.user != null && req.user.role == 'admin') {
-        classroomModel.allClassrooms().then(classrooms => {
-            console.log("CLASSROOMS", classrooms)
-            res.render('adminCampus/manageClassroomsAdmin', {
-                name: req.user.name,
-                email: req.user.email,
-                classrooms: classrooms
-            });
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            console.log("CAMPUS ADMIN", campusAdmin)
+            classroomModel.allClassroomsSameCampus(campusAdmin.campus_id).then(classrooms => {
+                console.log("CLASSROOMS", classrooms)
+                res.render('adminCampus/manageClassroomsAdmin', {
+                    name: req.user.name,
+                    email: req.user.email,
+                    classrooms: classrooms
+                });
+            })
+
         })
 
     } else {
@@ -23,13 +29,16 @@ exports.classroomsSearch = (req, res) => {
         //console.log("BODY", req.body)
         // console.log("Search", req.body.searchQuery)
         let name = req.body.searchQuery
-        classroomModel.findByName(name).then(classrooms => {
-            //console.log("CLASSROOMS", classrooms)
-            res.render('adminCampus/manageClassroomsAdmin', {
-                name: req.user.name,
-                email: req.user.email,
-                classrooms: classrooms
-            });
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            classroomModel.findByAnySameCampus(campusAdmin.id, name).then(classrooms => {
+                //console.log("CLASSROOMS", classrooms)
+                res.render('adminCampus/manageClassroomsAdmin', {
+                    name: req.user.name,
+                    email: req.user.email,
+                    classrooms: classrooms
+                });
+
+            })
         })
 
     } else {

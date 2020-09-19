@@ -1,7 +1,7 @@
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 let UserModel = require('../models/User');
-let AdminCampusModel = require('../models/AdminCampus');
+let AdminCampusModel = require('../models/CampusAdmin');
 
 let officeStrategy = require('Passport-azure-ad-oauth2')
 let bcrypt = require('bcryptjs');
@@ -95,7 +95,10 @@ passport.use(new officeStrategy({
                         .then(user => done(null, user))
                 } else {
                     return UserModel.find(id)
-                        .then(user => done(null, user))
+                        .then(user =>
+                            AdminCampusModel.create(user).then(newUser =>
+                                done(null, user))
+                        )
                 }
             });
         /* Users 

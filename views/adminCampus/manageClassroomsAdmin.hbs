@@ -41,16 +41,19 @@
   <tbody>
     {{#each classrooms}}
     <tr>
-      <th scope="row">{{id}}</th>
+      <th scope="row">{{@index}}</th>
       <td>{{name}}</td>
       <td>{{capacity}}</td>
       <td>{{building}}</td>
       <td>{{features}}</td>
       <td> <button id= "editClassroomAdmin" class="btn btn-sm btn-primary" onclick=" window.location = '/classroomsAdminCampus/{{this.id}}' ">  edit</button> </td>
     </tr>
+    
     {{/each}}
   </tbody>
 </table>
+{{else}}
+    <span class="my-6 text-center" > <h3>Sorry no classrooms  where found</h3>  </span>
 {{/if}}
  <!--  
  <div class="form-group mb-4 mt-1">
