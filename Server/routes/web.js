@@ -50,14 +50,34 @@ router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
 router.post('/classroomsSearch', admincampusController.classroomsSearch);
 router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
 
+const authCheck = (req, res, next) => {
+    if (!req.user) {
+        res.status(401).json({
+            authenticated: false,
+            message: "user has not been authenticated"
+        });
+    } else {
+        next();
+    }
+};
+
+
 //router.get('/auth/office365/success', dashboardController.index);
 router.get('/auth/office365/success', (req, res) => {
-    res.json({
-        success: true,
-        message: "user has successfully authenticated",
-        user: req.user,
-        cookies: req.cookies
-    });
+    if (req.user) {
+        res.json({
+            success: true,
+            message: "user has successfully authenticated",
+            user: req.user,
+            cookies: req.cookies
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: "user failed to authenticate."
+        })
+    }
+
 });
 
 router.get('/auth/office365/fail', (req, res) => {
