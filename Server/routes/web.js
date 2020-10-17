@@ -9,6 +9,8 @@ const admincampusController = require('../controllers/AdminCampusController');
 
 const passport = require('passport');
 
+const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+
 router.get('/', homepageController.index);
 
 router.get('/auth/login', authController.login);
@@ -26,7 +28,7 @@ router.get('/protected', authMiddleware.isAuth, (req, res) => {
 router.get('/auth/office365/login', passport.authenticate('azure_ad_oauth2'));
 router.get('/auth/office365/logout', dashboardController.logout);
 router.get('/auth/office365/callback', passport.authenticate('azure_ad_oauth2', {
-    successRedirect: '/auth/office365/success',
+    successRedirect: "/auth/office365/success",
     failureRedirect: '/auth/office365/fail'
 }));
 router.get('/auth/itesm/login', passport.authenticate('azure_ad_oauth2'));
@@ -71,11 +73,6 @@ router.get('/auth/office365/success', (req, res) => {
             user: req.user,
             cookies: req.cookies
         });
-    } else {
-        res.status(401).json({
-            success: false,
-            message: "user failed to authenticate."
-        })
     }
 
 });

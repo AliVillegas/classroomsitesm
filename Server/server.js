@@ -27,6 +27,15 @@ const hbs = exphbs.create({
 app.engine(extNameHbs, hbs.engine);
 app.set('view engine', extNameHbs);
 
+// Routes
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    res.header("credentials", "true"); // allow session cookie from browser to pass through
+    next();
+});
+
 
 // Session configurations
 let sessionStore = new session.MemoryStore;
