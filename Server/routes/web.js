@@ -52,20 +52,12 @@ router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo
 
 //router.get('/auth/office365/success', dashboardController.index);
 router.get('/auth/office365/success', (req, res) => {
-    if (req.user) {
-        res.json({
-            success: true,
-            message: "user has successfully authenticated",
-            user: req.user,
-            cookies: req.cookies
-        });
-    } else {
-        res.status(403).json({
-            success: false,
-            message: "no user detected"
-        })
-    }
-
+    res.json({
+        success: true,
+        message: "user has successfully authenticated",
+        user: req.user,
+        cookies: req.cookies
+    });
 });
 
 router.get('/auth/office365/fail', (req, res) => {
