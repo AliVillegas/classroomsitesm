@@ -22,6 +22,12 @@ exports.classroomsManagement = (req, res) => {
         res.redirect('/')
     }
 }
+exports.classroomsAll = (req, res) => {
+    classroomModel.allClassrooms().then(classrooms => {
+        res.json(classrooms)
+    })
+}
+
 
 
 exports.classroomsSearch = (req, res) => {
