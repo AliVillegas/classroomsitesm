@@ -59,12 +59,12 @@ app.use(
         credentials: true // allow session cookie from browser to pass through
     })
 );
-// Receive parameters from the Form requests
 //app.use(express.urlencoded({ extended: true }));
 let methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 let bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // Route for static files
 app.use('/', express.static(__dirname + '/public'));
 
