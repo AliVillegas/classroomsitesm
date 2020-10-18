@@ -15,8 +15,7 @@ const HomePage = () => {
         axios.get(BaseUrl + '/auth/office365/success',{withCredentials: true})
         .then(response => {
             console.log(response)
-            if (response.status === 200) 
-                return response.json()
+            if (response.status === 200) return response.json()
             throw new Error("failed to authenticate user");
         }).then(responseJson => {
             console.log(responseJson)
