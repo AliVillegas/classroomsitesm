@@ -1,18 +1,17 @@
 import { Stack, Box, Heading } from '@chakra-ui/core';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { CurrentSession } from '../atoms';
 
-import Header from './Header';
+import Landing from './Landing';
 
 const HomePage = () => {
-    const { authenticated, user, error } = useRecoilValue(CurrentSession);
+    const { authenticated, user, } = useRecoilValue(CurrentSession);
 
     return(
         <Stack p={10}>
-            <Header></Header>
             {!authenticated ? (
-                <Box>Inicia sesion por favor</Box>
+                <Landing></Landing>
             ) : 
             <Stack>
                 <Heading>You have logged in succesfully</Heading>
