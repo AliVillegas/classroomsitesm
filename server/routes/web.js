@@ -20,7 +20,8 @@ router.get('/auth/office365/callback',
     passport.authenticate('azure_ad_oauth2', { failureRedirect: '/auth/office365/fail' }),
     function(req, res) {
         res.redirect(CLIENT_HOME_PAGE_URL);
-    });
+    }
+);
 
 // ADMIN CAMPUS
 router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)

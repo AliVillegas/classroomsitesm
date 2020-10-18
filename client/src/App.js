@@ -10,8 +10,15 @@ function App() {
       <CSSReset />
 
       <RecoilRoot>
-        <HomePage></HomePage>
+        {/* <ErrorBoundary> */}
+          <React.Suspense fallback={<div>Loading...</div>}>
+
+            <HomePage></HomePage>
+
+          </React.Suspense>
+        {/* </ErrorBoundary> */}
       </RecoilRoot>
+
     </ThemeProvider>
   );
 }
