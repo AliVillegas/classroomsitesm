@@ -1,15 +1,15 @@
 import { Box } from '@chakra-ui/core';
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { AuthenticatedState } from '../atoms';
+import { useRecoilValue } from 'recoil';
+import { CurrentSession } from '../atoms';
 import { BaseUrl } from '../constants';
 
 const Header = () => {
-    const [authenticated, setAuthenticated] = useRecoilState(AuthenticatedState);
+    const {authenticated, user, error } = useRecoilValue(CurrentSession);
 
     const handleLogoutClick = () => {
         window.open(BaseUrl + "/auth/office365/logout", "_self");
-        setAuthenticated(false);
+        // setAuthenticated(false);
     }
     const handleSignInClick = () => {
         window.open(BaseUrl + "/auth/office365/login", "_self");
