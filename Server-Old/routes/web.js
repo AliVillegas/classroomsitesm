@@ -27,16 +27,17 @@ router.get('/protected', authMiddleware.isAuth, (req, res) => {
 })
 router.get('/auth/office365/login', passport.authenticate('azure_ad_oauth2'));
 router.get('/auth/office365/logout', dashboardController.logout);
-router.get('/auth/office365/callback', passport.authenticate('azure_ad_oauth2', {
-    successRedirect: "/auth/office365/success",
+/*router.get('/auth/office365/callback', passport.authenticate('azure_ad_oauth2', {
+    successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: '/auth/office365/fail'
-}));
-router.get('/auth/itesm/login', passport.authenticate('azure_ad_oauth2'));
-router.get('/auth/itesm/logout', dashboardController.logout);
-router.get('/auth/itesm/callback', passport.authenticate('azure_ad_oauth2', {
-    successRedirect: '/auth/itesm/success',
-    failureRedirect: '/auth/itesm/fail'
-}));
+}));*/
+
+router.get('/auth/office365/callback',
+    passport.authenticate('azure_ad_oauth2', { failureRedirect: '/auth/office365/fail' }),
+    function(req, res) {
+        res.redirect(CLIENT_HOME_PAGE_URL);
+    });
+
 router.get('/dashboardUser', dashboardController.dashboard);
 router.get('/dashboard/courses', dashboardController.courses);
 router.get('/dashboard/favCourses', dashboardController.favCourses);
@@ -52,26 +53,23 @@ router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
 router.post('/classroomsSearch', admincampusController.classroomsSearch);
 router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
 
-const authCheck = (req, res, next) => {
-    if (!req.user) {
-        res.status(401).json({
-            authenticated: false,
-            message: "user has not been authenticated"
-        });
-    } else {
-        next();
-    }
-};
+
 
 
 //router.get('/auth/office365/success', dashboardController.index);
 router.get('/auth/office365/success', (req, res) => {
+    console.log(req.user)
     if (req.user) {
-        res.json({
-            success: true,
-            message: "user has successfully authenticated",
+        res.status(200).json({
+            authenticated: true,
+            message: "user successfully authenticated",
             user: req.user,
             cookies: req.cookies
+        });
+    } else {
+        res.status(401).json({
+            authenticated: false,
+            message: "user died"
         });
     }
 
@@ -86,7 +84,7 @@ router.get('/auth/office365/fail', (req, res) => {
 /*
 router.get('/auth/itesm/success', (req, res) => {
     res.json({
-        success: true,
+    success: true,
         message: "user has successfully authenticated",
         user: req.user,
         cookies: req.cookies

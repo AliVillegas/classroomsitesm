@@ -58,7 +58,6 @@ passport.use(new officeStrategy({
         clientSecret: process.env.AzureOAuth_ClientSecret,
         tenantId: process.env.AzureOAuth_AppTenantId,
         resource: process.env.AzureOAuth_AuthResource,
-        //redirectURL: process.env.AzureOAuth_CallbackURL,
         callbackURL: process.env.AzureOAuth_CallbackURL,
         state: true,
         pkce: true,
@@ -73,20 +72,10 @@ passport.use(new officeStrategy({
     function(accessToken, refresh_token, params, profile, done) {
         console.log("PROFILE")
         console.log(profile)
-            // currently we can't find a way to exchange access token by user info (see userProfile implementation), so
-            // you will need a jwt-package like https://github.com/auth0/node-jsonwebtoken to decode id_token and get waad profile
         var waadProfile = jwt.verify(params.id_token, '', true);
 
         console.log(waadProfile)
-            // this is just an example: here you would provide a model *User* with the function *findOrCreate*
-            /*
-            UserModel.create({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
-                .then((id) => {
-                    return UserModel.find(id)
-                        .then(user => done(null, user))
 
-                });
-            */
         UserModel.findOrCreate({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
             .then((id) => {
                 if (id.hasOwnProperty('email')) {
@@ -101,22 +90,9 @@ passport.use(new officeStrategy({
                         )
                 }
             });
-        /* Users 
-        UserModel.findOrCreate({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
-            .then((id) => {
-                if (id.hasOwnProperty('email')) {
-                    console.log("ID HAS email", id)
-                    return UserModel.findByEmail(id.email)
-                        .then(user => done(null, user))
-                } else {
-                    return UserModel.find(id)
-                        .then(user => done(null, user))
-                }
-            });
-            */
+
     }));
 
-passport.use(fbStrategy);
 
 passport.use(strategy);
 
@@ -131,5 +107,7 @@ passport.deserializeUser((id, done) => {
         .then((user) => {
             done(null, user);
         })
-        .catch(err => done(err))
+        .catch(e => {
+            done(new Error("Failed to deserialize an user"));
+        });
 });

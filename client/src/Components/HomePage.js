@@ -12,15 +12,19 @@ const HomePage = () => {
     const [error, setError] = useState("");
   
     useEffect(() => {
-        axios.get(BaseUrl + '/auth/office365/success')
+        axios.get(BaseUrl + '/auth/office365/success',{withCredentials: true})
         .then(response => {
             console.log(response)
-            if (response.status === 200) return response.json();
+            if (response.status === 200) 
+                return response.json()
             throw new Error("failed to authenticate user");
         }).then(responseJson => {
+            console.log(responseJson)
             setAuthenticated(true);
-            setUser(responseJson.user);
+            setUser(responseJson.data.user);
         }).catch(error => {
+            console.log(error)
+
             setAuthenticated(false);
             setError("Failed to authenticate user");
         });
@@ -32,7 +36,7 @@ const HomePage = () => {
             {!authenticated ? (
                 <Alert status="error">
                     <AlertIcon />
-                    <AlertTitle mr={2}>{"no has hecho login"}</AlertTitle>
+                    <AlertTitle mr={2}>{error}</AlertTitle>
                     <AlertDescription>{authenticated ? "true" : "no"}</AlertDescription>
                     <CloseButton position="absolute" right="8px" top="8px" />
                 </Alert>

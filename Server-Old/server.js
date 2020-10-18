@@ -7,6 +7,8 @@ let cookieParser = require('cookie-parser');
 let session = require('express-session');
 let flash = require('express-flash');
 let passport = require('passport');
+const cookieSession = require("cookie-session");
+const cors = require("cors");
 
 // Express app creation
 const app = express();
@@ -24,37 +26,39 @@ const hbs = exphbs.create({
     extname: extNameHbs,
     helpers: multihelpers
 });
+// Passport configurations
+
 app.engine(extNameHbs, hbs.engine);
 app.set('view engine', extNameHbs);
 
-// Routes
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-    res.header("credentials", "true"); // allow session cookie from browser to pass through
-    next();
-});
+
 
 
 // Session configurations
 let sessionStore = new session.MemoryStore;
-app.use(cookieParser());
-app.use(session({
-    cookie: { maxAge: 60000 },
-    store: sessionStore,
-    rolling: true,
-    saveUninitialized: true,
-    resave: 'true',
-    secret: appConfig.secret
-}));
-app.use(flash());
 
-// Passport configurations
+app.use(flash());
+app.use(
+    cookieSession({
+        name: "session",
+        keys: [appConfig.cookie],
+        maxAge: 24 * 60 * 60 * 100
+    })
+);
+
+
+app.use(cookieParser());
 require('./configs/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(
+    cors({
+        origin: "http://localhost:3000", // allow to server to accept request from different origin
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true // allow session cookie from browser to pass through
+    })
+);
 // Receive parameters from the Form requests
 //app.use(express.urlencoded({ extended: true }));
 let methodOverride = require('method-override')
