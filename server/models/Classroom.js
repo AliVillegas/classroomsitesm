@@ -61,6 +61,12 @@ exports.update = (id, classroom) => {
 
 }
 
+exports.delete = (id,campusId) => {
+    return knex('classrooms')
+        .delete()
+        .where('campus_id', campusId)
+        .andWhere('id', id);
+}
 
 
 

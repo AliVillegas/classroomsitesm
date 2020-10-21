@@ -53,9 +53,9 @@ router.get('/auth/office365/fail', (req, res) => {
 
 /*+----------------------------------------------------------------------
  // ADMIN CAMPUS ENDPOINTS
-|+-----------------------------------------------------------------------
+|+-----------------------------------------------------------------------*/
 
-*/
+
 //allClassrooms
 //Returns classrooms Array
 router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
@@ -69,6 +69,12 @@ router.post('/adminCampus/createNewClassroom', admincampusController.createNewCl
 //Given Classroom id and Data ( *Name , *Capacity, *Building , features) updates Classroom and returns its Data
 //Error classroom doesnt exist 
 router.post('/adminCampus/updateClassroom/:id', admincampusController.updateClassroom);
+
+//deleteClassroom 
+//Given Classroom id , classroom is deleted
+// Error classroom doesnt exist
+
+router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClassroom);
 
 
 

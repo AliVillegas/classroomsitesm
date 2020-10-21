@@ -72,8 +72,9 @@ exports.updateClassroom = (req, res) => {
     let id = req.params.id;
     classroomModel.find(id).then((classroom) => {
         if (classroom == null) {
-            res.status(404).send('Not found');
-            return;
+            res.status(200).json({
+                error: "Classroom doesnn't exist"
+            });
         }
         else{
             let updateClassroom = {
@@ -96,6 +97,28 @@ exports.updateClassroom = (req, res) => {
     })
 }
 
+
+
+exports.deleteClassroom= (req, res) => {
+    let id = req.params.id;
+    let campusId = 1
+    classroomModel.find(id).then((classroom) => {
+        if (classroom == null) {
+            res.status(200).json({
+                error: "Classroom doesn't exist"
+            });
+        }
+        else{
+            classroomModel.delete(classroom.id, campusId)
+            .then(() => {
+                res.status(200).json({
+                    message: "Classroom succesfully deleted"
+                });
+            });
+        }
+        
+    });
+}
 
 //Old 
 exports.classroomsManagement = (req, res) => {

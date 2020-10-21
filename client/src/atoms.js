@@ -72,3 +72,22 @@ export const UpdateClassroom = selector({
         }
     }
 })
+
+export const DeleteClassroom = selector({
+    key:'DeleteClassroom',
+    get: async () => {
+        try{
+            const response = await 
+            axios.post(BaseUrl + '/adminCampus/deleteClassroom/1', // delete/ClassroomId, 
+                { withCredentials: true })
+
+            if (response.status === 200) {
+                console.log(response.data)
+                return { };
+            }
+            return { authenticated: false, user: {}, error: null };
+        }catch(err){
+            return{}
+        }
+    }
+})
