@@ -12,6 +12,15 @@ exports.find = (id) => {
         .first();
 }
 
+/* exports.attachSessionId = (id) => {
+    return knex
+        .select('*')
+        .from('users')
+        .where('id', id)
+        .first()
+        .update('sessionId', '')
+} */
+
 /**
  * Encuentra al usuario que tenga el correo indicado
  */

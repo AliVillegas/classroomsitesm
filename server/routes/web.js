@@ -1,4 +1,5 @@
 const router = require('express').Router();
+let UserModel = require('../models/User')
 
 const authController = require('../controllers/AuthController');
 const authMiddleware = require('../middlewares/AuthMiddleware');
@@ -23,30 +24,14 @@ router.get('/auth/office365/callback',
     }
 );
 
-// ADMIN CAMPUS
-router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
-
-
-
-router.get('/dashboardUser', dashboardController.dashboard);
-router.get('/dashboard/courses', dashboardController.courses);
-router.get('/dashboard/favCourses', dashboardController.favCourses);
-
-router.get('/dashboardAdminCampus', dashboardController.dashboardAdminCampus);
-router.get('/manageClassroomsAdmin', admincampusController.classroomsManagement);
-router.post('/classroomsAdminCampus/:id', admincampusController.updateClassroomData);
-router.get('/classroomsAdminCampus/create', admincampusController.showCreateNewClassroom);
-router.post('/createNewClassroom', admincampusController.createNewClassroom);
-router.post('/classroomsAdminCampus/del/:id', admincampusController.deleteClassroomData);
-router.post('/classroomsSearch', admincampusController.classroomsSearch);
-router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
-
-
-
 
 router.get('/auth/office365/success', (req, res) => {
     console.log(req.user)
     if (req.user) {
+        /* UserModel.findByEmail(req.user.email).then(user => {
+            console.log("Found user", user)
+                UserModel.attachSessionId(user.id)
+            }) */
         res.status(200).json({
             authenticated: true,
             message: "user successfully authenticated",
@@ -68,4 +53,26 @@ router.get('/auth/office365/fail', (req, res) => {
         message: "user failed to authenticate."
     })
 });
+
+
+// ADMIN CAMPUS
+router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
+
+
+
+router.get('/dashboardUser', dashboardController.dashboard);
+router.get('/dashboard/courses', dashboardController.courses);
+router.get('/dashboard/favCourses', dashboardController.favCourses);
+
+router.get('/dashboardAdminCampus', dashboardController.dashboardAdminCampus);
+router.get('/manageClassroomsAdmin', admincampusController.classroomsManagement);
+router.post('/classroomsAdminCampus/:id', admincampusController.updateClassroomData);
+router.get('/classroomsAdminCampus/create', admincampusController.showCreateNewClassroom);
+router.post('/createNewClassroom', admincampusController.createNewClassroom);
+router.post('/classroomsAdminCampus/del/:id', admincampusController.deleteClassroomData);
+router.post('/classroomsSearch', admincampusController.classroomsSearch);
+router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
+
+
+
 module.exports = router;

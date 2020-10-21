@@ -3,7 +3,7 @@ let LocalStrategy = require('passport-local').Strategy;
 let UserModel = require('../models/User');
 let AdminCampusModel = require('../models/CampusAdmin');
 
-let officeStrategy = require('Passport-azure-ad-oauth2')
+let officeStrategy = require('passport-azure-ad-oauth2')
 let bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
