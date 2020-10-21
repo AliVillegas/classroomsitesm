@@ -20,7 +20,7 @@ export const CurrentSession = selector({
 
 
 // TESTING
-/*
+
 export const AllClassroomsAdminCampus = selector({
     key:'AllClassroomsAdminCampus',
     get: async () => {
@@ -72,4 +72,3 @@ export const UpdateClassroom = selector({
         }
     }
 })
-*/
