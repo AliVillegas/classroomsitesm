@@ -12,21 +12,65 @@ exports.all = () => {
 
 }
 
-
 exports.allClassroomsSameCampus = (campusId) => {
     return knex.from('classrooms')
         .select("*")
         .where('campus_id', campusId)
-        /*
-        .then((rows) => {
-            console.log(rows)
-            return rows
-        }).catch((err) => {
-            console.log(err);
-            throw err
-        });
-        */
 }
+
+exports.classroomAlreadyExists = (name, campusId) => {
+    return knex
+        .select('*')
+        .from('classrooms')
+        .where('campus_id',campusId)
+        .andWhere('name', name)
+        .first().then(res => {
+            if (res == undefined) {
+                return false
+
+            } else {
+                return true
+            }
+        })
+}
+exports.createNewClassroom = (classroom, campusId) => { 
+    return knex('classrooms')
+        .insert({
+            campus_id: campusId,
+            name: classroom.name,
+            capacity: classroom.capacity,
+            building: classroom.building,
+            features: classroom.features
+        });
+
+}
+
+exports.findByIdSameCampus= (campusId, classroomId) => {
+    return knex
+        .select("*")
+        .from('classrooms')
+        .where('campus_id', campusId)
+        .andWhere('id', classroomId).first()
+        //.where('name', name)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.allClassrooms = () => {
     return knex.from('classrooms').select("*")
@@ -41,7 +85,7 @@ exports.findByName = (name) => {
         //.where('name', name)
 
 }
-exports.findByNameSameCampus = (campusId, name) => {
+exports.findByNameSameCampusSearch = (campusId, name) => {
     console.log("RECEIVED NAME", name)
     return knex
         .select("*")
@@ -75,7 +119,8 @@ exports.find = (id) => {
         .first();
 }
 
-exports.findOrCreate = (classroom) => {
+
+exports.findOrCreate = (classroom, campusId) => {
     // Obtiene la contraseña definida por el usuario
     return knex
         .select('*')
@@ -87,7 +132,7 @@ exports.findOrCreate = (classroom) => {
                 // Encripta la contraseña
                 return knex('classrooms')
                     .insert({
-                        campus_id: 1,
+                        campus_id: campusId,
                         name: classroom.name,
                         capacity: classroom.capacity,
                         building: classroom.building,

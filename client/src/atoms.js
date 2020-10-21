@@ -17,3 +17,38 @@ export const CurrentSession = selector({
         }
     },
 });
+
+
+// TESTING
+
+export const AllClassroomsAdminCampus = selector({
+    key:'AllClassroomsAdminCampus',
+    get: async () => {
+        try{
+            const response = await axios.get(BaseUrl + '/adminCampus/allClassrooms', { withCredentials: true })
+            if (response.status === 200) {
+                console.log(response.data)
+                return { };
+            }
+            return { authenticated: false, user: {}, error: null };
+        }catch(err){
+            return{}
+        }
+    }
+})
+
+export const CreateClassroomAdminCampus = selector({
+    key:'CreateClassroomAdminCampus',
+    get: async () => {
+        try{
+            const response = await axios.post(BaseUrl + '/adminCampus/createNewClassroom', { name:"R1", capacity:"20", building:"10",features:"AC" }, { withCredentials: true })
+            if (response.status === 200) {
+                console.log(response.data)
+                return { };
+            }
+            return { authenticated: false, user: {}, error: null };
+        }catch(err){
+            return{}
+        }
+    }
+})

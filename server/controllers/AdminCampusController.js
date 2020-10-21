@@ -1,6 +1,76 @@
 let classroomModel = require('../models/Classroom')
 let CampusAdminModel = require('../models/CampusAdmin')
 
+
+
+
+
+
+
+
+
+
+//ENDPOINTS
+
+exports.classroomsAll = (req, res) => {
+    console.log(req)
+    console.log(req.user)
+    if(req.user){
+        if(req.user.role === 'admin'){
+            CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+                classroomModel.allClassroomsSameCampus(campusAdmin.id).then(classrooms => {
+                    console.log("CLASSROOMS", classrooms)
+                    res.status(200).json({
+                        classrooms: classrooms,
+                        message: "Classrooms from same campus",
+                    });
+            })
+        }) 
+    }
+    else{
+        res.status(401).json({
+            authenticated: false,
+            message: "Unauthorized access "
+        });
+        }
+    }
+    
+}
+
+exports.createNewClassroom = (req, res) => {
+    console.log(req.body)
+    let name = req.body.name
+    let campusId = 1
+    let newClassroom = {
+        name: name,
+        capacity: req.body.capacity,
+        building: req.body.building,
+        features: req.body.features
+    }
+    classroomModel.classroomAlreadyExists(name,campusId).then((result) => {
+        console.log(res)
+        if(result){
+            res.status(200).json({
+                error: "Classroom with that name already exists"
+            });
+        }else{
+            classroomModel.createNewClassroom(newClassroom,campusId).then((classroomId) => {
+                classroomModel.findByIdSameCampus(campusId,classroomId).then((newClassroom) => {
+                    res.status(200).json({
+                        message: "Classroom created successfully",
+                        classroom: newClassroom
+                    });
+                })
+                
+            })
+        }
+    })
+
+}
+
+
+
+//Previos
 exports.classroomsManagement = (req, res) => {
     console.log("USER")
     console.log(req.user)
@@ -22,11 +92,7 @@ exports.classroomsManagement = (req, res) => {
         res.redirect('/')
     }
 }
-exports.classroomsAll = (req, res) => {
-    classroomModel.allClassrooms().then(classrooms => {
-        res.json(classrooms)
-    })
-}
+
 
 
 
@@ -105,7 +171,7 @@ exports.showCreateNewClassroom = (req, res) => {
     }
 }
 
-exports.createNewClassroom = (req, res) => {
+exports.createNewClassroomOld = (req, res) => {
     console.log(req.body)
     let name = req.body.classroomName
     let newClassroom = {

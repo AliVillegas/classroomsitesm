@@ -23,8 +23,6 @@ router.get('/auth/office365/callback',
         res.redirect(CLIENT_HOME_PAGE_URL);
     }
 );
-
-
 router.get('/auth/office365/success', (req, res) => {
     console.log(req.user)
     if (req.user) {
@@ -46,7 +44,6 @@ router.get('/auth/office365/success', (req, res) => {
     }
 
 });
-
 router.get('/auth/office365/fail', (req, res) => {
     res.status(401).json({
         success: false,
@@ -55,11 +52,24 @@ router.get('/auth/office365/fail', (req, res) => {
 });
 
 
-// ADMIN CAMPUS
+// ADMIN CAMPUS ENDPOINTS
+
+
+//allClassrooms
+//Returns classrooms Array
 router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
 
+//createClassroom
+//Given Classroom Data ( *Name , *Capacity, *Building , features) creates Classroom and returns its Data
+router.post('/adminCampus/createNewClassroom', admincampusController.createNewClassroom);
+
+//updateClassroom
+//Given Classroom id and Data ( *Name , *Capacity, *Building , features) updates Classroom and returns its Data
+router.post('/adminCampus/updateClassroom:id', admincampusController.updateClassroomData);
 
 
+
+//Old routes 
 router.get('/dashboardUser', dashboardController.dashboard);
 router.get('/dashboard/courses', dashboardController.courses);
 router.get('/dashboard/favCourses', dashboardController.favCourses);
