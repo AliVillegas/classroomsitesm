@@ -55,10 +55,10 @@ exports.createNewClassroom = (req, res) => {
             });
         }else{
             classroomModel.createNewClassroom(newClassroom,campusId).then((classroomId) => {
-                classroomModel.findByIdSameCampus(campusId,classroomId).then((newClassroom) => {
+                classroomModel.findById(campusId,classroomId).then((newClassroom) => {
                     res.status(200).json({
+                        classroom: newClassroom,
                         message: "Classroom created successfully",
-                        classroom: newClassroom
                     });
                 })
                 
@@ -68,9 +68,36 @@ exports.createNewClassroom = (req, res) => {
 
 }
 
+exports.updateClassroom = (req, res) => {
+    let id = req.params.id;
+    classroomModel.find(id).then((classroom) => {
+        if (classroom == null) {
+            res.status(404).send('Not found');
+            return;
+        }
+        else{
+            let updateClassroom = {
+                name: req.body.name,
+                capacity: req.body.capacity,
+                building: req.body.building,
+                features: req.body.features
+            }
+    
+            classroomModel.update(id, updateClassroom)
+                .then((id) => {
+                    classroomModel.findById(id).then((newClassroom) => {
+                        res.status(200).json({
+                            classroom: newClassroom,
+                            message: "Classroom updated successfully"
+                        });
+                });
+            })
+        }
+    })
+}
 
 
-//Previos
+//Old 
 exports.classroomsManagement = (req, res) => {
     console.log("USER")
     console.log(req.user)

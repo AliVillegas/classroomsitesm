@@ -45,15 +45,21 @@ exports.createNewClassroom = (classroom, campusId) => {
 
 }
 
-exports.findByIdSameCampus= (campusId, classroomId) => {
+exports.findById= (classroomId) => {
     return knex
         .select("*")
         .from('classrooms')
-        .where('campus_id', campusId)
-        .andWhere('id', classroomId).first()
+        .where('id', classroomId).first()
         //.where('name', name)
 }
 
+exports.update = (id, classroom) => {
+    return knex('classrooms')
+        .update(classroom)
+        .update('updated_at', knex.fn.now())
+        .where('id', id)
+
+}
 
 
 
@@ -160,13 +166,7 @@ exports.create = (user) => {
         .insert({ name: user.name, email: user.email, password: pass });
 }
 
-exports.update = (id, classroom) => {
-    return knex('classrooms')
-        .update(classroom)
-        .update('updated_at', knex.fn.now())
-        .where('id', id)
 
-}
 
 exports.delete = (id) => {
     return knex('classrooms')

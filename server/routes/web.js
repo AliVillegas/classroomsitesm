@@ -51,21 +51,24 @@ router.get('/auth/office365/fail', (req, res) => {
     })
 });
 
+/*+----------------------------------------------------------------------
+ // ADMIN CAMPUS ENDPOINTS
+|+-----------------------------------------------------------------------
 
-// ADMIN CAMPUS ENDPOINTS
-
-
+*/
 //allClassrooms
 //Returns classrooms Array
 router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
 
 //createClassroom
 //Given Classroom Data ( *Name , *Capacity, *Building , features) creates Classroom and returns its Data
+//Error "If classroom with same name already exists"
 router.post('/adminCampus/createNewClassroom', admincampusController.createNewClassroom);
 
 //updateClassroom
 //Given Classroom id and Data ( *Name , *Capacity, *Building , features) updates Classroom and returns its Data
-router.post('/adminCampus/updateClassroom:id', admincampusController.updateClassroomData);
+//Error classroom doesnt exist 
+router.post('/adminCampus/updateClassroom/:id', admincampusController.updateClassroom);
 
 
 

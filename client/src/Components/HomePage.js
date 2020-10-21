@@ -3,7 +3,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { CurrentSession} from '../atoms';
 //TESTS to API 
-import { AllClassroomsAdminCampus,CreateClassroomAdminCampus } from '../atoms';
+import { AllClassroomsAdminCampus,CreateClassroom, UpdateClassroom} from '../atoms';
 
 
 import Landing from './Landing';
@@ -12,7 +12,8 @@ const HomePage = () => {
     const { authenticated, user, } = useRecoilValue(CurrentSession);
     //TESTS
     const {testData} = useRecoilValue(AllClassroomsAdminCampus)
-    const {createClassRoom} = useRecoilValue(CreateClassroomAdminCampus)
+    const {createClassRoom} = useRecoilValue(CreateClassroom)
+    const {updateClassroom} = useRecoilValue(UpdateClassroom)
     return(
         <Stack p={10}>
             {!authenticated ? (

@@ -20,7 +20,7 @@ export const CurrentSession = selector({
 
 
 // TESTING
-
+/*
 export const AllClassroomsAdminCampus = selector({
     key:'AllClassroomsAdminCampus',
     get: async () => {
@@ -37,8 +37,8 @@ export const AllClassroomsAdminCampus = selector({
     }
 })
 
-export const CreateClassroomAdminCampus = selector({
-    key:'CreateClassroomAdminCampus',
+export const CreateClassroom = selector({
+    key:'CreateClassroom',
     get: async () => {
         try{
             const response = await axios.post(BaseUrl + '/adminCampus/createNewClassroom', { name:"R1", capacity:"20", building:"10",features:"AC" }, { withCredentials: true })
@@ -52,3 +52,24 @@ export const CreateClassroomAdminCampus = selector({
         }
     }
 })
+
+export const UpdateClassroom = selector({
+    key:'UpdateClassroom',
+    get: async () => {
+        try{
+            const response = await 
+            axios.post(BaseUrl + '/adminCampus/updateClassroom/1', // update/ClassroomId
+                { name:"R1", capacity:"20", building:"10",features:"AC" }, 
+                { withCredentials: true })
+
+            if (response.status === 200) {
+                console.log(response.data)
+                return { };
+            }
+            return { authenticated: false, user: {}, error: null };
+        }catch(err){
+            return{}
+        }
+    }
+})
+*/
