@@ -88,6 +88,10 @@ router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClas
 //Error Invalid query search
 router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
 
+//allUsers
+// returns all users from the campus of the campusAdmin
+router.get('adminCampus/allUsers/', admincampusController.allUsers)
+
 
 /*+----------------------------------------------------------------------
  // END OF ADMIN CAMPUS 

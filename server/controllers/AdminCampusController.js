@@ -2,7 +2,10 @@ let classroomModel = require('../models/Classroom')
 let CampusAdminModel = require('../models/CampusAdmin')
 let roleValidator = require('../validators/AuthValidators')
 
-//ENDPOINTS
+/*+----------------------------------------------------------------------
+ // CLASSROOMS
+|+-----------------------------------------------------------------------*/
+
 exports.classroomsAll = (req, res) => {
     if (req.user) {
         if (roleValidator.isCampusAdmin(req)) {
@@ -161,7 +164,22 @@ exports.searchClassroom = (req, res) => {
     }
 }
 
+/*+----------------------------------------------------------------------
+ // USERS
+|+-----------------------------------------------------------------------*/
 
+exports.allUsers = (req, res) => {
+    if (roleValidator.isCampusAdmin(req)) {
+        res.status(200).json({
+            message: "All users from the campus "
+        });
+
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
 
 //Old 
 exports.classroomsManagement = (req, res) => {

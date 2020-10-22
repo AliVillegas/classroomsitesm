@@ -31,6 +31,20 @@ exports.up = function(knex) {
             table.increments('id').primary();
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
+        })
+        .createTable('students', (table) => {
+            table.increments('id').primary();
+            table.string('name', 255).notNullable();
+            table.string('email', 255).notNullable();
+            table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
+            table.timestamps(true, true);
+        })
+        .createTable('professors', (table) => {
+            table.increments('id').primary();
+            table.string('name', 255).notNullable();
+            table.string('email', 255).notNullable();
+            table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
+            table.timestamps(true, true);
         });
 };
 
@@ -38,6 +52,8 @@ exports.down = function(knex) {
     return knex.schema
         .dropTable('admins_campus')
         .dropTable('super_admins')
+        .dropTable('students')
+        .dropTable('professors')
         .dropTable('classrooms')
         .dropTable('campus')
         .dropTable('users')
