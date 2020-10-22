@@ -147,7 +147,7 @@ exports.searchClassroom = (req, res) => {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             classroomModel.findByAnySameCampus(campusAdmin.id, name).then(classrooms => {
 
-                console.log("CLASSROOMS", classrooms)
+                //console.log("CLASSROOMS", classrooms)
                 res.status(200).json({
                     classrooms: classrooms,
                     message: "Found classrooms"
