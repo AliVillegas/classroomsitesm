@@ -57,8 +57,6 @@ exports.findOrCreate = (user) => {
  * Crea al usuario con los datos definidos dentro del objeto user
  */
 exports.create = (user) => {
-    // Obtiene la contraseña definida por el usuario
-    // Encripta la contraseña
     return knex('admins_campus')
         .insert({ campus_id: 1, user_id: user.id });
 }
