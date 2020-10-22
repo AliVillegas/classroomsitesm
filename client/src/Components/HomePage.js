@@ -11,13 +11,13 @@ import Landing from './Landing';
 const HomePage = () => {
     const { authenticated, user, } = useRecoilValue(CurrentSession);
     //TESTS
-    /*
+   
     const {testData} = useRecoilValue(AllClassroomsAdminCampus)
     const {createClassRoom} = useRecoilValue(CreateClassroom)
     const {updateClassroom} = useRecoilValue(UpdateClassroom)
     const {deleteClassroom} = useRecoilValue(DeleteClassroom)
     const {searchClassroom} = useRecoilValue(SearchClassroom)
-    */
+   
     return(
         <Stack p={10}>
             {!authenticated ? (

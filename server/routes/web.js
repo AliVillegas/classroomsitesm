@@ -14,7 +14,10 @@ router.get('/protected', authMiddleware.isAuth, (req, res) => {
     res.send('Protected route, user correctly authenticated');
 })
 
-// AUTHENTICATION
+/*+----------------------------------------------------------------------
+ // AUTHENTICATION
+|+-----------------------------------------------------------------------*/
+
 router.get('/auth/office365/login', passport.authenticate('azure_ad_oauth2'));
 router.get('/auth/office365/logout', dashboardController.logout);
 router.get('/auth/office365/callback',
@@ -52,9 +55,13 @@ router.get('/auth/office365/fail', (req, res) => {
 });
 
 /*+----------------------------------------------------------------------
- // ADMIN CAMPUS ENDPOINTS (User Must have admin role in order to access api )
+ // END OF AUTH
 |+-----------------------------------------------------------------------*/
 
+
+/*+----------------------------------------------------------------------
+ // ADMIN CAMPUS ENDPOINTS (User Must have admin role in order to access api )
+|+-----------------------------------------------------------------------*/
 
 //allClassrooms
 //Returns classrooms Array
@@ -82,6 +89,9 @@ router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClas
 router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
 
 
+/*+----------------------------------------------------------------------
+ // END OF ADMIN CAMPUS 
+|+-----------------------------------------------------------------------*/
 
 
 
@@ -93,15 +103,6 @@ router.post('/adminCampus/searchClassroom/', admincampusController.searchClassro
 router.get('/dashboardUser', dashboardController.dashboard);
 router.get('/dashboard/courses', dashboardController.courses);
 router.get('/dashboard/favCourses', dashboardController.favCourses);
-
-router.get('/dashboardAdminCampus', dashboardController.dashboardAdminCampus);
-router.get('/manageClassroomsAdmin', admincampusController.classroomsManagement);
-router.post('/classroomsAdminCampus/:id', admincampusController.updateClassroomData);
-router.get('/classroomsAdminCampus/create', admincampusController.showCreateNewClassroom);
-router.post('/createNewClassroom', admincampusController.createNewClassroom);
-router.post('/classroomsAdminCampus/del/:id', admincampusController.deleteClassroomData);
-router.post('/classroomsSearch', admincampusController.classroomsSearch);
-router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
 
 
 
