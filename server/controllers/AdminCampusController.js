@@ -23,6 +23,11 @@ exports.classroomsAll = (req, res) => {
                 message: "Unauthorized access "
             });
         }
+    } else {
+        res.status(401).json({
+            authenticated: false,
+            message: "Unauthorized access "
+        });
     }
 
 }

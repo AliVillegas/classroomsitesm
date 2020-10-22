@@ -42,7 +42,7 @@ router.get('/auth/office365/success', (req, res) => {
     } else {
         res.status(401).json({
             authenticated: false,
-            message: "user died"
+            message: "user not authenticated"
         });
     }
 
