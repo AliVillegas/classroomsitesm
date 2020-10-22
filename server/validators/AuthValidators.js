@@ -1,7 +1,24 @@
-// Importamos express-validators para ayudarnos a implementar las reglas
-// de validación
-const { check, body } = require('express-validator');
 
-exports.isSuperAdmin = () => {
+
+exports.isSuperAdmin = (req) => {
+  if(req.user.role === 'superAdmin'){
+    return true
+  }
+  return false
+}
+
+//access to user management and classroom creation 
+exports.isCampusAdmin = (req) => {
+  if(req.user.role === 'admin'){
+    return true
+  }
+  return false
+}
+
+//Access to Courses CRUD && Classroom scheduling 
+exports.isDepartmentAdmin = (req) => {
+  if(req.user.role === 'departmentAdmin'){
+    return true
+  }
   return false
 }

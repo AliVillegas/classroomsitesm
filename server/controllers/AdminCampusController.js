@@ -1,13 +1,11 @@
 let classroomModel = require('../models/Classroom')
 let CampusAdminModel = require('../models/CampusAdmin')
-
+let roleValidator = require('../validators/AuthValidators')
 
 //ENDPOINTS
 exports.classroomsAll = (req, res) => {
-    //console.log(req)
-    //console.log(req.user)
     if (req.user) {
-        if (req.user.role === 'admin') {
+        if (roleValidator.isCampusAdmin(req)) {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
                 classroomModel.allClassroomsSameCampus(campusAdmin.id).then(classrooms => {
                     //console.log("CLASSROOMS", classrooms)
@@ -33,7 +31,7 @@ exports.classroomsAll = (req, res) => {
 }
 
 exports.createNewClassroom = (req, res) => {
-    if (req.user != null && req.user.role == 'admin') {
+    if (roleValidator.isCampusAdmin(req)) {
         //console.log(req.body)
         let name = req.body.name
         let campusId = 1
@@ -74,7 +72,7 @@ exports.createNewClassroom = (req, res) => {
 }
 
 exports.updateClassroom = (req, res) => {
-    if (req.user != null && req.user.role == 'admin') {
+    if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
         classroomModel.find(id).then((classroom) => {
             if (classroom == null) {
@@ -111,7 +109,7 @@ exports.updateClassroom = (req, res) => {
 
 
 exports.deleteClassroom = (req, res) => {
-    if (req.user != null && req.user.role == 'admin') {
+    if (roleValidator.isCampusAdmin(req)) {
         console.log("User has access to delete Classroom")
         let id = req.params.id;
         let campusId = 1
@@ -142,7 +140,7 @@ exports.deleteClassroom = (req, res) => {
 }
 
 exports.searchClassroom = (req, res) => {
-    if (req.user != null && req.user.role == 'admin') {
+    if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.searchQuery
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             classroomModel.findByAnySameCampus(campusAdmin.id, name).then(classrooms => {
@@ -169,7 +167,7 @@ exports.searchClassroom = (req, res) => {
 exports.classroomsManagement = (req, res) => {
     console.log("USER")
     console.log(req.user)
-    if (req.user != null && req.user.role == 'admin') {
+    if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             console.log("CAMPUS ADMIN", campusAdmin)
             classroomModel.allClassroomsSameCampus(campusAdmin.campus_id).then(classrooms => {

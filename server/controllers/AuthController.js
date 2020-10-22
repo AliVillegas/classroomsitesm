@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 let userModel = require('../models/User');
-let adminCampusModel = require('../models/AdminCampus');
+let adminCampusModel = require('../models/CampusAdmin');
 
 exports.login = (req, res) => {
     let authError = req.query.authError == 1 ? 'Invalid register data' : null;
