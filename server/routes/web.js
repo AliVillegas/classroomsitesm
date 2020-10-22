@@ -14,7 +14,10 @@ router.get('/protected', authMiddleware.isAuth, (req, res) => {
     res.send('Protected route, user correctly authenticated');
 })
 
-// AUTHENTICATION
+/*+----------------------------------------------------------------------
+ // AUTHENTICATION
+|+-----------------------------------------------------------------------*/
+
 router.get('/auth/office365/login', passport.authenticate('azure_ad_oauth2'));
 router.get('/auth/office365/logout', dashboardController.logout);
 router.get('/auth/office365/callback',
@@ -24,7 +27,7 @@ router.get('/auth/office365/callback',
     }
 );
 router.get('/auth/office365/success', (req, res) => {
-    console.log(req.user)
+    //console.log(req.user)
     if (req.user) {
         /* UserModel.findByEmail(req.user.email).then(user => {
             console.log("Found user", user)
@@ -39,7 +42,7 @@ router.get('/auth/office365/success', (req, res) => {
     } else {
         res.status(401).json({
             authenticated: false,
-            message: "user died"
+            message: "user not authenticated"
         });
     }
 
@@ -52,9 +55,13 @@ router.get('/auth/office365/fail', (req, res) => {
 });
 
 /*+----------------------------------------------------------------------
- // ADMIN CAMPUS ENDPOINTS
+ // END OF AUTH
 |+-----------------------------------------------------------------------*/
 
+
+/*+----------------------------------------------------------------------
+ // ADMIN CAMPUS ENDPOINTS (User Must have admin role in order to access api )
+|+-----------------------------------------------------------------------*/
 
 //allClassrooms
 //Returns classrooms Array
@@ -73,8 +80,22 @@ router.post('/adminCampus/updateClassroom/:id', admincampusController.updateClas
 //deleteClassroom 
 //Given Classroom id , classroom is deleted
 // Error classroom doesnt exist
-
 router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClassroom);
+
+//searchClassroom (by similar name,building, features or capacity)
+//Given a text query, returns all classrooms matching it 
+//If no classroom matches query, returns empty array 
+//Error Invalid query search
+router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
+
+
+/*+----------------------------------------------------------------------
+ // END OF ADMIN CAMPUS 
+|+-----------------------------------------------------------------------*/
+
+
+
+
 
 
 
@@ -82,15 +103,6 @@ router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClas
 router.get('/dashboardUser', dashboardController.dashboard);
 router.get('/dashboard/courses', dashboardController.courses);
 router.get('/dashboard/favCourses', dashboardController.favCourses);
-
-router.get('/dashboardAdminCampus', dashboardController.dashboardAdminCampus);
-router.get('/manageClassroomsAdmin', admincampusController.classroomsManagement);
-router.post('/classroomsAdminCampus/:id', admincampusController.updateClassroomData);
-router.get('/classroomsAdminCampus/create', admincampusController.showCreateNewClassroom);
-router.post('/createNewClassroom', admincampusController.createNewClassroom);
-router.post('/classroomsAdminCampus/del/:id', admincampusController.deleteClassroomData);
-router.post('/classroomsSearch', admincampusController.classroomsSearch);
-router.get('/classroomsAdminCampus/:id', admincampusController.editClassroomInfo);
 
 
 

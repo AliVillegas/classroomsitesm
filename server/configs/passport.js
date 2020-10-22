@@ -44,9 +44,9 @@ passport.use(new officeStrategy({
 
     function(accessToken, refresh_token, params, profile, done) {
         console.log("PROFILE")
-        console.log(profile)
-        var waadProfile = jwt.verify(params.id_token, '', true);
-        console.log(waadProfile)
+            //console.log(profile)
+        var waadProfile = jwt.decode(params.id_token, '', true);
+        console.log(waadProfile.name)
         UserModel.findOrCreate({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
             .then((id) => {
                 if (id.hasOwnProperty('email')) {

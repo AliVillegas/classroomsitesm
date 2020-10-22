@@ -19,75 +19,93 @@ export const CurrentSession = selector({
 });
 
 
-// TESTING
+// TESTING EXAMPLES 
 
 export const AllClassroomsAdminCampus = selector({
-    key:'AllClassroomsAdminCampus',
-    get: async () => {
-        try{
+    key: 'AllClassroomsAdminCampus',
+    get: async() => {
+        try {
             const response = await axios.get(BaseUrl + '/adminCampus/allClassrooms', { withCredentials: true })
             if (response.status === 200) {
                 console.log(response.data)
-                return { };
+                return {};
             }
             return { authenticated: false, user: {}, error: null };
-        }catch(err){
-            return{}
+        } catch (err) {
+            return {}
         }
     }
 })
 
 export const CreateClassroom = selector({
-    key:'CreateClassroom',
-    get: async () => {
-        try{
-            const response = await axios.post(BaseUrl + '/adminCampus/createNewClassroom', { name:"R1", capacity:"20", building:"10",features:"AC" }, { withCredentials: true })
+    key: 'CreateClassroom',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminCampus/createNewClassroom', { name: "R1", capacity: "20", building: "10", features: "AC" }, { withCredentials: true })
             if (response.status === 200) {
                 console.log(response.data)
-                return { };
+                return {};
             }
             return { authenticated: false, user: {}, error: null };
-        }catch(err){
-            return{}
+        } catch (err) {
+            return {}
         }
     }
 })
 
 export const UpdateClassroom = selector({
-    key:'UpdateClassroom',
-    get: async () => {
-        try{
-            const response = await 
+    key: 'UpdateClassroom',
+    get: async() => {
+        try {
+            const response = await
             axios.post(BaseUrl + '/adminCampus/updateClassroom/1', // update/ClassroomId
-                { name:"R1", capacity:"20", building:"10",features:"AC" }, 
-                { withCredentials: true })
+                { name: "R1", capacity: "20", building: "10", features: "AC" }, { withCredentials: true })
 
             if (response.status === 200) {
                 console.log(response.data)
-                return { };
+                return {};
             }
             return { authenticated: false, user: {}, error: null };
-        }catch(err){
-            return{}
+        } catch (err) {
+            return {}
         }
     }
 })
 
 export const DeleteClassroom = selector({
-    key:'DeleteClassroom',
-    get: async () => {
-        try{
-            const response = await 
+    key: 'DeleteClassroom',
+    get: async() => {
+        try {
+            const response = await
             axios.post(BaseUrl + '/adminCampus/deleteClassroom/1', // delete/ClassroomId, 
-                { withCredentials: true })
+                '', { withCredentials: true })
 
             if (response.status === 200) {
                 console.log(response.data)
-                return { };
+                return {};
             }
             return { authenticated: false, user: {}, error: null };
-        }catch(err){
-            return{}
+        } catch (err) {
+            return {}
+        }
+    }
+})
+
+export const SearchClassroom = selector({
+    key: 'SearchClassroom',
+    get: async() => {
+        try {
+            const response = await
+            axios.post(BaseUrl + '/adminCampus/searchClassroom/', // delete/ClassroomId, 
+                { searchQuery: "F201" }, { withCredentials: true })
+
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
         }
     }
 })
