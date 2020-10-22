@@ -183,8 +183,8 @@ exports.allUsers = (req, res) => {
 
 //Old 
 exports.classroomsManagement = (req, res) => {
-    console.log("USER")
-    console.log(req.user)
+    //console.log("USER")
+    //console.log(req.user)
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             console.log("CAMPUS ADMIN", campusAdmin)
