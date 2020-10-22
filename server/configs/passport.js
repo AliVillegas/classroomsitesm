@@ -3,6 +3,8 @@ let LocalStrategy = require('passport-local').Strategy;
 let UserModel = require('../models/User');
 let AdminCampusModel = require('../models/CampusAdmin');
 let SuperAdminModel = require('../models/SuperAdmin');
+let StudentModel = require('../models/Student');
+let ProfessorModel = require('../models/Professor');
 
 let officeStrategy = require('passport-azure-ad-oauth2')
 let bcrypt = require('bcryptjs');
@@ -47,7 +49,7 @@ passport.use(new officeStrategy({
         console.log("PROFILE")
             //console.log(profile)
         var waadProfile = jwt.decode(params.id_token, '', true);
-        console.log(waadProfile.name)
+        console.log(waadProfile)
         UserModel.findOrCreate({ name: waadProfile.name, email: waadProfile.upn, password: waadProfile.upn })
             .then((id) => {
                 if (id.hasOwnProperty('email')) {
@@ -56,13 +58,29 @@ passport.use(new officeStrategy({
                         .then(user => done(null, user))
                 } else {
                     return UserModel.find(id)
-                        .then(user =>
+                        .then(user => {
                             AdminCampusModel.create(user).then(newUser => {
                                 console.log("CreatedAdminCampus")
-                                SuperAdminModel.create(user).then(newUser => 
-                                    done(null, user))
+                                console.log(user)
+                                SuperAdminModel.create(user).then(newUser => {
+                                    if(user.email.charAt(0).toLowerCase() === 'a'){
+                                        StudentModel.create(user).then(newUser => {
+                                            done(null, user)
+
+                                        })
+                                    }
+                                    else if (user.email.charAt(0).toLowerCase() === 'l'){
+                                        ProfessorModel.create(user).then(newUser => {
+                                            done(null, user)
+
+                                        })
+
+                                    }
+                                })
 
                             })
+                        }
+                            
                         )
                 }
             });
