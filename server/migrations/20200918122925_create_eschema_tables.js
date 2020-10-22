@@ -26,13 +26,20 @@ exports.up = function(knex) {
             table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
+        })
+        .createTable('super_admins', (table) => {
+            table.increments('id').primary();
+            table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
+            table.timestamps(true, true);
         });
 };
 
 exports.down = function(knex) {
     return knex.schema
-        .dropTable('campus')
+        .dropTable('admins_campus')
+        .dropTable('super_admins')
         .dropTable('classrooms')
+        .dropTable('campus')
         .dropTable('users')
-        .dropTable('admins_campus');
+        
 };
