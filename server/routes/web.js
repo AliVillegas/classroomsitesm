@@ -24,7 +24,7 @@ router.get('/auth/office365/callback',
     }
 );
 router.get('/auth/office365/success', (req, res) => {
-    console.log(req.user)
+    //console.log(req.user)
     if (req.user) {
         /* UserModel.findByEmail(req.user.email).then(user => {
             console.log("Found user", user)
@@ -77,9 +77,17 @@ router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClas
 
 //searchClassroom (by similar name,building, features or capacity)
 //Given a text query, returns all classrooms matching it 
+//If no classroom matches query, returns empty array 
 //Error Invalid query search
-
 router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
+
+
+
+
+
+
+
+
 
 //Old routes 
 router.get('/dashboardUser', dashboardController.dashboard);

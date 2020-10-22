@@ -2,24 +2,15 @@ let classroomModel = require('../models/Classroom')
 let CampusAdminModel = require('../models/CampusAdmin')
 
 
-
-
-
-
-
-
-
-
 //ENDPOINTS
-
 exports.classroomsAll = (req, res) => {
-    console.log(req)
-    console.log(req.user)
+    //console.log(req)
+    //console.log(req.user)
     if (req.user) {
         if (req.user.role === 'admin') {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
                 classroomModel.allClassroomsSameCampus(campusAdmin.id).then(classrooms => {
-                    console.log("CLASSROOMS", classrooms)
+                    //console.log("CLASSROOMS", classrooms)
                     res.status(200).json({
                         classrooms: classrooms,
                         message: "Classrooms from same campus",
@@ -38,7 +29,7 @@ exports.classroomsAll = (req, res) => {
 
 exports.createNewClassroom = (req, res) => {
     if (req.user != null && req.user.role == 'admin') {
-        console.log(req.body)
+        //console.log(req.body)
         let name = req.body.name
         let campusId = 1
         let newClassroom = {
@@ -48,7 +39,7 @@ exports.createNewClassroom = (req, res) => {
             features: req.body.features
         }
         classroomModel.classroomAlreadyExists(name, campusId).then((result) => {
-            console.log(res)
+            //console.log(res)
             if (result) {
                 res.status(200).json({
                     error: "Classroom with that name already exists"
@@ -111,10 +102,9 @@ exports.updateClassroom = (req, res) => {
 }
 
 
-
-
 exports.deleteClassroom = (req, res) => {
     if (req.user != null && req.user.role == 'admin') {
+        console.log("User has access to delete Classroom")
         let id = req.params.id;
         let campusId = 1
         classroomModel.find(id).then((classroom) => {
@@ -144,11 +134,11 @@ exports.searchClassroom = (req, res) => {
         let name = req.body.searchQuery
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             classroomModel.findByAnySameCampus(campusAdmin.id, name).then(classrooms => {
-                //console.log("CLASSROOMS", classrooms)
-                res.render('adminCampus/manageClassroomsAdmin', {
-                    name: req.user.name,
-                    email: req.user.email,
-                    classrooms: classrooms
+
+                console.log("CLASSROOMS", classrooms)
+                res.status(200).json({
+                    classrooms: classrooms,
+                    message: "Found classrooms"
                 });
 
             })
@@ -226,7 +216,7 @@ exports.editClassroomInfo = (req, res) => {
         // console.log("Search", req.body.searchQuery)
         let id = req.params.id
         classroomModel.find(id).then(classrooms => {
-            console.log("CLASSROOMS", classrooms)
+            // console.log("CLASSROOMS", classrooms)
             res.render('adminCampus/editClassroomInfo', {
                 name: req.user.name,
                 email: req.user.email,
@@ -284,7 +274,7 @@ exports.createNewClassroomOld = (req, res) => {
     }
     classroomModel.findOrCreate(newClassroom)
         .then((id) => {
-            console.log("CLASSROOM", id)
+            //console.log("CLASSROOM", id)
             res.redirect('/manageClassroomsAdmin');
         });
 }
