@@ -15,8 +15,8 @@ let CampusAdminModel = require('../models/CampusAdmin')
 exports.classroomsAll = (req, res) => {
     console.log(req)
     console.log(req.user)
-    if(req.user){
-        if(req.user.role === 'admin'){
+    if (req.user) {
+        if (req.user.role === 'admin') {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
                 classroomModel.allClassroomsSameCampus(campusAdmin.id).then(classrooms => {
                     console.log("CLASSROOMS", classrooms)
@@ -24,101 +24,153 @@ exports.classroomsAll = (req, res) => {
                         classrooms: classrooms,
                         message: "Classrooms from same campus",
                     });
+                })
             })
-        }) 
-    }
-    else{
-        res.status(401).json({
-            authenticated: false,
-            message: "Unauthorized access "
-        });
+        } else {
+            res.status(401).json({
+                authenticated: false,
+                message: "Unauthorized access "
+            });
         }
     }
-    
+
 }
 
 exports.createNewClassroom = (req, res) => {
-    console.log(req.body)
-    let name = req.body.name
-    let campusId = 1
-    let newClassroom = {
-        name: name,
-        capacity: req.body.capacity,
-        building: req.body.building,
-        features: req.body.features
-    }
-    classroomModel.classroomAlreadyExists(name,campusId).then((result) => {
-        console.log(res)
-        if(result){
-            res.status(200).json({
-                error: "Classroom with that name already exists"
-            });
-        }else{
-            classroomModel.createNewClassroom(newClassroom,campusId).then((classroomId) => {
-                classroomModel.findById(campusId,classroomId).then((newClassroom) => {
-                    res.status(200).json({
-                        classroom: newClassroom,
-                        message: "Classroom created successfully",
-                    });
-                })
-                
-            })
+    if (req.user != null && req.user.role == 'admin') {
+        console.log(req.body)
+        let name = req.body.name
+        let campusId = 1
+        let newClassroom = {
+            name: name,
+            capacity: req.body.capacity,
+            building: req.body.building,
+            features: req.body.features
         }
-    })
+        classroomModel.classroomAlreadyExists(name, campusId).then((result) => {
+            console.log(res)
+            if (result) {
+                res.status(200).json({
+                    error: "Classroom with that name already exists"
+                });
+            } else {
+                classroomModel.createNewClassroom(newClassroom, campusId).then((classroomId) => {
+                    classroomModel.findById(campusId, classroomId).then((newClassroom) => {
+                        res.status(200).json({
+                            classroom: newClassroom,
+                            message: "Classroom created successfully",
+                        });
+                    })
+
+                })
+            }
+        })
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+
 
 }
 
 exports.updateClassroom = (req, res) => {
-    let id = req.params.id;
-    classroomModel.find(id).then((classroom) => {
-        if (classroom == null) {
-            res.status(200).json({
-                error: "Classroom doesnn't exist"
-            });
-        }
-        else{
-            let updateClassroom = {
-                name: req.body.name,
-                capacity: req.body.capacity,
-                building: req.body.building,
-                features: req.body.features
-            }
-    
-            classroomModel.update(id, updateClassroom)
-                .then((id) => {
-                    classroomModel.findById(id).then((newClassroom) => {
-                        res.status(200).json({
-                            classroom: newClassroom,
-                            message: "Classroom updated successfully"
-                        });
-                });
-            })
-        }
-    })
-}
-
-
-
-exports.deleteClassroom= (req, res) => {
-    let id = req.params.id;
-    let campusId = 1
-    classroomModel.find(id).then((classroom) => {
-        if (classroom == null) {
-            res.status(200).json({
-                error: "Classroom doesn't exist"
-            });
-        }
-        else{
-            classroomModel.delete(classroom.id, campusId)
-            .then(() => {
+    if (req.user != null && req.user.role == 'admin') {
+        let id = req.params.id;
+        classroomModel.find(id).then((classroom) => {
+            if (classroom == null) {
                 res.status(200).json({
-                    message: "Classroom succesfully deleted"
+                    error: "Classroom doesnn't exist"
                 });
-            });
-        }
-        
-    });
+            } else {
+                let updateClassroom = {
+                    name: req.body.name,
+                    capacity: req.body.capacity,
+                    building: req.body.building,
+                    features: req.body.features
+                }
+
+                classroomModel.update(id, updateClassroom)
+                    .then((id) => {
+                        classroomModel.findById(id).then((newClassroom) => {
+                            res.status(200).json({
+                                classroom: newClassroom,
+                                message: "Classroom updated successfully"
+                            });
+                        });
+                    })
+            }
+        })
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+
+
 }
+
+
+
+
+exports.deleteClassroom = (req, res) => {
+    if (req.user != null && req.user.role == 'admin') {
+        let id = req.params.id;
+        let campusId = 1
+        classroomModel.find(id).then((classroom) => {
+            if (classroom == null) {
+                res.status(200).json({
+                    error: "Classroom doesn't exist"
+                });
+            } else {
+                classroomModel.delete(classroom.id, campusId)
+                    .then(() => {
+                        res.status(200).json({
+                            message: "Classroom succesfully deleted"
+                        });
+                    });
+            }
+
+        });
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
+
+exports.searchClassroom = (req, res) => {
+    if (req.user != null && req.user.role == 'admin') {
+        let name = req.body.searchQuery
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            classroomModel.findByAnySameCampus(campusAdmin.id, name).then(classrooms => {
+                //console.log("CLASSROOMS", classrooms)
+                res.render('adminCampus/manageClassroomsAdmin', {
+                    name: req.user.name,
+                    email: req.user.email,
+                    classrooms: classrooms
+                });
+
+            })
+        })
+
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 //Old 
 exports.classroomsManagement = (req, res) => {

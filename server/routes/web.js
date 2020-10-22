@@ -52,7 +52,7 @@ router.get('/auth/office365/fail', (req, res) => {
 });
 
 /*+----------------------------------------------------------------------
- // ADMIN CAMPUS ENDPOINTS
+ // ADMIN CAMPUS ENDPOINTS (User Must have admin role in order to access api )
 |+-----------------------------------------------------------------------*/
 
 
@@ -73,10 +73,13 @@ router.post('/adminCampus/updateClassroom/:id', admincampusController.updateClas
 //deleteClassroom 
 //Given Classroom id , classroom is deleted
 // Error classroom doesnt exist
-
 router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClassroom);
 
+//searchClassroom (by similar name,building, features or capacity)
+//Given a text query, returns all classrooms matching it 
+//Error Invalid query search
 
+router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
 
 //Old routes 
 router.get('/dashboardUser', dashboardController.dashboard);
