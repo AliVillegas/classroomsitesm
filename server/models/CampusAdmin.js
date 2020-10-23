@@ -53,6 +53,12 @@ exports.findOrCreate = (user) => {
 
 }
 
+exports.allSameCampus = (id) => {
+    return knex('admins_campus')
+    .join('users', 'users.id', '=', 'admins_campus.user_id')
+    .where('campus_id', id)
+}
+
 /**
  * Crea al usuario con los datos definidos dentro del objeto user
  */

@@ -90,7 +90,9 @@ router.post('/adminCampus/searchClassroom/', admincampusController.searchClassro
 
 //allUsers
 // returns all users from the campus of the campusAdmin
-router.get('adminCampus/allUsers/', admincampusController.allUsers)
+// returns array with all combined users 
+// also separate arrays for all students, professors and campus Administrators
+router.get('/adminCampus/allUsers/', admincampusController.allUsers)
 
 
 /*+----------------------------------------------------------------------

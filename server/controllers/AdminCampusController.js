@@ -1,7 +1,11 @@
 let classroomModel = require('../models/Classroom')
 let CampusAdminModel = require('../models/CampusAdmin')
-let roleValidator = require('../validators/AuthValidators')
+let UserModel = require('../models/User')
+let StudentModel = require('../models/Student')
+let ProfessorModel = require('../models/Professor')
 
+let roleValidator = require('../validators/AuthValidators')
+let constants = require('../constants')
 /*+----------------------------------------------------------------------
  // CLASSROOMS
 |+-----------------------------------------------------------------------*/
@@ -10,7 +14,7 @@ exports.classroomsAll = (req, res) => {
     if (req.user) {
         if (roleValidator.isCampusAdmin(req)) {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-                classroomModel.allClassroomsSameCampus(campusAdmin.id).then(classrooms => {
+                classroomModel.allClassroomsSameCampus(campusAdmin.campus_id).then(classrooms => {
                     //console.log("CLASSROOMS", classrooms)
                     res.status(200).json({
                         classrooms: classrooms,
@@ -45,7 +49,7 @@ exports.createNewClassroom = (req, res) => {
             features: req.body.features
         }
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            campusId = campusAdmin.id
+            campusId = campusAdmin.campus_id
             classroomModel.classroomAlreadyExists(name, campusId).then((result) => {
                 //console.log(res)
                 if (result) {
@@ -124,7 +128,7 @@ exports.deleteClassroom = (req, res) => {
                         error: "Classroom doesn't exist"
                     });
                 } else {
-                    classroomModel.delete(classroom.id, campusId)
+                    classroomModel.delete(classroom.campus_id, campusId)
                         .then(() => {
                             res.status(200).json({
                                 message: "Classroom succesfully deleted"
@@ -146,7 +150,7 @@ exports.searchClassroom = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.searchQuery
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            classroomModel.findByAnySameCampus(campusAdmin.id, name).then(classrooms => {
+            classroomModel.findByAnySameCampus(campusAdmin.campus_id, name).then(classrooms => {
 
                 //console.log("CLASSROOMS", classrooms)
                 res.status(200).json({
@@ -170,9 +174,47 @@ exports.searchClassroom = (req, res) => {
 
 exports.allUsers = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
-        res.status(200).json({
-            message: "All users from the campus "
-        });
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            UserModel.all().then(users => {
+                let allStudents = []
+                let allUsers = []
+                let campusAdmins = []
+                let allProfessors = []
+                StudentModel.allSameCampus(campusAdmin.campus_id).then(students =>{
+                    console.log("Retrieved all Students")
+                    if(students.length >0 && students != undefined){
+                        allStudents.push(students)
+                        allUsers.push(students)
+                    }
+                    ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors =>{
+                        console.log("Retrieved all professors")
+                        if(professors.length >0 && professors != undefined){
+                            allProfessors.push(professors)
+                            allUsers.push(professors)
+                        } 
+                        CampusAdminModel.allSameCampus(campusAdmin.campus_id).then(adminsCampus =>{
+                            console.log("Retrieved all campus admins")
+                            if(adminsCampus.length >0 && adminsCampus != undefined){
+                                campusAdmins.push(adminsCampus)
+                                allUsers.push(adminsCampus)
+                            } 
+                            res.status(200).json({
+                                message: "All users from the campus",
+                                users: allUsers,
+                                students: allStudents,
+                                campusAdmins : campusAdmins,
+                                professors: allProfessors,
+                            });
+                        })
+                        
+                    })
+                    
+                })
+                
+                //campusAdmin.id, name
+            })
+        })
+       
 
     } else {
         res.status(401).json({
@@ -181,6 +223,25 @@ exports.allUsers = (req, res) => {
     }
 }
 
+exports.updateUser = (req, res) => {
+    if (roleValidator.isCampusAdmin(req)) {
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            UserModel.all().then(users => {
+                res.status(200).json({
+                    message: "All users from the campus ",
+                    users: users
+                });
+                //campusAdmin.id, name
+            })
+        })
+       
+
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
 //Old 
 exports.classroomsManagement = (req, res) => {
     //console.log("USER")

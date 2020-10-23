@@ -1,6 +1,14 @@
 const knex = require('../database/connection');
 const bcrypt = require('bcryptjs');
 
+
+exports.all = () => {
+    return knex
+        .select('*')
+        .from("users")
+
+}
+
 /**
  * Encuentra al usuario que tenga el correo indicado
  */

@@ -89,7 +89,7 @@ exports.allClassrooms = () => {
 
 }
 exports.findByName = (name) => {
-    console.log("RECEIVED NAME", name)
+
     return knex
         .select("*")
         .from('classrooms')
@@ -98,7 +98,6 @@ exports.findByName = (name) => {
 
 }
 exports.findByNameSameCampusSearch = (campusId, name) => {
-    console.log("RECEIVED NAME", name)
     return knex
         .select("*")
         .from('classrooms')
@@ -107,7 +106,8 @@ exports.findByNameSameCampusSearch = (campusId, name) => {
         //.where('name', name)
 }
 exports.findByAnySameCampus = (campusId, name) => {
-    console.log("RECEIVED NAME", name)
+    console.log("RECEIVED QUERY SEARCH: ", name)
+
     return knex
         .select("*")
         .from('classrooms')
@@ -124,6 +124,7 @@ exports.findByAnySameCampus = (campusId, name) => {
 
 }
 exports.find = (id) => {
+
     return knex
         .select('*')
         .from('classrooms')

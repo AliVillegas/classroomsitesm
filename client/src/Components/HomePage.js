@@ -3,7 +3,12 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { CurrentSession} from '../atoms';
 //Import for TESTS to API 
-import { AllClassroomsAdminCampus,CreateClassroom, UpdateClassroom, DeleteClassroom,SearchClassroom} from '../atoms';
+import { AllClassroomsAdminCampus,
+    CreateClassroom, 
+    UpdateClassroom, 
+    DeleteClassroom,
+    SearchClassroom,
+    AllUsers} from '../atoms';
 
 
 import Landing from './Landing';
@@ -17,6 +22,8 @@ const HomePage = () => {
     const {updateClassroom} = useRecoilValue(UpdateClassroom)
     const {deleteClassroom} = useRecoilValue(DeleteClassroom)
     const {searchClassroom} = useRecoilValue(SearchClassroom)
+    const {allUsers} = useRecoilValue(AllUsers)
+   
    
     return(
         <Stack p={10}>

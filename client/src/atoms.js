@@ -109,3 +109,20 @@ export const SearchClassroom = selector({
         }
     }
 })
+
+
+export const AllUsers = selector({
+    key: 'AllUsers',
+    get: async() => {
+        try {
+            const response = await axios.get(BaseUrl + '/adminCampus/allUsers/', { withCredentials: true })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})

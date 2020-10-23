@@ -36,6 +36,7 @@ exports.up = function(knex) {
             table.increments('id').primary();
             table.string('name', 255).notNullable();
             table.string('email', 255).notNullable();
+            table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
         })
@@ -43,6 +44,7 @@ exports.up = function(knex) {
             table.increments('id').primary();
             table.string('name', 255).notNullable();
             table.string('email', 255).notNullable();
+            table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
         });
