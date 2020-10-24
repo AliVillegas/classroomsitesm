@@ -8,6 +8,7 @@ import { AllClassroomsAdminCampus,
     UpdateClassroom, 
     DeleteClassroom,
     SearchClassroom,
+    UpdateUserRole,
     AllUsers} from '../atoms';
 
 
@@ -23,6 +24,7 @@ const HomePage = () => {
     const {deleteClassroom} = useRecoilValue(DeleteClassroom)
     const {searchClassroom} = useRecoilValue(SearchClassroom)
     const {allUsers} = useRecoilValue(AllUsers)
+    const {updateUser} = useRecoilValue(UpdateUserRole)
    
    
     return(

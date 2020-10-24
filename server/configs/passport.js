@@ -66,13 +66,13 @@ passport.use(new officeStrategy({
                                     if(user.email.charAt(0).toLowerCase() === 'a'){
                                         StudentModel.create(user).then(newUser => {
                                             done(null, user)
-
+                                            //update user role to student
                                         })
                                     }
                                     else if (user.email.charAt(0).toLowerCase() === 'l'){
                                         ProfessorModel.create(user).then(newUser => {
                                             done(null, user)
-
+                                            //update user role to professor
                                         })
 
                                     }

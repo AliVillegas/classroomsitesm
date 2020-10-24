@@ -223,6 +223,33 @@ exports.allUsers = (req, res) => {
     }
 }
 
+exports.updateUserRole = (req, res) => {
+    if (roleValidator.isCampusAdmin(req)) {
+        let id = req.params.id;
+        UserModel.find(id).then((user) => {
+            if (user == null) {
+                res.status(200).json({
+                    error: "User doesn't exist"
+                });
+            } else {
+                let newRole = req.body.newRole
+                UserModel.updateRole(id,newRole)
+                    .then((updatedUser) => {
+                        res.status(200).json({
+                            message: "User role updated successfully",
+                            user: updatedUser
+                        });
+                        }); 
+            }
+        })
+    } else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+
+
+}
 exports.updateUser = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
@@ -242,6 +269,8 @@ exports.updateUser = (req, res) => {
         });
     }
 }
+
+
 //Old 
 exports.classroomsManagement = (req, res) => {
     //console.log("USER")

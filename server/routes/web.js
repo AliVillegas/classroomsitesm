@@ -94,11 +94,25 @@ router.post('/adminCampus/searchClassroom/', admincampusController.searchClassro
 // also separate arrays for all students, professors and campus Administrators
 router.get('/adminCampus/allUsers/', admincampusController.allUsers)
 
+//Update user Role 
+// Receives newRole on body parameter
+// Fails if given user id does not exist 
+router.post('/adminCampus/updateUserRole/:id', admincampusController.updateUserRole)
+
 
 /*+----------------------------------------------------------------------
- // END OF ADMIN CAMPUS 
+ // SUPER ADMIN == ADMIN DEPARTMENT  
 |+-----------------------------------------------------------------------*/
 
+//Get all courses
+//Returns an array of all the courses from the campus 
+router.get('/adminDep/allCourses/', admincampusController.allUsers)
+
+
+
+/*+----------------------------------------------------------------------
+ // END OF SUPER ADMIN == ADMIN DEPARTMENT  
+|+-----------------------------------------------------------------------*/
 
 
 

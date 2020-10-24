@@ -1,6 +1,6 @@
 const knex = require('../database/connection');
 const bcrypt = require('bcryptjs');
-
+const consts = require('../constants')
 
 exports.all = () => {
     return knex
@@ -8,7 +8,18 @@ exports.all = () => {
         .from("users")
 
 }
-
+exports.updateRole = (id, role) => {
+    return knex
+        .select('*')
+        .from('users')
+        .where('id', id)
+        .update('role', role)
+        .then(() => {
+            return knex.select('*')
+                .from('users')
+                .where('id', id);
+        })
+}
 /**
  * Encuentra al usuario que tenga el correo indicado
  */
@@ -55,7 +66,7 @@ exports.findOrCreate = (user) => {
                 // Encripta la contraseña
                 pass = bcrypt.hashSync(pass, 10);
                 return knex('users')
-                    .insert({ name: user.name, email: user.email, role: 'admin' });
+                    .insert({ name: user.name, email: user.email, role: consts.campusAdmin });
 
             } else {
                 return res

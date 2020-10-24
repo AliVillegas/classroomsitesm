@@ -126,3 +126,19 @@ export const AllUsers = selector({
         }
     }
 })
+
+export const UpdateUserRole = selector({
+    key: 'UpdateUserRole',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminCampus/updateUserRole/1',{newRole:'admin'}, { withCredentials: true })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
