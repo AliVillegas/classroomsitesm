@@ -13,6 +13,7 @@ import { AllClassroomsAdminCampus,
     UpdateCourse,
     CreateCourse,
     DeleteCourse,
+    SearchCourse,
     AllClasses,
     CreateClass,
     DeleteClass,
@@ -36,6 +37,7 @@ const HomePage = () => {
     const {updateCourse} = useRecoilValue(UpdateCourse)
     const {createCourse} = useRecoilValue(CreateCourse)
     const {deleteCourse} = useRecoilValue(DeleteCourse)
+    const {searchCourse} = useRecoilValue(SearchCourse)
     const {allClasses} = useRecoilValue(AllClasses)
     const {createClass} = useRecoilValue(CreateClass)
     const {deleteClass} = useRecoilValue(DeleteClass)

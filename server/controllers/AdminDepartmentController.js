@@ -74,10 +74,10 @@ exports.createCourse = (req, res) => {
         let name = req.body.name
         let campusId = 1
         let newCourse = {
-            campus_id: request.body.campusId,
-            name: request.body.name,
-            classroom_id: request.body.classroom_id,
-            description: request.body.description
+            campus_id: req.body.campusId,
+            name: req.body.name,
+            classroom_id: req.body.classroom_id,
+            description: req.body.description
         }
         DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
             campusId = depAdmin.campus_id
@@ -135,7 +135,7 @@ exports.updateCourse = (req, res) => {
                     }
                     let updateCourse = {
                         name: req.body.name,
-                        description: req.body.description,
+                        description: description,
                         campus_id: campusAdmin.campus_id,
                         classroom_id: classRoomId
                     }
@@ -154,49 +154,48 @@ exports.updateCourse = (req, res) => {
 
     }
     else if (roleValidator.isDepartmentAdmin(req)) {
-        let id = req.params.id;
-        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
-            CourseModel.find(id).then((course) => {
-                if (course == null) {
-                    res.status(200).json({
-                        error: "Course doesn't exist"
-                    });
-
-                }
-                else if (course.campus_id !== depAdmin.campus_id) {
-                    res.status(401).json({
-                        message: "Unauthorized access"
-                    });
-                }
-                else {
-                    let description = course.description
-                    if (req.body.description) {
-                        description = req.body.description
+            let id = req.params.id;
+            DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+                CourseModel.find(id).then((course) => {
+                    if (course == null) {
+                        res.status(200).json({
+                            error: "Course doesn't exist"
+                        });
+    
                     }
-                    let classRoomId = null
-                    if(req.body.classroom_id){
-                        classRoomId = req.body.classroom_id
+                    else if (course.campus_id !== depAdmin.campus_id) {
+                        res.status(401).json({
+                            message: "Unauthorized access"
+                        });
                     }
-                    let updateCourse = {
-                        name: req.body.name,
-                        description: req.body.description,
-                        campus_id: depAdmin.campus_id,
-                        classroom_id: classRoomId
-                    }
-                    CourseModel.update(id, updateCourse)
-                        .then((id) => {
-                            CourseModel.find(id).then((newCourse) => {
+                    else {
+                        let description = course.description
+                        if (req.body.description) {
+                            description = req.body.description
+                        }
+                        let classRoomId = null
+                        if(req.body.classroom_id){
+                            classRoomId = req.body.classroom_id
+                        }
+                        let updateCourse = {
+                            name: req.body.name,
+                            description: description,
+                            campus_id: depAdmin.campus_id,
+                            classroom_id: classRoomId
+                        }
+                        CourseModel.update(id, updateCourse)
+                            .then((updatedCourse) => {
+                                //console.log(updatedCourse)
                                 console.log("Updated Course")
-
                                 res.status(200).json({
-                                    course: newCourse,
+                                    course: updatedCourse,
                                     message: "Course updated successfully"
                                 });
-                            });
-                        })
-                }
+                            })
+                    }
+                })
             })
-        })
+    
 
     }
     else {
@@ -235,7 +234,7 @@ exports.deleteCourse = (req, res) => {
 
     }
     else if (roleValidator.isDepartmentAdmin(req)) {
-        console.log("User has access to delete Course")
+        console.log("User depAdmin has access to delete Course")
         let id = req.params.id;
         let campusId = 1
         DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
@@ -259,6 +258,44 @@ exports.deleteCourse = (req, res) => {
 
     }
 
+    else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
+
+exports.searchCourse = (req, res) => {
+    limit = constants.queryLimit
+    if (req.query.limit) {
+        limit = req.query.limit
+    }
+    if (roleValidator.isCampusAdmin(req)) {
+        let name = req.body.searchQuery
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            CourseModel.findByNameSameCampusSearch(campusAdmin.campus_id, name, limit).then(courses => {
+                res.status(200).json({
+                    courses: courses,
+                    message: "Found courses"
+                });
+
+            })
+        })
+
+    }
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        let name = req.body.searchQuery
+        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+            CourseModel.findByNameSameCampusSearch(depAdmin.campus_id, name, limit).then(courses => {
+                res.status(200).json({
+                    courses: courses,
+                    message: "Found courses"
+                });
+
+            })
+        })
+
+    }
     else {
         res.status(401).json({
             message: "Unauthorized access"

@@ -87,7 +87,7 @@ router.post('/adminCampus/updateClassroom/:id', admincampusController.updateClas
 router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClassroom);
 
 //searchClassroom (by similar name,building, features or capacity)
-//Given a text query, returns all classrooms matching it 
+//Given a searchQuery in req body 
 //If no classroom matches query, returns empty array 
 //Error Invalid query search
 // accepts limit param
@@ -129,6 +129,13 @@ router.post('/adminDep/updateCourse/:id', adminDepartmentController.updateCourse
 //Given Course id deletes Course
 //Error Course doesnt exist or Course is from another campus as the admin 
 router.post('/adminDep/deleteCourse/:id', adminDepartmentController.deleteCourse);
+
+//searchCourse(by similar name,building, features or capacity)
+//Given a searchQuery in req body 
+//If no course matches query, returns empty array 
+//Error Invalid query search
+// accepts limit param
+router.post('/adminDep/searchCourse/', adminDepartmentController.searchCourse);
 
 
 

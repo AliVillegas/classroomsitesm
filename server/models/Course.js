@@ -13,6 +13,16 @@ exports.find = (id) => {
         .where('id', id)
         .first();
 }
+
+exports.findByNameSameCampusSearch = (campusId, name,limit) => {
+    return knex
+        .select("*")
+        .from('courses')
+        .where('campus_id', campusId)
+        .andWhere('name', 'like', '%' + name + '%')
+        .limit(limit)
+}
+
 exports.courseAlreadyExists = (name, campusId) => {
     return knex
         .select('*')

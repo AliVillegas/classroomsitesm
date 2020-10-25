@@ -142,7 +142,24 @@ export const UpdateUserRole = selector({
         }
     }
 })
+export const SearchCourse= selector({
+    key: 'SearchCourse',
+    get: async() => {
+        try {
+            const response = await
+            axios.post(BaseUrl + '/adminDep/searchCourse/', // delete/ClassroomId, 
+                { searchQuery: "Phy" }, { withCredentials: true })
 
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
 export const AllCourses = selector({
     key: 'AllCourses',
     get: async() => {

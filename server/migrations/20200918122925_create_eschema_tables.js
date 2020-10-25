@@ -29,6 +29,7 @@ exports.up = function (knex) {
         })
         .createTable('department_admins', (table) => {
             table.increments('id').primary();
+            table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
         })

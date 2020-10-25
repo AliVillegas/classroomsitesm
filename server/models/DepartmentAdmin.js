@@ -21,5 +21,5 @@ exports.findByUserID = (id) => {
 
 exports.create = (user) => {
     return knex('department_admins')
-        .insert({ user_id: user.id });
+        .insert({ user_id: user.id, campus_id: 1 });
 }
