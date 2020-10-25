@@ -185,7 +185,7 @@ export const UpdateCourse = selector({
     key: 'UpdateCourse',
     get: async() => {
         try {
-            const response = await axios.post(BaseUrl + '/adminDep/updateCourse/5',{name:"Physics 101",classroom_id:1}, {
+            const response = await axios.post(BaseUrl + '/adminDep/updateCourse/6',{name:"Physics 101",classroom_id:5}, {
                 withCredentials: true 
             })
             if (response.status === 200) {
@@ -242,7 +242,7 @@ export const CreateClass = selector({
     key: 'CreateClass',
     get: async() => {
         try {
-            const response = await axios.post(BaseUrl + '/adminDep/createClass/',{course_id:6}, {
+            const response = await axios.post(BaseUrl + '/adminDep/createClass/',{course_id:6, timeFromMon:'13:00', timeToMon:'14:30'}, {
                 withCredentials: true 
             })
             if (response.status === 200) {

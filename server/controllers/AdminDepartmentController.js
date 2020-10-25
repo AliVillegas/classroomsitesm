@@ -129,13 +129,16 @@ exports.updateCourse = (req, res) => {
                     if (req.body.description) {
                         description = req.body.description
                     }
+                    let classRoomId = null
+                    if(req.body.classroom_id){
+                        classRoomId = req.body.classroom_id
+                    }
                     let updateCourse = {
                         name: req.body.name,
                         description: req.body.description,
-                        campus_id: req.body.campusId,
-                        features: req.body.features
+                        campus_id: campusAdmin.campus_id,
+                        classroom_id: classRoomId
                     }
-
                     CourseModel.update(id, updateCourse)
                         .then((updatedCourse) => {
                             //console.log(updatedCourse)
@@ -170,13 +173,16 @@ exports.updateCourse = (req, res) => {
                     if (req.body.description) {
                         description = req.body.description
                     }
+                    let classRoomId = null
+                    if(req.body.classroom_id){
+                        classRoomId = req.body.classroom_id
+                    }
                     let updateCourse = {
                         name: req.body.name,
                         description: req.body.description,
-                        campus_id: req.body.campusId,
-                        features: req.body.features
+                        campus_id: depAdmin.campus_id,
+                        classroom_id: classRoomId
                     }
-
                     CourseModel.update(id, updateCourse)
                         .then((id) => {
                             CourseModel.find(id).then((newCourse) => {
@@ -209,7 +215,7 @@ exports.deleteCourse = (req, res) => {
         let id = req.params.id;
         let campusId = 1
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            campusId = campusAdmin.id
+            campusId = campusAdmin.campus_id
             CourseModel.find(id).then((course) => {
                 if (course == null) {
                     res.status(200).json({
@@ -233,7 +239,7 @@ exports.deleteCourse = (req, res) => {
         let id = req.params.id;
         let campusId = 1
         DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
-            campusId = depAdmin.id
+            campusId = depAdmin.campus_id
             CourseModel.find(id).then((course) => {
                 if (course == null) {
                     res.status(200).json({
@@ -283,49 +289,49 @@ exports.createClass = (req, res) => {
             message: "No  course id was given"
         });
     }
-    else{
+    else {
         course_id = req.body.course_id
     }
     if (req.body.timeFromMon) {
         timeFromMon = req.body.timeFromMon
     }
     if (req.body.timeToMon) {
-        timeFromMon = req.body.timeToMon
+        timeToMon = req.body.timeToMon
     }
 
     if (req.body.timeFromTu) {
-        timeFromMon = req.body.timeFromTu
+        timeFromTu = req.body.timeFromTu
     }
     if (req.body.timeToTu) {
-        timeFromMon = req.body.timeToTu
+        timeToTu = req.body.timeToTu
     }
 
     if (req.body.timeFromWed) {
-        timeFromMon = req.body.timeFromWed
+        timeFromWed = req.body.timeFromWed
     }
     if (req.body.timeToWed) {
-        timeFromMon = req.body.timeToWed
+        timeToWed = req.body.timeToWed
     }
 
     if (req.body.timeFromTh) {
-        timeFromMon = req.body.timeFromTh
+        timeFromTh = req.body.timeFromTh
     }
     if (req.body.timeToTh) {
-        timeFromMon = req.body.timeToTh
+        timeToTh = req.body.timeToTh
     }
 
     if (req.body.timeFromFr) {
-        timeFromMon = req.body.timeFromFr
+        timeFromFr = req.body.timeFromFr
     }
     if (req.body.timeToFr) {
-        timeFromMon = req.body.timeToFr
+        timeToFr = req.body.timeToFr
     }
 
     if (req.body.timeFromSat) {
-        timeFromMon = req.body.timeFromSat
+        timeFromSat = req.body.timeFromSat
     }
     if (req.body.timeToSat) {
-        timeFromMon = req.body.timeToSat
+        timeToSat = req.body.timeToSat
     }
     let newClass = {
         course_id: course_id,
@@ -353,14 +359,14 @@ exports.createClass = (req, res) => {
                         error: "Course given doesn't exist"
                     });
                 }
-                else{
+                else {
                     if (campusId === course.campus_id) {
                         ClassModel.createNewClass(newClass).then((classN) => {
                             res.status(200).json({
                                 class: classN,
                                 message: "class created successfully",
                             });
-    
+
                         })
                     }
                     else {
@@ -382,14 +388,14 @@ exports.createClass = (req, res) => {
                         error: "Course given doesn't exist"
                     });
                 }
-                else{
+                else {
                     if (campusId === course.campus_id) {
                         ClassModel.createNewClass(newClass).then((classN) => {
                             res.status(200).json({
                                 class: classN,
                                 message: "class created successfully",
                             });
-    
+
                         })
                     }
                     else {
@@ -408,4 +414,81 @@ exports.createClass = (req, res) => {
     }
 
 
+}
+exports.deleteClass = (req, res) => {
+    console.log(req.user)
+
+    if (roleValidator.isCampusAdmin(req)) {
+        console.log("User has access to delete Class")
+        let id = req.params.id;
+        let campusId = 1
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            campusId = campusAdmin.campus_id
+            ClassModel.find(id).then((classFound) => {
+                if (classFound == null) {
+                    res.status(200).json({
+                        error: "Class doesn't exist"
+                    });
+                } else {
+                    CourseModel.find(classFound.course_id).then((course) => {
+                        if (course.campus_id !== campusId) {
+                            res.status(200).json({
+                                error: "Unauthorized access (Different Campus)"
+                            });
+                        } else {
+                            ClassModel.delete(id)
+                                .then(() => {
+                                    res.status(200).json({
+                                        message: "Class succesfully deleted"
+                                    });
+                                });
+                        }
+
+                    });
+                }
+
+            })
+
+        });
+
+    }
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        console.log("User has access to delete Class")
+        let id = req.params.id;
+        let campusId = 1
+        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+            campusId = depAdmin.campus_id
+            ClassModel.find(id).then((classFound) => {
+                if (classFound == null) {
+                    res.status(200).json({
+                        error: "Class doesn't exist"
+                    });
+                } else {
+                    CourseModel.find(classFound.course_id).then((course) => {
+                        if (course.campus_id !== campusId) {
+                            res.status(200).json({
+                                error: "Unauthorized access (Different Campus)"
+                            });
+                        } else {
+                            ClassModel.delete(id)
+                                .then(() => {
+                                    res.status(200).json({
+                                        message: "Class succesfully deleted"
+                                    });
+                                });
+                        }
+
+                    });
+                }
+
+            })
+
+        });
+    }
+
+    else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
 }

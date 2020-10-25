@@ -135,8 +135,8 @@ router.post('/adminDep/deleteCourse/:id', adminDepartmentController.deleteCourse
 //createClass
 //Given Class Data ( *Name , description, classroomId ) 
 //creates a Course and returns its Data 
-//(*course_id,TimeFromMon, TimeToMon, TimeFromTu,TimeToTu
-//TimeFromWed,TimeToWed,TimeFromTh,TimeToTh,TimeFromFr,TimeToFr,TimeFromSat,TimeToSat)
+//(*course_id,timeFromMon, timeToMon, timeFromTu,timeToTu
+//timeFromWed,timeToWed,timeFromTh,timeToTh,timeFromFr,timeToFr,timeFromSat,timeToSat)
 //Error Class data is invalid or incomplete
 router.post('/adminDep/createClass/', adminDepartmentController.createClass);
 

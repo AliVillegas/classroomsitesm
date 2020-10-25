@@ -33,3 +33,10 @@ exports.createNewClass= (classR) => {
                 .where('id', id);
         })
 }
+
+
+exports.delete = (id) => {
+    return knex('classes')
+        .delete()
+        .where('id', id);
+}
