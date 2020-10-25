@@ -163,3 +163,24 @@ export const AllCourses = selector({
         }
     }
 })
+
+export const UpdateCourse = selector({
+    key: 'UpdateCourse',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminDep/updateCourse/5',{name:"Physics 101",classroom_id:1}, {
+                params: {
+                limit: 100
+                },
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})

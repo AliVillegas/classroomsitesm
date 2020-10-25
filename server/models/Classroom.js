@@ -59,7 +59,11 @@ exports.update = (id, classroom) => {
         .update(classroom)
         .update('updated_at', knex.fn.now())
         .where('id', id)
-
+        .then(() => {
+            return knex.select('*')
+                .from('classrooms')
+                .where('id', id);
+        })
 }
 
 exports.delete = (id,campusId) => {

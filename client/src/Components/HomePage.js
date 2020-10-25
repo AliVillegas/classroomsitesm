@@ -10,6 +10,7 @@ import { AllClassroomsAdminCampus,
     SearchClassroom,
     UpdateUserRole,
     AllCourses,
+    UpdateCourse,
     AllUsers} from '../atoms';
 
 
@@ -27,7 +28,8 @@ const HomePage = () => {
     const {allUsers} = useRecoilValue(AllUsers)
     const {updateUser} = useRecoilValue(UpdateUserRole)
     const {allCourses} = useRecoilValue(AllCourses)
-   
+    const {updateCourse} = useRecoilValue(UpdateCourse)
+
    
     return(
         <Stack p={10}>

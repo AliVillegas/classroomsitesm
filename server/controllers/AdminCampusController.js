@@ -18,7 +18,7 @@ exports.classroomsAll = (req, res) => {
         }
         if (roleValidator.isCampusAdmin(req)) {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-                classroomModel.allClassroomsSameCampus(campusAdmin.campus_id,limit).then(classrooms => {
+                classroomModel.allClassroomsSameCampus(campusAdmin.campus_id, limit).then(classrooms => {
                     //console.log("CLASSROOMS", classrooms)
                     res.status(200).json({
                         classrooms: classrooms,
@@ -85,30 +85,37 @@ exports.createNewClassroom = (req, res) => {
 exports.updateClassroom = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
-        classroomModel.find(id).then((classroom) => {
-            if (classroom == null) {
-                res.status(200).json({
-                    error: "Classroom doesnn't exist"
-                });
-            } else {
-                let updateClassroom = {
-                    name: req.body.name,
-                    capacity: req.body.capacity,
-                    building: req.body.building,
-                    features: req.body.features
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            classroomModel.find(id,).then((classroom) => {
+                if (classroom == null) {
+                    res.status(200).json({
+                        error: "Classroom doesn't exist"
+                    });
                 }
+                else if (classroom.campus_id !== campusAdmin.campus_id) {
+                    res.status(401).json({
+                        message: "Unauthorized access"
+                    });
+                }
+                else {
+                    let updateClassroom = {
+                        name: req.body.name,
+                        capacity: req.body.capacity,
+                        building: req.body.building,
+                        features: req.body.features
+                    }
 
-                classroomModel.update(id, updateClassroom)
-                    .then((id) => {
-                        classroomModel.findById(id).then((newClassroom) => {
-                            res.status(200).json({
-                                classroom: newClassroom,
-                                message: "Classroom updated successfully"
-                            });
+                    classroomModel.update(id, updateClassroom)
+                    classroomModel.findById(id).then((newClassroom) => {
+                        res.status(200).json({
+                            classroom: newClassroom,
+                            message: "Classroom updated successfully"
                         });
-                    })
-            }
+                    });
+                }
+            })
         })
+
     } else {
         res.status(401).json({
             message: "Unauthorized access"
@@ -152,13 +159,13 @@ exports.deleteClassroom = (req, res) => {
 
 exports.searchClassroom = (req, res) => {
     limit = constants.queryLimit
-    if(req.query.limit){
+    if (req.query.limit) {
         limit = req.query.limit
     }
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.searchQuery
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            classroomModel.findByAnySameCampus(campusAdmin.campus_id, name,limit).then(classrooms => {
+            classroomModel.findByAnySameCampus(campusAdmin.campus_id, name, limit).then(classrooms => {
 
                 //console.log("CLASSROOMS", classrooms)
                 res.status(200).json({
@@ -182,7 +189,7 @@ exports.searchClassroom = (req, res) => {
 
 exports.allUsers = (req, res) => {
     limit = constants.queryLimit
-    if(req.query.limit){
+    if (req.query.limit) {
         limit = req.query.limit
     }
     if (roleValidator.isCampusAdmin(req)) {

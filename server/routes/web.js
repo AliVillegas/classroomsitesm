@@ -75,7 +75,7 @@ router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
 router.post('/adminCampus/createNewClassroom', admincampusController.createNewClassroom);
 
 //updateClassroom
-//Given Classroom id and Data ( *Name , *Capacity, *Building , features) updates Classroom and returns its Data
+//Given Classroom id and Data ( Name , Capacity, Building , features) updates Classroom and returns its Data
 //Error classroom doesnt exist 
 router.post('/adminCampus/updateClassroom/:id', admincampusController.updateClassroom);
 
@@ -110,6 +110,10 @@ router.post('/adminCampus/updateUserRole/:id', admincampusController.updateUserR
 //Returns an array of all the courses from the campus 
 router.get('/adminDep/allCourses/', adminDepartmentController.allCourses)
 
+//updateCourse
+//Given Course id and Data ( *Name , description, classroomId ) updates Course and returns its Data
+//Error Course doesnt exist or Course is from another campus as the admin 
+router.post('/adminDep/updateCourse/:id', adminDepartmentController.updateCourse);
 
 
 /*+----------------------------------------------------------------------
