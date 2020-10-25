@@ -139,7 +139,7 @@ exports.deleteClassroom = (req, res) => {
                         error: "Classroom doesn't exist"
                     });
                 } else {
-                    classroomModel.delete(classroom.campus_id, campusId)
+                    classroomModel.delete(classroom.id, campusId)
                         .then(() => {
                             res.status(200).json({
                                 message: "Classroom succesfully deleted"

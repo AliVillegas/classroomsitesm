@@ -167,10 +167,7 @@ export const CreateCourse = selector({
     key: 'CreateCourse',
     get: async() => {
         try {
-            const response = await axios.post(BaseUrl + '/adminDep/createCourse/',{name:"Ethics 305",classroom_id:7}, {
-                params: {
-                limit: 100
-                },
+            const response = await axios.post(BaseUrl + '/adminDep/createCourse/',{name:"Ethics 305",classroom_id:5}, {
                 withCredentials: true 
             })
             if (response.status === 200) {
@@ -189,9 +186,24 @@ export const UpdateCourse = selector({
     get: async() => {
         try {
             const response = await axios.post(BaseUrl + '/adminDep/updateCourse/5',{name:"Physics 101",classroom_id:1}, {
-                params: {
-                limit: 100
-                },
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
+
+export const DeleteCourse = selector({
+    key: 'DeleteCourse',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminDep/deleteCourse/5','', {
                 withCredentials: true 
             })
             if (response.status === 200) {

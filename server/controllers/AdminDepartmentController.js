@@ -137,7 +137,7 @@ exports.updateCourse = (req, res) => {
 
                     CourseModel.update(id, updateCourse)
                         .then((updatedCourse) => {
-                            console.log(updatedCourse)
+                            //console.log(updatedCourse)
                             console.log("Updated Course")
                             res.status(200).json({
                                 course: updatedCourse,
@@ -192,6 +192,66 @@ exports.updateCourse = (req, res) => {
         })
 
     }
+    else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
+
+exports.deleteCourse= (req, res) => {
+    console.log(req.user)
+
+    if (roleValidator.isCampusAdmin(req)) {
+
+        console.log("User has access to delete Course")
+        let id = req.params.id;
+        let campusId = 1
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            campusId = campusAdmin.id
+            CourseModel.find(id).then((course) => {
+                if (course == null) {
+                    res.status(200).json({
+                        error: "Course doesn't exist"
+                    });
+                } else  {
+                    CourseModel.delete(course.id, campusId)
+                        .then(() => {
+                            res.status(200).json({
+                                message: "Course succesfully deleted"
+                            });
+                        });
+                }
+
+            });
+        });
+
+    } 
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        console.log("User has access to delete Course")
+        let id = req.params.id;
+        let campusId = 1
+        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+            campusId = depAdmin.id
+            CourseModel.find(id).then((course) => {
+                if (course == null) {
+                    res.status(200).json({
+                        error: "Course doesn't exist"
+                    });
+                } else {
+                    CourseModel.delete(course.id, campusId)
+                        .then(() => {
+                            res.status(200).json({
+                                message: "Course succesfully deleted"
+                            });
+                        });
+                }
+
+            });
+        });
+
+    } 
+    
     else {
         res.status(401).json({
             message: "Unauthorized access"

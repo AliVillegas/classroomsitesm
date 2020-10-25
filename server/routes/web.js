@@ -116,7 +116,7 @@ router.post('/adminCampus/updateUserRole/:id', admincampusController.updateUserR
 router.get('/adminDep/allCourses/', adminDepartmentController.allCourses)
 
 //createCourse
-//Given Course id and Data ( *Name , description, classroomId ) creates a Course and returns its Data
+//Given Course Data ( *Name , description, classroomId ) creates a Course and returns its Data
 //Error Course data is invalid or incomplete
 router.post('/adminDep/createCourse/', adminDepartmentController.createCourse);
 
@@ -124,6 +124,12 @@ router.post('/adminDep/createCourse/', adminDepartmentController.createCourse);
 //Given Course id and Data ( *Name , description, classroomId ) updates Course and returns its Data
 //Error Course doesnt exist or Course is from another campus as the admin 
 router.post('/adminDep/updateCourse/:id', adminDepartmentController.updateCourse);
+
+//deleteCourse
+//Given Course id deletes Course
+//Error Course doesnt exist or Course is from another campus as the admin 
+router.post('/adminDep/deleteCourse/:id', adminDepartmentController.deleteCourse);
+
 
 
 /*+----------------------------------------------------------------------
