@@ -12,10 +12,11 @@ exports.all = () => {
 
 }
 
-exports.allClassroomsSameCampus = (campusId) => {
+exports.allClassroomsSameCampus = (campusId,limit) => {
     return knex.from('classrooms')
         .select("*")
         .where('campus_id', campusId)
+        .limit(limit)
 }
 
 exports.classroomAlreadyExists = (name, campusId) => {
@@ -105,7 +106,7 @@ exports.findByNameSameCampusSearch = (campusId, name) => {
         .andWhere('name', 'like', '%' + name + '%')
         //.where('name', name)
 }
-exports.findByAnySameCampus = (campusId, name) => {
+exports.findByAnySameCampus = (campusId, name,limit) => {
     console.log("RECEIVED QUERY SEARCH: ", name)
 
     return knex
@@ -118,7 +119,7 @@ exports.findByAnySameCampus = (campusId, name) => {
                 .orWhere('building', 'like', '%' + name + '%')
                 .orWhere('features', 'like', '%' + name + '%')
         })
-
+        .limit(limit)
 
     //.where('name', name)
 

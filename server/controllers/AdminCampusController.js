@@ -12,9 +12,13 @@ let constants = require('../constants')
 
 exports.classroomsAll = (req, res) => {
     if (req.user) {
+        limit = constants.queryLimit
+        if (req.query.limit) {
+            limit = req.query.limit
+        }
         if (roleValidator.isCampusAdmin(req)) {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-                classroomModel.allClassroomsSameCampus(campusAdmin.campus_id).then(classrooms => {
+                classroomModel.allClassroomsSameCampus(campusAdmin.campus_id,limit).then(classrooms => {
                     //console.log("CLASSROOMS", classrooms)
                     res.status(200).json({
                         classrooms: classrooms,
@@ -147,10 +151,14 @@ exports.deleteClassroom = (req, res) => {
 }
 
 exports.searchClassroom = (req, res) => {
+    limit = constants.queryLimit
+    if(req.query.limit){
+        limit = req.query.limit
+    }
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.searchQuery
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            classroomModel.findByAnySameCampus(campusAdmin.campus_id, name).then(classrooms => {
+            classroomModel.findByAnySameCampus(campusAdmin.campus_id, name,limit).then(classrooms => {
 
                 //console.log("CLASSROOMS", classrooms)
                 res.status(200).json({
@@ -173,48 +181,52 @@ exports.searchClassroom = (req, res) => {
 |+-----------------------------------------------------------------------*/
 
 exports.allUsers = (req, res) => {
+    limit = constants.queryLimit
+    if(req.query.limit){
+        limit = req.query.limit
+    }
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            UserModel.all().then(users => {
+            UserModel.all(limit).then(users => {
                 let allStudents = []
                 let allUsers = []
                 let campusAdmins = []
                 let allProfessors = []
-                StudentModel.allSameCampus(campusAdmin.campus_id).then(students =>{
+                StudentModel.allSameCampus(campusAdmin.campus_id).then(students => {
                     console.log("Retrieved all Students")
-                    if(students.length >0 && students != undefined){
+                    if (students.length > 0 && students != undefined) {
                         allStudents.push(students)
                         allUsers.push(students)
                     }
-                    ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors =>{
+                    ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors => {
                         console.log("Retrieved all professors")
-                        if(professors.length >0 && professors != undefined){
+                        if (professors.length > 0 && professors != undefined) {
                             allProfessors.push(professors)
                             allUsers.push(professors)
-                        } 
-                        CampusAdminModel.allSameCampus(campusAdmin.campus_id).then(adminsCampus =>{
+                        }
+                        CampusAdminModel.allSameCampus(campusAdmin.campus_id).then(adminsCampus => {
                             console.log("Retrieved all campus admins")
-                            if(adminsCampus.length >0 && adminsCampus != undefined){
+                            if (adminsCampus.length > 0 && adminsCampus != undefined) {
                                 campusAdmins.push(adminsCampus)
                                 allUsers.push(adminsCampus)
-                            } 
+                            }
                             res.status(200).json({
                                 message: "All users from the campus",
                                 users: allUsers,
                                 students: allStudents,
-                                campusAdmins : campusAdmins,
+                                campusAdmins: campusAdmins,
                                 professors: allProfessors,
                             });
                         })
-                        
+
                     })
-                    
+
                 })
-                
+
                 //campusAdmin.id, name
             })
         })
-       
+
 
     } else {
         res.status(401).json({
@@ -233,13 +245,13 @@ exports.updateUserRole = (req, res) => {
                 });
             } else {
                 let newRole = req.body.newRole
-                UserModel.updateRole(id,newRole)
+                UserModel.updateRole(id, newRole)
                     .then((updatedUser) => {
                         res.status(200).json({
                             message: "User role updated successfully",
                             user: updatedUser
                         });
-                        }); 
+                    });
             }
         })
     } else {
@@ -261,7 +273,7 @@ exports.updateUser = (req, res) => {
                 //campusAdmin.id, name
             })
         })
-       
+
 
     } else {
         res.status(401).json({

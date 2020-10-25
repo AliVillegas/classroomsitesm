@@ -2,10 +2,11 @@ const knex = require('../database/connection');
 const bcrypt = require('bcryptjs');
 const consts = require('../constants')
 
-exports.all = () => {
+exports.all = (limit) => {
     return knex
         .select('*')
         .from("users")
+        .limit(limit)
 
 }
 exports.updateRole = (id, role) => {
