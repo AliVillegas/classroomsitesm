@@ -366,7 +366,6 @@ exports.createClass = (req, res) => {
                                 class: classN,
                                 message: "class created successfully",
                             });
-
                         })
                     }
                     else {
@@ -395,7 +394,6 @@ exports.createClass = (req, res) => {
                                 class: classN,
                                 message: "class created successfully",
                             });
-
                         })
                     }
                     else {
