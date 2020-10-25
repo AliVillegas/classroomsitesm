@@ -27,7 +27,7 @@ exports.up = function(knex) {
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
         })
-        .createTable('super_admins', (table) => {
+        .createTable('department_admins', (table) => {
             table.increments('id').primary();
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
@@ -68,7 +68,7 @@ exports.up = function(knex) {
             table.string('Edit Date time', 255).notNullable();
             table.string('description', 255).notNullable().defaultTo("");;
             table.integer('classroom_id').unsigned().notNullable().references('id').inTable('classrooms').onDelete('cascade');
-            table.integer('superAdmin_id').unsigned().notNullable().references('id').inTable('super_admins').onDelete('cascade');
+            table.integer('depAdmin_id').unsigned().notNullable().references('id').inTable('department_admins').onDelete('cascade');
             table.timestamps(true, true);
         })
 
@@ -80,7 +80,7 @@ exports.down = function(knex) {
         .dropTable('courses')
         .dropTable('classroomAlterations')
         .dropTable('admins_campus')
-        .dropTable('super_admins')
+        .dropTable('department_admins')
         .dropTable('students')
         .dropTable('professors')
         .dropTable('classrooms')

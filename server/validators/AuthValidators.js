@@ -18,7 +18,7 @@ exports.isCampusAdmin = (req) => {
 
 //Access to Courses CRUD && Classroom scheduling 
 exports.isDepartmentAdmin = (req) => {
-  if(req.user.role === 'departmentAdmin'){
+  if(req.user.role === constants.depAdmin){
     return true
   }
   return false

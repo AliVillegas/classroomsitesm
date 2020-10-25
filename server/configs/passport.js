@@ -2,7 +2,7 @@ let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 let UserModel = require('../models/User');
 let AdminCampusModel = require('../models/CampusAdmin');
-let SuperAdminModel = require('../models/SuperAdmin');
+let SuperAdminModel = require('../models/DepartmentAdmin');
 let StudentModel = require('../models/Student');
 let ProfessorModel = require('../models/Professor');
 

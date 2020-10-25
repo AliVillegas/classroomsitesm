@@ -7,6 +7,8 @@ const authValidator = require('../validators/AuthValidators');
 const homepageController = require('../controllers/HomepageController');
 const dashboardController = require('../controllers/DashboardController');
 const admincampusController = require('../controllers/AdminCampusController');
+const adminDepartmentController = require('../controllers/AdminDepartmentController');
+
 const passport = require('passport');
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 router.get('/', homepageController.index);
@@ -106,7 +108,7 @@ router.post('/adminCampus/updateUserRole/:id', admincampusController.updateUserR
 
 //Get all courses
 //Returns an array of all the courses from the campus 
-router.get('/adminDep/allCourses/', admincampusController.allUsers)
+router.get('/adminDep/allCourses/', adminDepartmentController.allCourses)
 
 
 

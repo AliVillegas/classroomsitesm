@@ -142,3 +142,24 @@ export const UpdateUserRole = selector({
         }
     }
 })
+
+export const AllCourses = selector({
+    key: 'AllCourses',
+    get: async() => {
+        try {
+            const response = await axios.get(BaseUrl + '/adminDep/allCourses', {
+                params: {
+                limit: 2
+                },
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
