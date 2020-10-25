@@ -1,11 +1,11 @@
-exports.up = function(knex) {
+exports.up = function (knex) {
     return knex.schema
-        .createTable('campus', function(campus) {
+        .createTable('campus', function (campus) {
             campus.increments('id').primary();
             campus.string('name', 255).notNullable();
             campus.timestamps(true, true);
         })
-        .createTable('classrooms', function(classroom) {
+        .createTable('classrooms', function (classroom) {
             classroom.increments('id').primary();
             classroom.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             classroom.string('name', 255).notNullable();
@@ -72,11 +72,30 @@ exports.up = function(knex) {
             table.integer('depAdmin_id').unsigned().notNullable().references('id').inTable('department_admins').onDelete('cascade');
             table.timestamps(true, true);
         })
+        .createTable('classes', (table) => {
+            table.increments('id').primary();
+            table.time('TimeFromMon', { precision: 0 })
+            table.time('TimeToMon', { precision: 0 })
+            table.time('TimeFromTu', { precision: 0 })
+            table.time('TimeToTu', { precision: 0 })
+            table.time('TimeFromWed', { precision: 0 })
+            table.time('TimeToWed', { precision: 0 })
+            table.time('TimeFromTh', { precision: 0 })
+            table.time('TimeToTh', { precision: 0 })
+            table.time('TimeFromFr', { precision: 0 })
+            table.time('TimeToFr', { precision: 0 })
+            table.time('TimeFromSat', { precision: 0 })
+            table.time('TimeToSat', { precision: 0 })
+            table.integer('classroom_id').unsigned().notNullable().references('id').inTable('classrooms').onDelete('cascade');
+            table.integer('course_id').unsigned().notNullable().references('id').inTable('courses').onDelete('cascade');
+            table.timestamps(true, true);
+        })
 
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
     return knex.schema
+        .dropTable('classes')
         .dropTable('courseAlterations')
         .dropTable('courses')
         .dropTable('classroomAlterations')
@@ -87,5 +106,5 @@ exports.down = function(knex) {
         .dropTable('classrooms')
         .dropTable('campus')
         .dropTable('users')
-        
+
 };
