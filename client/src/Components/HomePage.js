@@ -13,6 +13,7 @@ import { AllClassroomsAdminCampus,
     UpdateCourse,
     CreateCourse,
     DeleteCourse,
+    AllClasses,
     AllUsers} from '../atoms';
 
 
@@ -33,6 +34,8 @@ const HomePage = () => {
     const {updateCourse} = useRecoilValue(UpdateCourse)
     const {createCourse} = useRecoilValue(CreateCourse)
     const {deleteCourse} = useRecoilValue(DeleteCourse)
+    const {allClasses} = useRecoilValue(AllClasses)
+
 
    
     return(

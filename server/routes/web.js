@@ -8,7 +8,7 @@ const homepageController = require('../controllers/HomepageController');
 const dashboardController = require('../controllers/DashboardController');
 const admincampusController = require('../controllers/AdminCampusController');
 const adminDepartmentController = require('../controllers/AdminDepartmentController');
-
+const staffController = require('../controllers/StaffController');
 const passport = require('passport');
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 router.get('/', homepageController.index);
@@ -136,6 +136,19 @@ router.post('/adminDep/deleteCourse/:id', adminDepartmentController.deleteCourse
  // END OF ADMIN DEPARTMENT  
 |+-----------------------------------------------------------------------*/
 
+/*+----------------------------------------------------------------------
+ // STUDENTS AND PROFESSORS CLASSES
+|+-----------------------------------------------------------------------*/
+//Get all classes
+//Returns an array of all the classes from the campus 
+// accepts limit param
+router.get('/staff/allClasses/', staffController.allClasses)
+
+
+
+/*+----------------------------------------------------------------------
+ // END STUDENTS AND PROFESSORS CLASSES
+|+-----------------------------------------------------------------------*/
 
 
 

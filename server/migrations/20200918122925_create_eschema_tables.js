@@ -86,7 +86,6 @@ exports.up = function (knex) {
             table.time('TimeToFr', { precision: 0 })
             table.time('TimeFromSat', { precision: 0 })
             table.time('TimeToSat', { precision: 0 })
-            table.integer('classroom_id').unsigned().notNullable().references('id').inTable('classrooms').onDelete('cascade');
             table.integer('course_id').unsigned().notNullable().references('id').inTable('courses').onDelete('cascade');
             table.timestamps(true, true);
         })

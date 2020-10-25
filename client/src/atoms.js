@@ -216,3 +216,24 @@ export const DeleteCourse = selector({
         }
     }
 })
+
+export const AllClasses = selector({
+    key: 'AllClasses',
+    get: async() => {
+        try {
+            const response = await axios.get(BaseUrl + '/staff/allClasses', {
+                params: {
+                limit: 100
+                },
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
