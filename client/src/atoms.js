@@ -237,3 +237,21 @@ export const AllClasses = selector({
         }
     }
 })
+
+export const CreateClass = selector({
+    key: 'CreateClass',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminDep/createClass/',{course_id:6}, {
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
