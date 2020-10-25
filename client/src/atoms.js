@@ -255,3 +255,21 @@ export const CreateClass = selector({
         }
     }
 })
+
+export const DeleteClass = selector({
+    key: 'DeleteClass',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminDep/deleteClass/5','', {
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})

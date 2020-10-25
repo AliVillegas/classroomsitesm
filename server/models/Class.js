@@ -1,6 +1,13 @@
 const { from } = require('../database/connection');
 const knex = require('../database/connection');
 
+exports.find = (id) => {
+    return knex
+        .select('*')
+        .from('classes')
+        .where('id', id)
+        .first();
+}
 
 exports.allClassesSameCampus = (campusId,limit) => {
     return knex.from('classes')
