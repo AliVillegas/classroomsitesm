@@ -13,6 +13,35 @@ exports.find = (id) => {
         .where('id', id)
         .first();
 }
+exports.courseAlreadyExists = (name, campusId) => {
+    return knex
+        .select('*')
+        .from('courses')
+        .where('campus_id',campusId)
+        .andWhere('name', name)
+        .first().then(res => {
+            if (res == undefined) {
+                return false
+
+            } else {
+                return true
+            }
+        })
+}
+
+exports.createNewCourse = (course, campusId) => { 
+    return knex('courses')
+        .insert({
+            campus_id: campusId,
+            name: course.name,
+            classroom_id: course.classroom_id,
+            description: course.description
+        }).then((id) => {
+            return knex.select('*')
+                .from('courses')
+                .where('id', id);
+        })
+}
 
 exports.update = (id, course) => {
     return knex('courses')

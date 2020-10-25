@@ -67,6 +67,8 @@ router.get('/auth/office365/fail', (req, res) => {
 
 //allClassrooms
 //Returns classrooms Array
+// accepts limit param
+
 router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
 
 //createClassroom
@@ -88,12 +90,14 @@ router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClas
 //Given a text query, returns all classrooms matching it 
 //If no classroom matches query, returns empty array 
 //Error Invalid query search
+// accepts limit param
 router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
 
 //allUsers
 // returns all users from the campus of the campusAdmin
 // returns array with all combined users 
 // also separate arrays for all students, professors and campus Administrators
+// accepts limit param
 router.get('/adminCampus/allUsers/', admincampusController.allUsers)
 
 //Update user Role 
@@ -103,12 +107,18 @@ router.post('/adminCampus/updateUserRole/:id', admincampusController.updateUserR
 
 
 /*+----------------------------------------------------------------------
- // SUPER ADMIN == ADMIN DEPARTMENT  
+ // ADMIN DEPARTMENT  && ADMIN CAMPUS
 |+-----------------------------------------------------------------------*/
 
 //Get all courses
 //Returns an array of all the courses from the campus 
+// accepts limit param
 router.get('/adminDep/allCourses/', adminDepartmentController.allCourses)
+
+//createCourse
+//Given Course id and Data ( *Name , description, classroomId ) creates a Course and returns its Data
+//Error Course data is invalid or incomplete
+router.post('/adminDep/createCourse/', adminDepartmentController.createCourse);
 
 //updateCourse
 //Given Course id and Data ( *Name , description, classroomId ) updates Course and returns its Data
@@ -117,7 +127,7 @@ router.post('/adminDep/updateCourse/:id', adminDepartmentController.updateCourse
 
 
 /*+----------------------------------------------------------------------
- // END OF SUPER ADMIN == ADMIN DEPARTMENT  
+ // END OF ADMIN DEPARTMENT  
 |+-----------------------------------------------------------------------*/
 
 

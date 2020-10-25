@@ -163,6 +163,26 @@ export const AllCourses = selector({
         }
     }
 })
+export const CreateCourse = selector({
+    key: 'CreateCourse',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/adminDep/createCourse/',{name:"Ethics 305",classroom_id:7}, {
+                params: {
+                limit: 100
+                },
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
 
 export const UpdateCourse = selector({
     key: 'UpdateCourse',

@@ -40,6 +40,72 @@ exports.allCourses = (req, res) => {
 
 }
 
+exports.createCourse = (req, res) => {
+    if (roleValidator.isCampusAdmin(req)) {
+        let name = req.body.name
+        let campusId = 1
+        let newCourse = {
+            campus_id: req.body.campusId,
+            name: req.body.name,
+            classroom_id: req.body.classroom_id,
+            description: req.body.description
+        }
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            campusId = campusAdmin.campus_id
+            CourseModel.courseAlreadyExists(name, campusId).then((result) => {
+                if (result) {
+                    res.status(200).json({
+                        error: "Course with that name already exists"
+                    });
+                } else {
+                    CourseModel.createNewCourse(newCourse, campusId).then((newCourse) => {
+                        res.status(200).json({
+                            course: newCourse,
+                            message: "Course created successfully",
+                        });
+
+                    })
+                }
+            })
+        })
+    } 
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        let name = req.body.name
+        let campusId = 1
+        let newCourse = {
+            campus_id: request.body.campusId,
+            name: request.body.name,
+            classroom_id: request.body.classroom_id,
+            description: request.body.description
+        }
+        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+            campusId = depAdmin.campus_id
+            CourseModel.courseAlreadyExists(name, campusId).then((result) => {
+                if (result) {
+                    res.status(200).json({
+                        error: "Course with that name already exists"
+                    });
+                } else {
+                    CourseModel.createNewCourse(newCourse, campusId).then((newCourse) => {
+                        res.status(200).json({
+                            course: newCourse,
+                            message: "Course created successfully",
+                        });
+
+                    })
+                }
+            })
+        })
+    } 
+    else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+
+
+}
+
 
 exports.updateCourse = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
