@@ -60,7 +60,7 @@ exports.up = function (knex) {
             table.increments('id').primary();
             table.string('name', 255).notNullable();
             table.string('description', 255).notNullable().defaultTo("");
-            table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
+            table.integer('campus_id').unsigned().references('id').inTable('campus').onDelete('cascade');
             table.integer('classroom_id').unsigned().references('id').inTable('classrooms').onDelete('cascade');
             table.timestamps(true, true);
         })

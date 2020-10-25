@@ -10,3 +10,26 @@ exports.allClassesSameCampus = (campusId,limit) => {
         .where('campus_id', campusId)
         .limit(limit)
 }
+
+exports.createNewClass= (classR) => { 
+    return knex('classes')
+        .insert({
+            course_id: classR.course_id,
+            timeFromMon: classR.timeFromMon,
+            timeToMon:classR.timeToMon ,
+            timeFromTu :classR.timeFromTu,
+            timeToTu:classR.timeToTu,
+            timeFromWed: classR.timeFromWed,
+            timeToWed:classR.timeToWed,
+            timeFromTh:classR.timeFromTh ,
+            timeToTh:classR.timeToTh,
+            timeFromFr: classR.timeFromFr,
+            timeToFr:classR.timeToFr ,
+            timeFromSat:classR.timeFromSat,
+            timeToSat:classR.timeToSat
+        }).then((id) => {
+            return knex.select('*')
+                .from('classes')
+                .where('id', id);
+        })
+}

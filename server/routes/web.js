@@ -132,6 +132,14 @@ router.post('/adminDep/deleteCourse/:id', adminDepartmentController.deleteCourse
 
 
 
+//createClass
+//Given Class Data ( *Name , description, classroomId ) 
+//creates a Course and returns its Data 
+//(*course_id,TimeFromMon, TimeToMon, TimeFromTu,TimeToTu
+//TimeFromWed,TimeToWed,TimeFromTh,TimeToTh,TimeFromFr,TimeToFr,TimeFromSat,TimeToSat)
+//Error Class data is invalid or incomplete
+router.post('/adminDep/createClass/', adminDepartmentController.createClass);
+
 /*+----------------------------------------------------------------------
  // END OF ADMIN DEPARTMENT  
 |+-----------------------------------------------------------------------*/
@@ -149,6 +157,7 @@ router.get('/staff/allClasses/', staffController.allClasses)
 /*+----------------------------------------------------------------------
  // END STUDENTS AND PROFESSORS CLASSES
 |+-----------------------------------------------------------------------*/
+
 
 
 
