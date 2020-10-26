@@ -70,3 +70,63 @@ exports.allClasses = (req, res) => {
 }
 
 
+exports.classesByCourseName = (req, res) => {
+    limit = constants.queryLimit
+    if (req.query.limit) {
+        limit = req.query.limit
+    }
+    if (roleValidator.isCampusAdmin(req)) {
+        let name = req.body.searchQuery
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            ClassModel.findByCourseName(campusAdmin.campus_id, name, limit).then(classes => {
+                res.status(200).json({
+                    classes: classes,
+                    message: "Found classes with given course name"
+                });
+
+            })
+        })
+
+    }
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        let name = req.body.searchQuery
+        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+            ClassModel.findByCourseName(depAdmin.campus_id, name, limit).then(classes => {
+                res.status(200).json({
+                    classes: classes,
+                    message: "Found classes with given course name"
+                });
+
+            })
+        })
+    }
+    else if (roleValidator.isProfessor(req)) {
+        let name = req.body.searchQuery
+        ProfessorModel.findByUserID(req.user.id).then(prof => {
+            ClassModel.findByCourseName(prof.campus_id, name, limit).then(classes => {
+                res.status(200).json({
+                    classes: classes,
+                    message: "Found classes with given course name"
+                });
+
+            })
+        })
+    }
+    else if (roleValidator.isStudent(req)) {
+        let name = req.body.searchQuery
+        StudentModel.findByUserID(req.user.id).then(student => {
+            ClassModel.findByCourseName(student.campus_id, name, limit).then(classes => {
+                res.status(200).json({
+                    classes: classes,
+                    message: "Found classes with given course name"
+                });
+
+            })
+        })
+    }
+    else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}

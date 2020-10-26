@@ -17,7 +17,6 @@ exports.allClassesSameCampus = (campusId,limit) => {
         .where('campus_id', campusId)
         .limit(limit)
 }
-
 exports.createNewClass= (classR) => { 
     return knex('classes')
         .insert({
@@ -46,4 +45,14 @@ exports.delete = (id) => {
     return knex('classes')
         .delete()
         .where('id', id);
+}
+
+exports.findByCourseName = (campusId, name,limit) => {
+    return knex
+        .select("*")
+        .from('classes')
+        .join('courses', 'courses.id', '=', 'classes.course_id')
+        .where('campus_id', campusId)
+        .andWhere('courses.name', 'like', '%' + name + '%')
+        .limit(limit)
 }

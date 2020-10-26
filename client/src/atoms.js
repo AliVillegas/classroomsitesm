@@ -290,3 +290,22 @@ export const DeleteClass = selector({
         }
     }
 })
+
+export const SearchClass= selector({
+    key: 'SearchClass',
+    get: async() => {
+        try {
+            const response = await
+            axios.post(BaseUrl + '/staff/searchClass/', // delete/ClassroomId, 
+                { searchQuery: "Phy" }, { withCredentials: true })
+
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})

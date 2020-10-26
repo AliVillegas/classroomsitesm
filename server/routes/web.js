@@ -165,6 +165,9 @@ router.get('/staff/allClasses/', staffController.allClasses)
 
 
 
+router.post('/staff/searchClass/', staffController.classesByCourseName)
+
+
 /*+----------------------------------------------------------------------
  // END STUDENTS AND PROFESSORS CLASSES
 |+-----------------------------------------------------------------------*/
