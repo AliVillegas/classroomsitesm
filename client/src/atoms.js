@@ -328,3 +328,42 @@ export const ClassroomSchedule = selector({
         }
     }
 })
+
+export const FavoriteClass = selector({
+    key: 'FavoriteClass',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/staff/favoriteClass/8','', {
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
+
+export const AllFavorites = selector({
+    key: 'AllFavorites',
+    get: async() => {
+        try {
+            const response = await axios.get(BaseUrl + '/staff/allFavorites', {
+                params: {
+                limit: 100
+                },
+                withCredentials: true 
+            })
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})

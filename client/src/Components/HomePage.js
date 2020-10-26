@@ -19,6 +19,8 @@ import { AllClassroomsAdminCampus,
     DeleteClass,
     SearchClass,
     ClassroomSchedule,
+    FavoriteClass,
+    AllFavorites,
     AllUsers} from '../atoms';
 
 
@@ -45,6 +47,8 @@ const HomePage = () => {
     const {deleteClass} = useRecoilValue(DeleteClass)
     const {searchClass} = useRecoilValue(SearchClass)
     const {classroomSchedule} = useRecoilValue(ClassroomSchedule)
+    const {favoriteClass} = useRecoilValue(FavoriteClass)
+    const {allFavorites} = useRecoilValue(AllFavorites)
 
    
     return(

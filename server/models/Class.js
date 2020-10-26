@@ -1,4 +1,3 @@
-const { from } = require('../database/connection');
 const knex = require('../database/connection');
 
 exports.find = (id) => {

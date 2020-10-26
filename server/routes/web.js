@@ -164,13 +164,34 @@ router.post('/adminDep/deleteClass/:id', adminDepartmentController.deleteClass);
 router.get('/staff/allClasses/', staffController.allClasses)
 
 
-
+// searchClass
+// Given querySearch on req.body it searches classes by course name
+//return array of classes, empty array if nothing matches query
+// error: missing querySearch on req.body or 
 router.post('/staff/searchClass/', staffController.classesByCourseName)
 
+
+//classroomSchedule
+//Returns all classes on a classroom given a classroom id 
+//error: missing classroom id 
 router.post('/staff/classroomSchedule/:id',staffController.classScheduleGivenClassroom)
+
+
+//makeClass a Favorite 
+//Given a class id it adds it to favorites 
+//error: invalid class id or unauthorized access
+router.post('/staff/favoriteClass/:id', staffController.makeClassFavorite)
+
+
+//getFavorites
+//Get all favorite classes from the user 
+router.get('/staff/allFavorites/', staffController.allFavorites)
+
+
 /*+----------------------------------------------------------------------
  // END STUDENTS AND PROFESSORS CLASSES
 |+-----------------------------------------------------------------------*/
+
 
 
 

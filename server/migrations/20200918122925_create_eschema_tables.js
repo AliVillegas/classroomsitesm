@@ -91,11 +91,18 @@ exports.up = function (knex) {
             table.integer('course_id').unsigned().notNullable().references('id').inTable('courses').onDelete('cascade');
             table.timestamps(true, true);
         })
+        .createTable('favorite_classes', (table) => {
+            table.increments('id').primary();
+            table.integer('class_id').unsigned().notNullable().references('id').inTable('classes').onDelete('cascade');
+            table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
+            table.timestamps(true, true);
+        })
 
 };
 
 exports.down = function (knex) {
     return knex.schema
+        .dropTable('favorite_classes')
         .dropTable('classes')
         .dropTable('courseAlterations')
         .dropTable('courses')
