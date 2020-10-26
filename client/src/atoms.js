@@ -259,7 +259,7 @@ export const CreateClass = selector({
     key: 'CreateClass',
     get: async() => {
         try {
-            const response = await axios.post(BaseUrl + '/adminDep/createClass/',{course_id:6, timeFromMon:'13:00', timeToMon:'14:30'}, {
+            const response = await axios.post(BaseUrl + '/adminDep/createClass/',{course_id:5, timeFromMon:'13:00', timeToMon:'14:30'}, {
                 withCredentials: true 
             })
             if (response.status === 200) {
@@ -299,6 +299,25 @@ export const SearchClass= selector({
             axios.post(BaseUrl + '/staff/searchClass/', // delete/ClassroomId, 
                 { searchQuery: "Phy" }, { withCredentials: true })
 
+            if (response.status === 200) {
+                console.log(response.data)
+                return {};
+            }
+            return { authenticated: false, user: {}, error: null };
+        } catch (err) {
+            return {}
+        }
+    }
+})
+
+
+export const ClassroomSchedule = selector({
+    key: 'ClassroomSchedule',
+    get: async() => {
+        try {
+            const response = await axios.post(BaseUrl + '/staff/classroomSchedule/6','', {
+                withCredentials: true 
+            })
             if (response.status === 200) {
                 console.log(response.data)
                 return {};

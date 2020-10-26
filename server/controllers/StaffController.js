@@ -1,5 +1,7 @@
 // STAFF INCLUDES PROFESSORS AND STUDENTS
 
+let ClassroomModel = require('../models/Classroom')
+let CourseModel = require('../models/Course')
 
 let roleValidator = require('../validators/AuthValidators')
 let constants = require('../constants')
@@ -69,6 +71,40 @@ exports.allClasses = (req, res) => {
 
 }
 
+exports.classScheduleGivenClassroom = (req, res) => {
+    limit = constants.queryLimit
+    if (req.query.limit) {
+        limit = req.query.limit
+    }
+    let classroomId = null
+    if(req.params.id){
+        classroomId = req.params.id
+    }else {
+        res.status(200).json({
+            message: "Given classroom_id is invalid"
+        });
+    }
+    if (roleValidator.isCampusAdmin(req)) {
+            CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+                ClassroomModel.find(classroomId).then(classroom => {
+                    CourseModel.findAllClassesGivenClassroom(campusAdmin.campus_id,classroomId).then(classes =>{
+                        res.status(200).json({
+                            classes: classes,
+                            message: "All classes in the classroom",
+                        });
+                    })
+                })
+
+            })
+    } 
+    else {
+        res.status(401).json({
+            authenticated: false,
+            message: "Unauthorized access "
+        });
+    }
+
+}
 
 exports.classesByCourseName = (req, res) => {
     limit = constants.queryLimit

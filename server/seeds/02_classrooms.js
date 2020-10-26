@@ -9,7 +9,7 @@ exports.seed = function(knex) {
                 { id: 3, campus_id: '2', name: 'M201', capacity: 15, building: 'Cedetec', features: 'Projector, Computer Lab' },
                 { id: 4, campus_id: '3', name: 'M401', capacity: 10, building: 'Aulas2', features: 'AC' },
                 { id: 5, campus_id: '1', name: 'F201', capacity: 10, building: 'Aulas3', features: 'Wheelchair entrance' },
-
+                { id: 6, campus_id: '1', name: 'R111', capacity: 100, building: 'Aulas3', features: 'Wheelchair entrance' },
             ]);
         });
 };

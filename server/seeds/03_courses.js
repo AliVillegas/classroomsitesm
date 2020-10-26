@@ -10,6 +10,8 @@ exports.seed = function(knex) {
               { id: 4,campus_id: '2', classroom_id: '2', name: 'Physics 4'},
               { id: 5, campus_id: '1',classroom_id: '5', name: 'Math 2'},
               { id: 6, campus_id: '1',classroom_id: '5', name: 'Physics 3'},
+              { id: 7, campus_id: '1',classroom_id: '6', name: 'Machine Learning'},
+              { id: 8, campus_id: '1',classroom_id: '6', name: 'Object Oriented Programming'},
           ]);
       });
 };

@@ -167,7 +167,7 @@ router.get('/staff/allClasses/', staffController.allClasses)
 
 router.post('/staff/searchClass/', staffController.classesByCourseName)
 
-
+router.post('/staff/classroomSchedule/:id',staffController.classScheduleGivenClassroom)
 /*+----------------------------------------------------------------------
  // END STUDENTS AND PROFESSORS CLASSES
 |+-----------------------------------------------------------------------*/

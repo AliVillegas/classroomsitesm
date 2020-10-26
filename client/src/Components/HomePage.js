@@ -18,6 +18,7 @@ import { AllClassroomsAdminCampus,
     CreateClass,
     DeleteClass,
     SearchClass,
+    ClassroomSchedule,
     AllUsers} from '../atoms';
 
 
@@ -43,7 +44,7 @@ const HomePage = () => {
     const {createClass} = useRecoilValue(CreateClass)
     const {deleteClass} = useRecoilValue(DeleteClass)
     const {searchClass} = useRecoilValue(SearchClass)
-
+    const {classroomSchedule} = useRecoilValue(ClassroomSchedule)
 
    
     return(

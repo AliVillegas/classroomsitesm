@@ -13,6 +13,14 @@ exports.find = (id) => {
         .where('id', id)
         .first();
 }
+exports.findAllClassesGivenClassroom= (campusId, classroom_id) =>{
+    return knex
+        .select("*")
+        .from('classes')
+        .join('courses', 'courses.id', '=', 'classes.course_id')
+        .where('campus_id', campusId)
+        .andWhere('classroom_id',classroom_id)
+}
 
 exports.findByNameSameCampusSearch = (campusId, name,limit) => {
     return knex
