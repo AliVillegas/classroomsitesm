@@ -14,6 +14,11 @@ let FavoriteModel = require('../models/Favorite')
 
 
 exports.allClasses = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     limit = constants.queryLimit
     if (req.query.limit) {
         limit = req.query.limit
@@ -73,6 +78,11 @@ exports.allClasses = (req, res) => {
 }
 
 exports.classScheduleGivenClassroom = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     limit = constants.queryLimit
     if (req.query.limit) {
         limit = req.query.limit
@@ -147,7 +157,12 @@ exports.classScheduleGivenClassroom = (req, res) => {
 }
 
 exports.makeClassFavorite = (req, res) => {
-    if (req.user) {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
+    else if (req.user) {
         if (req.params.id) {
             ClassModel.find(req.params.id).then(classFound => {
                 FavoriteModel.find(classFound.id, req.user.id).then(found => {
@@ -182,7 +197,6 @@ exports.makeClassFavorite = (req, res) => {
 }
 
 exports.allFavorites = (req, res) => {
-
     if (req.user) {
         FavoriteModel.findAllGivenUserId(req.user.id).then(favorites => {
             res.status(200).json({
@@ -200,6 +214,11 @@ exports.allFavorites = (req, res) => {
 }
 
 exports.classesByCourseName = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     limit = constants.queryLimit
     if (req.query.limit) {
         limit = req.query.limit

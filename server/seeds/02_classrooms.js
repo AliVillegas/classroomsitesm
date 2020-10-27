@@ -12,4 +12,7 @@ exports.seed = function(knex) {
                 { id: 6, campus_id: '1', name: 'R111', capacity: 100, building: 'Aulas3', features: 'Wheelchair entrance' },
             ]);
         });
-};
+
+
+
+}

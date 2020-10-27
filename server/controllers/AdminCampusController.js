@@ -42,6 +42,12 @@ exports.classroomsAll = (req, res) => {
 }
 
 exports.createNewClassroom = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+        return
+    }
     if (roleValidator.isCampusAdmin(req)) {
         //console.log(req.body)
         let name = req.body.name
@@ -83,6 +89,11 @@ exports.createNewClassroom = (req, res) => {
 }
 
 exports.updateClassroom = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
@@ -127,6 +138,11 @@ exports.updateClassroom = (req, res) => {
 
 
 exports.deleteClassroom = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     if (roleValidator.isCampusAdmin(req)) {
         console.log("User has access to delete Classroom")
         let id = req.params.id;
@@ -158,6 +174,11 @@ exports.deleteClassroom = (req, res) => {
 }
 
 exports.searchClassroom = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     limit = constants.queryLimit
     if (req.query.limit) {
         limit = req.query.limit
@@ -188,6 +209,11 @@ exports.searchClassroom = (req, res) => {
 |+-----------------------------------------------------------------------*/
 
 exports.allUsers = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     limit = constants.queryLimit
     if (req.query.limit) {
         limit = req.query.limit
@@ -243,6 +269,11 @@ exports.allUsers = (req, res) => {
 }
 
 exports.updateUserRole = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
         UserModel.find(id).then((user) => {
@@ -270,6 +301,11 @@ exports.updateUserRole = (req, res) => {
 
 }
 exports.updateUser = (req, res) => {
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             UserModel.all().then(users => {
@@ -294,6 +330,11 @@ exports.updateUser = (req, res) => {
 exports.classroomsManagement = (req, res) => {
     //console.log("USER")
     //console.log(req.user)
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             console.log("CAMPUS ADMIN", campusAdmin)
