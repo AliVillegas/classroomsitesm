@@ -408,7 +408,7 @@ exports.createClass = (req, res) => {
         timeFromSat: timeFromSat,
         timeToSat: timeToSat,
     }
-    console.log(newClass)
+    //console.log(newClass)
     if (roleValidator.isCampusAdmin(req)) {
         let campusId = 1
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
