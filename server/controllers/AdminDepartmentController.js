@@ -42,10 +42,10 @@ exports.allCourses = (req, res) => {
 }
 
 exports.createCourse = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.name
@@ -114,10 +114,10 @@ exports.createCourse = (req, res) => {
 
 
 exports.updateCourse = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
@@ -216,11 +216,11 @@ exports.updateCourse = (req, res) => {
 }
 
 exports.deleteCourse = (req, res) => {
-    console.log(req.user)
-    if(!req.user){
+    //console.log(req.user)
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
 
@@ -284,10 +284,10 @@ exports.searchCourse = (req, res) => {
     if (req.query.limit) {
         limit = req.query.limit
     }
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.searchQuery
@@ -326,10 +326,10 @@ exports.searchCourse = (req, res) => {
 |+-----------------------------------------------------------------------*/
 
 exports.createClass = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     let course_id = null
     let timeFromMon = null
@@ -474,11 +474,11 @@ exports.createClass = (req, res) => {
 
 }
 exports.deleteClass = (req, res) => {
-    console.log(req.user)
-    if(!req.user){
+    //console.log(req.user)
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         console.log("User has access to delete Class")
