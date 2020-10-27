@@ -13,7 +13,7 @@ const AdminDashboard = ({authenticated, user}) => {
                     Here you can create and edit the classrooms from your campus
                 </Box>
                 <Button mt={4} mb={3}>
-                    <Link to="/admin">
+                    <Link to="/admin_classrooms">
                         Go to
                     </Link>
                 </Button>
@@ -24,7 +24,9 @@ const AdminDashboard = ({authenticated, user}) => {
                     Here you can manage users within your campus
                 </Box>
                 <Button mt={4} mb={3}>
-                    Go to
+                    <Link to="/admin_courses">
+                        Go to
+                    </Link>
                 </Button>
             </Box>
         </SimpleGrid>

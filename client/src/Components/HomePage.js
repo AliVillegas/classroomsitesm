@@ -11,7 +11,7 @@ import Landing from './Landing';
 
 const HomePage = ({authenticated, user}) => {
 
-    const RenderUserPage = () => {
+    const renderUserPage = () => {
         if (user.role === 'admin') {
             return <AdminDashboard authenticated={authenticated} user={user} />
         } else if (user.role === 'adminDep') {
@@ -32,7 +32,7 @@ const HomePage = ({authenticated, user}) => {
             ) : 
             <Stack>
                 <Heading>Welcome {user.name}</Heading>
-                <RenderUserPage />
+                { renderUserPage() }
             </Stack>} 
         </Stack>
     );

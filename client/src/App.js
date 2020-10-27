@@ -7,6 +7,8 @@ import axios from 'axios';
 import HomePage from './Components/HomePage';
 import Header from './Components/Header';
 import AdminCourses from './Components/AdminCourses';
+import AdminUsers from './Components/AdminUsers';
+import AdminClassrooms from './Components/AdminClassrooms';
 
 function App() {
 
@@ -37,8 +39,14 @@ function App() {
             <Route exact path="/">
               <HomePage authenticated={authenticated} user={user}></HomePage>
             </Route>
-            <Route exact path="/admin">
-              <AdminCourses></AdminCourses>
+            <Route exact path="/admin_classrooms">
+              <AdminClassrooms authenticated={authenticated} user={user}></AdminClassrooms>
+            </Route>
+            <Route exact path="/admin_users">
+              <AdminUsers authenticated={authenticated} user={user}></AdminUsers>
+            </Route>
+            <Route exact path="/admin_courses">
+              <AdminCourses authenticated={authenticated} user={user}></AdminCourses>
             </Route>
 
           </Switch>
