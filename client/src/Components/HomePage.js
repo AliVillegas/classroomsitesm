@@ -2,63 +2,38 @@ import { Stack, Box, Heading } from '@chakra-ui/core';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { CurrentSession} from '../atoms';
-//Import for TESTS to API 
-import { AllClassroomsAdminCampus,
-    CreateClassroom, 
-    UpdateClassroom, 
-    DeleteClassroom,
-    SearchClassroom,
-    UpdateUserRole,
-    AllCourses,
-    UpdateCourse,
-    CreateCourse,
-    DeleteCourse,
-    SearchCourse,
-    AllClasses,
-    CreateClass,
-    DeleteClass,
-    SearchClass,
-    ClassroomSchedule,
-    FavoriteClass,
-    AllFavorites,
-    AllUsers} from '../atoms';
-
+import AdminDashboard from './AdminDashboard'
+import AdminDepDashboard from './AdminDepDashboard'
+import StudentDashboard from './StudentDashboard'
+import ProfessorDashboard from './ProfessorDashboard'
 
 import Landing from './Landing';
 
 const HomePage = () => {
     const { authenticated, user, } = useRecoilValue(CurrentSession);
-    //TESTS
-   
-    const {testData} = useRecoilValue(AllClassroomsAdminCampus)
-    const {createClassRoom} = useRecoilValue(CreateClassroom)
-    const {updateClassroom} = useRecoilValue(UpdateClassroom)
-    const {deleteClassroom} = useRecoilValue(DeleteClassroom)
-    const {searchClassroom} = useRecoilValue(SearchClassroom)
-    const {allUsers} = useRecoilValue(AllUsers)
-    const {updateUser} = useRecoilValue(UpdateUserRole)
-    const {allCourses} = useRecoilValue(AllCourses)
-    const {updateCourse} = useRecoilValue(UpdateCourse)
-    const {createCourse} = useRecoilValue(CreateCourse)
-    const {deleteCourse} = useRecoilValue(DeleteCourse)
-    const {searchCourse} = useRecoilValue(SearchCourse)
-    const {allClasses} = useRecoilValue(AllClasses)
-    const {createClass} = useRecoilValue(CreateClass)
-    const {deleteClass} = useRecoilValue(DeleteClass)
-    const {searchClass} = useRecoilValue(SearchClass)
-    const {classroomSchedule} = useRecoilValue(ClassroomSchedule)
-    const {favoriteClass} = useRecoilValue(FavoriteClass)
-    const {allFavorites} = useRecoilValue(AllFavorites)
+
+    const RenderUserPage = () => {
+        if (user.role === 'admin') {
+            return <AdminDashboard />
+        } else if (user.role === 'adminDep') {
+            return <AdminDepDashboard />
+        } else if (user.role === 'student') {
+            return <StudentDashboard />
+        } else if (user.role === 'professor') {
+            return <ProfessorDashboard />
+        }
+        return <></>
+    }
 
    
     return(
-        <Stack p={10}>
+        <Stack p={4}>
             {!authenticated ? (
                 <Landing></Landing>
             ) : 
             <Stack>
-                <Heading>You have logged in succesfully</Heading>
-                <Box>Welcome {user.name}</Box>
+                <Heading>Welcome {user.name}</Heading>
+                <RenderUserPage />
             </Stack>} 
         </Stack>
     );
