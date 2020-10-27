@@ -4,12 +4,11 @@ import { useRecoilValue } from 'recoil';
 import { CurrentSession } from '../atoms';
 import { BaseUrl } from '../constants';
 
-const Header = () => {
-    const {authenticated, } = useRecoilValue(CurrentSession);
+const Header = ({ authenticated, handleLogout }) => {
 
     const handleLogoutClick = () => {
         window.open(BaseUrl + "/auth/office365/logout", "_self");
-        // setAuthenticated(false);
+        handleLogout();
     }
     const handleSignInClick = () => {
         window.open(BaseUrl + "/auth/office365/login", "_self");

@@ -9,12 +9,11 @@ import ProfessorDashboard from './ProfessorDashboard'
 
 import Landing from './Landing';
 
-const HomePage = () => {
-    const { authenticated, user, } = useRecoilValue(CurrentSession);
+const HomePage = ({authenticated, user}) => {
 
     const RenderUserPage = () => {
         if (user.role === 'admin') {
-            return <AdminDashboard />
+            return <AdminDashboard authenticated={authenticated} user={user} />
         } else if (user.role === 'adminDep') {
             return <AdminDepDashboard />
         } else if (user.role === 'student') {

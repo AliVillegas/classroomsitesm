@@ -1,7 +1,10 @@
 import { Box, Button, Heading, SimpleGrid } from '@chakra-ui/core';
 import React from 'react';
+import { Link, Switch, Route, BrowserRouter } from 'react-router-dom';
+import AdminClassrooms from './AdminClassrooms';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({authenticated, user}) => {
+
     return (
         <SimpleGrid columns={2} spacing={30} mt={10}>
             <Box border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
@@ -10,7 +13,9 @@ const AdminDashboard = () => {
                     Here you can create and edit the classrooms from your campus
                 </Box>
                 <Button mt={4} mb={3}>
-                    Go to
+                    <Link to="/admin">
+                        Go to
+                    </Link>
                 </Button>
             </Box>
             <Box border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
@@ -23,6 +28,7 @@ const AdminDashboard = () => {
                 </Button>
             </Box>
         </SimpleGrid>
+        
     )
 }
 
