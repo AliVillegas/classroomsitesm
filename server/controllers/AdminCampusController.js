@@ -42,10 +42,11 @@ exports.classroomsAll = (req, res) => {
 }
 
 exports.createNewClassroom = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
         });
+        return
     }
     if (roleValidator.isCampusAdmin(req)) {
         //console.log(req.body)
@@ -88,10 +89,10 @@ exports.createNewClassroom = (req, res) => {
 }
 
 exports.updateClassroom = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
@@ -137,10 +138,10 @@ exports.updateClassroom = (req, res) => {
 
 
 exports.deleteClassroom = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         console.log("User has access to delete Classroom")
@@ -173,10 +174,10 @@ exports.deleteClassroom = (req, res) => {
 }
 
 exports.searchClassroom = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     limit = constants.queryLimit
     if (req.query.limit) {
@@ -208,10 +209,10 @@ exports.searchClassroom = (req, res) => {
 |+-----------------------------------------------------------------------*/
 
 exports.allUsers = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     limit = constants.queryLimit
     if (req.query.limit) {
@@ -268,10 +269,10 @@ exports.allUsers = (req, res) => {
 }
 
 exports.updateUserRole = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
@@ -300,10 +301,10 @@ exports.updateUserRole = (req, res) => {
 
 }
 exports.updateUser = (req, res) => {
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
@@ -329,10 +330,10 @@ exports.updateUser = (req, res) => {
 exports.classroomsManagement = (req, res) => {
     //console.log("USER")
     //console.log(req.user)
-    if(!req.user){
+    if(req.user === undefined){
         res.status(401).json({
             message: "Unauthorized access"
-        });
+        }); return
     }
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
