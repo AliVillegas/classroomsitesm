@@ -42,6 +42,11 @@ exports.allCourses = (req, res) => {
 }
 
 exports.createCourse = (req, res) => {
+    if(!req.user){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.name
         let campusId = 1
@@ -109,6 +114,11 @@ exports.createCourse = (req, res) => {
 
 
 exports.updateCourse = (req, res) => {
+    if(!req.user){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
     if (roleValidator.isCampusAdmin(req)) {
         let id = req.params.id;
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
@@ -207,7 +217,11 @@ exports.updateCourse = (req, res) => {
 
 exports.deleteCourse = (req, res) => {
     console.log(req.user)
-
+    if(!req.user){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
     if (roleValidator.isCampusAdmin(req)) {
 
         console.log("User has access to delete Course")
@@ -270,6 +284,11 @@ exports.searchCourse = (req, res) => {
     if (req.query.limit) {
         limit = req.query.limit
     }
+    if(!req.user){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
     if (roleValidator.isCampusAdmin(req)) {
         let name = req.body.searchQuery
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
@@ -307,7 +326,11 @@ exports.searchCourse = (req, res) => {
 |+-----------------------------------------------------------------------*/
 
 exports.createClass = (req, res) => {
-
+    if(!req.user){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
     let course_id = null
     let timeFromMon = null
     let timeToMon = null
@@ -452,7 +475,11 @@ exports.createClass = (req, res) => {
 }
 exports.deleteClass = (req, res) => {
     console.log(req.user)
-
+    if(!req.user){
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
     if (roleValidator.isCampusAdmin(req)) {
         console.log("User has access to delete Class")
         let id = req.params.id;
