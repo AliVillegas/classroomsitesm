@@ -98,7 +98,7 @@ exports.classScheduleGivenClassroom = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             ClassroomModel.find(classroomId).then(classroom => {
-                CourseModel.findAllClassesGivenClassroom(campusAdmin.campus_id, classroomId).then(classes => {
+                ClassModel.findAllClassesGivenClassroom(campusAdmin.campus_id, classroomId).then(classes => {
                     res.status(200).json({
                         classes: classes,
                         message: "All classes in the classroom",

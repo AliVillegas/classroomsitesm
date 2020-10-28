@@ -28,6 +28,17 @@ const AdminDashboard = ({authenticated, user}) => {
                     </Link>
                 </Button>
             </Box>
+            <Box border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
+                <Heading bg="blue.400" color="white" p={3}>Manage Courses</Heading>
+                <Box m={4}>
+                    Here you can manage courses within your campus
+                </Box>
+                <Button mt={4} mb={3}>
+                    <Link to="/admin_courses">
+                        Go to
+                    </Link>
+                </Button>
+            </Box>
         </SimpleGrid>
         
     )

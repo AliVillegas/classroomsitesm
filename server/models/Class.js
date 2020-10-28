@@ -31,7 +31,9 @@ exports.createNewClass= (classR) => {
             timeFromFr: classR.timeFromFr,
             timeToFr:classR.timeToFr ,
             timeFromSat:classR.timeFromSat,
-            timeToSat:classR.timeToSat
+            timeToSat:classR.timeToSat,
+            course: classR.courseName,
+            classroom_id: classR.classroom_id
         }).then((id) => {
             return knex.select('*')
                 .from('classes')
@@ -47,6 +49,33 @@ exports.delete = (id) => {
 }
 
 exports.findByCourseName = (campusId, name,limit) => {
+    return knex
+        .select("*")
+        .from('classes')
+        .where('campus_id', campusId)
+        .andWhere('course', 'like', '%' + name + '%')
+        .limit(limit)
+}
+
+exports.findAllClassesGivenClassroom= (campusId, classroom_id) =>{
+    return knex
+        .select("*")
+        .from('classes')
+        .join('classrooms', 'classroom.id', '=', 'classes.classroom_id')
+        .where('campus_id', campusId)
+        .andWhere('classroom_id',classroom_id)
+}
+
+
+
+
+
+
+
+
+
+
+exports.findByCourseNameOld = (campusId, name,limit) => {
     return knex
         .select("*")
         .from('classes')

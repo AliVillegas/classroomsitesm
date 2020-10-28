@@ -6,7 +6,7 @@ import axios from 'axios';
 import HomePage from './Components/Pages/HomePage';
 import Header from './Components/Widgets/Header';
 
-import AdminCourses from './Components/Pages/AdminCourses';
+import AdminCourses from './Components/Pages/Courses/AdminCourses';
 import AdminUsers from './Components/Pages/UsersManagement/AdminUsers';
 import UpdateUserRole from './Components/Pages/UsersManagement/UpdateUserRole';
 

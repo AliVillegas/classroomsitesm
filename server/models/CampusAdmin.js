@@ -32,7 +32,6 @@ exports.findByEmail = (email) => {
 
 
 exports.findOrCreate = (user) => {
-    // Obtiene la contraseña definida por el usuario
     let email = user.email
     return knex
         .select('*')

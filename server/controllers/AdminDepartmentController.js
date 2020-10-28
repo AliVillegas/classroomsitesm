@@ -15,7 +15,7 @@ exports.allCourses = (req, res) => {
         limit = req.query.limit
     }
     if (req.user) {
-        if (roleValidator.isCampusAdmin(req) || roleValidator.isDepartmentAdmin(req)) {
+        if (roleValidator.isDepartmentAdmin(req)) {
             DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
                 CourseModel.all(limit).then(courses => {
                     console.log("Retrieved all courses")
@@ -26,7 +26,21 @@ exports.allCourses = (req, res) => {
                 })
 
             })
-        } else {
+        } 
+        else if (roleValidator.isCampusAdmin(req)) {
+            CampusAdminModel.findByUserID(req.user.id).then(depAdmin => {
+                CourseModel.all(limit).then(courses => {
+                    console.log("Retrieved all courses")
+                    res.status(200).json({
+                        courses: courses,
+                        message: "All Courses",
+                    });
+                })
+
+            })
+        } 
+        
+        else {
             res.status(401).json({
                 authenticated: false,
                 message: "Unauthorized access "
@@ -344,6 +358,8 @@ exports.createClass = (req, res) => {
     let timeToFr = null
     let timeFromSat = null
     let timeToSat = null
+    let courseName = null
+    let classroom_id = null
     if (!req.body.course_id) {
         res.status(401).json({
             message: "No  course id was given"
@@ -351,6 +367,12 @@ exports.createClass = (req, res) => {
     }
     else {
         course_id = req.body.course_id
+    }
+    if (req.body.classroom_id) {
+        classroom_id = req.body.classroom_id
+    }
+    if (req.body.courseName) {
+        courseName = req.body.courseName
     }
     if (req.body.timeFromMon) {
         timeFromMon = req.body.timeFromMon
@@ -407,6 +429,8 @@ exports.createClass = (req, res) => {
         timeToFr: timeToFr,
         timeFromSat: timeFromSat,
         timeToSat: timeToSat,
+        classroom_id: classroom_id,
+        courseName:courseName
     }
     //console.log(newClass)
     if (roleValidator.isCampusAdmin(req)) {

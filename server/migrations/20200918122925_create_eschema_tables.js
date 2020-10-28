@@ -35,16 +35,12 @@ exports.up = function (knex) {
         })
         .createTable('students', (table) => {
             table.increments('id').primary();
-            table.string('name', 255).notNullable();
-            table.string('email', 255).notNullable();
             table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
         })
         .createTable('professors', (table) => {
             table.increments('id').primary();
-            table.string('name', 255).notNullable();
-            table.string('email', 255).notNullable();
             table.integer('campus_id').unsigned().notNullable().references('id').inTable('campus').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
@@ -87,8 +83,10 @@ exports.up = function (knex) {
             table.time('TimeToFr', { precision: 0 })
             table.time('TimeFromSat', { precision: 0 })
             table.time('TimeToSat', { precision: 0 })
-            table.integer('professor_id').unsigned().references('id').inTable('professors').onDelete('cascade');
-            table.integer('course_id').unsigned().notNullable().references('id').inTable('courses').onDelete('cascade');
+            table.string('course', 255)
+            table.integer('classroom_id').unsigned().notNullable().references('id').inTable('classrooms').onDelete('cascade');
+            table.string('description', 255).notNullable().defaultTo("");            table.integer('professor_id').unsigned().references('id').inTable('professors').onDelete('cascade');
+
             table.timestamps(true, true);
         })
         .createTable('favorite_classes', (table) => {
