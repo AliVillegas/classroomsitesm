@@ -171,6 +171,8 @@ router.post('/adminDep/deleteClass/:id', adminDepartmentController.deleteClass);
 // accepts limit param
 router.get('/staff/allClasses/', staffController.allClasses)
 
+router.post('/adminDep/deleteClass/:id', adminDepartmentController.deleteClass);
+
 
 // searchClass
 // Given querySearch on req.body it searches classes by course name

@@ -70,7 +70,7 @@ exports.up = function (knex) {
             table.timestamps(true, true);
         })
         .createTable('classes', (table) => {
-            table.increments('id').primary();
+            table.increments('classId').primary();
             table.time('TimeFromMon', { precision: 0 })
             table.time('TimeToMon', { precision: 0 })
             table.time('TimeFromTu', { precision: 0 })
@@ -91,7 +91,7 @@ exports.up = function (knex) {
         })
         .createTable('favorite_classes', (table) => {
             table.increments('id').primary();
-            table.integer('class_id').unsigned().notNullable().references('id').inTable('classes').onDelete('cascade');
+            table.integer('class_id').unsigned().notNullable().references('classId').inTable('classes').onDelete('cascade');
             table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('cascade');
             table.timestamps(true, true);
         })

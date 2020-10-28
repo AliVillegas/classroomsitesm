@@ -4,15 +4,16 @@ exports.find = (id) => {
     return knex
         .select('*')
         .from('classes')
-        .where('id', id)
+        .where('classId', id)
         .first();
 }
 
 exports.allClassesSameCampus = (campusId,limit) => {
     return knex.from('classes')
-        .select("*")
+        //.select("id,course.name,classroom_id,building,professor_id,course_id,timeFromMon,timeToMon,timeFromTu,timeFromTu,timeToTu,timeFromWed,timeToWed,timeFromTh,timeToTh,timeFromFr,timeToFr,timeFromSat,timeToSat")
+        .select('*')
         .from('classes')
-        .join('courses', 'courses.id', '=', 'classes.course_id')
+        .join('classrooms', 'classrooms.id', '=', 'classes.classroom_id')
         .where('campus_id', campusId)
         .limit(limit)
 }
@@ -37,15 +38,17 @@ exports.createNewClass= (classR) => {
         }).then((id) => {
             return knex.select('*')
                 .from('classes')
-                .where('id', id);
+                .where('classId', id);
         })
 }
 
 
-exports.delete = (id) => {
+exports.delete = (id,campusId) => {
     return knex('classes')
-        .delete()
-        .where('id', id);
+        .join('classrooms', 'classroom.id', '=', 'classes.classroom_id')
+        .delete('classes')
+        .where('classId', id)
+
 }
 
 exports.findByCourseName = (campusId, name,limit) => {
@@ -72,15 +75,3 @@ exports.findAllClassesGivenClassroom= (campusId, classroom_id) =>{
 
 
 
-
-
-
-exports.findByCourseNameOld = (campusId, name,limit) => {
-    return knex
-        .select("*")
-        .from('classes')
-        .join('courses', 'courses.id', '=', 'classes.course_id')
-        .where('campus_id', campusId)
-        .andWhere('courses.name', 'like', '%' + name + '%')
-        .limit(limit)
-}

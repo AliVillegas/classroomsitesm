@@ -14,7 +14,7 @@ const AdminUsers = ({authenticated, user}) => {
         }).catch(err => {
             console.log(err);
         })
-    })
+    },[BaseUrl])
 
     const tableHeader = {
         'name': 'Name',
