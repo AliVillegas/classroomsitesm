@@ -41,6 +41,38 @@ exports.classroomsAll = (req, res) => {
 
 }
 
+exports.professorsAll = (req, res) => {
+    if (req.user) {
+        limit = constants.queryLimit
+        if (req.query.limit) {
+            limit = req.query.limit
+        }
+        if (roleValidator.isCampusAdmin(req)) {
+            CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+                ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors => {
+                    //console.log("CLASSROOMS", classrooms)
+                    res.status(200).json({
+                        professors: professors,
+                        message: "Classrooms from same campus",
+                    });
+                })
+            })
+        } else {
+            res.status(401).json({
+                authenticated: false,
+                message: "Unauthorized access "
+            });
+        }
+    } else {
+        res.status(401).json({
+            authenticated: false,
+            message: "Unauthorized access "
+        });
+    }
+
+}
+
+
 exports.getClassroom = (req, res) => {
     if (!req.params.id) {
         res.status(200).json({
@@ -254,42 +286,10 @@ exports.allUsers = (req, res) => {
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             UserModel.all(limit).then(users => {
-                let allStudents = []
-                let allUsers = []
-                let campusAdmins = []
-                let allProfessors = []
-                StudentModel.allSameCampus(campusAdmin.campus_id).then(students => {
-                    console.log("Retrieved all Students")
-                    if (students.length > 0 && students != undefined) {
-                        allStudents.push(students)
-                        allUsers.push(students)
-                    }
-                    ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors => {
-                        console.log("Retrieved all professors")
-                        if (professors.length > 0 && professors != undefined) {
-                            allProfessors.push(professors)
-                            allUsers.push(professors)
-                        }
-                        CampusAdminModel.allSameCampus(campusAdmin.campus_id).then(adminsCampus => {
-                            console.log("Retrieved all campus admins")
-                            if (adminsCampus.length > 0 && adminsCampus != undefined) {
-                                campusAdmins.push(adminsCampus)
-                                allUsers.push(adminsCampus)
-                            }
-                            res.status(200).json({
-                                message: "All users from the campus",
-                                users: allUsers,
-                                students: allStudents,
-                                campusAdmins: campusAdmins,
-                                professors: allProfessors,
-                            });
-                        })
-
-                    })
-
-                })
-
-                //campusAdmin.id, name
+                res.status(200).json({
+                    message: "All users from the campus",
+                    users: users,
+                });
             })
         })
 
@@ -301,7 +301,7 @@ exports.allUsers = (req, res) => {
     }
 }
 
-exports.getUser= (req, res) => {
+exports.getUser = (req, res) => {
     if (!req.params.id) {
         res.status(200).json({
             message: "No user id provided",

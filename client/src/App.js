@@ -8,6 +8,7 @@ import Header from './Components/Widgets/Header';
 
 import AdminClasses from './Components/Pages/Courses/AdminClasses';
 import ClassInfo from './Components/Pages/Courses/ClassInfo'
+import CreateClass from './Components/Pages/Courses/CreateClass'
 
 import AdminUsers from './Components/Pages/UsersManagement/AdminUsers';
 import UpdateUserRole from './Components/Pages/UsersManagement/UpdateUserRole';
@@ -49,19 +50,22 @@ function App() {
               <AdminClassrooms authenticated={authenticated} user={user}></AdminClassrooms>
             </Route>
             <Route exact path="/create_classroom">
-              <CreateClassroom></CreateClassroom>
+              <CreateClassroom authenticated={authenticated} user={user}></CreateClassroom>
             </Route>
             <Route exact path="/update_classroom/:id">
-              <UpdateClassroom></UpdateClassroom>
+              <UpdateClassroom authenticated={authenticated} user={user}></UpdateClassroom>
             </Route>
             <Route exact path="/info_class/:id">
-              <ClassInfo></ClassInfo>
+              <ClassInfo authenticated={authenticated} user={user}></ClassInfo>
+            </Route>
+            <Route exact path="/create_class">
+              <CreateClass authenticated={authenticated} user={user}></CreateClass>
             </Route>
             <Route exact path="/admin_users">
               <AdminUsers authenticated={authenticated} user={user}></AdminUsers>
             </Route>
             <Route exact path="/update_user/:id">
-              <UpdateUserRole></UpdateUserRole>
+              <UpdateUserRole authenticated={authenticated} user={user}></UpdateUserRole>
             </Route>
             <Route exact path="/admin_courses">
               <AdminClasses authenticated={authenticated} user={user}></AdminClasses>

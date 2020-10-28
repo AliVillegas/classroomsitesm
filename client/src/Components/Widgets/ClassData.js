@@ -4,7 +4,7 @@ import axios from 'axios';
 import { BaseUrl } from '../../constants'
 import { Link } from 'react-router-dom';
 
-const ClassData = ({classR, handleChange}) => {
+const ClassData = ({user, classR, handleChange}) => {
 
     const handleDeleteClick = () => {
         axios.post(BaseUrl + `/adminDep/deleteClass/${classR.classId}`, '', { withCredentials: true })
@@ -25,18 +25,24 @@ const ClassData = ({classR, handleChange}) => {
             <Box>{classR.building}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
                 <Button size="xs" variantColor="green" onClick={handleDeleteClick}>
-                <Link to={`/info_class/${classR.classId}`}>
-                        Schedule
-                </Link>
-                </Button>
-                <Button size="xs" variantColor="red" onClick={handleDeleteClick}>
-                    Delete
-                </Button>
-                <Button size="xs" variantColor="blue">
-                    <Link to={`/update_class/${classR.classId}`}>
-                        Update
+                    <Link to={`/info_class/${classR.classId}`}>
+                            Schedule
                     </Link>
                 </Button>
+                {(user.role === 'admin' || user.role === 'adminDep') ? (
+                    <>
+                    <Button size="xs" variantColor="red" onClick={handleDeleteClick}>
+                        Delete
+                    </Button>
+                    <Button size="xs" variantColor="blue">
+                        <Link to={`/update_class/${classR.classId}`}>
+                            Update
+                        </Link>
+                    </Button>
+                    </>
+                ) : (
+                    <></>
+                )}
             </Flex>
         </SimpleGrid>
     );

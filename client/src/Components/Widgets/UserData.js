@@ -1,7 +1,5 @@
 import React from 'react';
 import { Box, Heading, SimpleGrid, Flex, Button } from '@chakra-ui/core';
-import axios from 'axios';
-import { BaseUrl } from '../../constants'
 import { Link } from 'react-router-dom';
 
 const UserData = ({userD, handleChange}) => {

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { BaseUrl } from '../../../constants'
 import { Link, Redirect, useParams } from 'react-router-dom';
 
-const UpdateClassroom = () => {
+const UpdateClassroom = ({user}) => {
     const [name, setName] = useState("");
     const [building, setBuilding] = useState("");
     const [capacity, setCapacity] = useState("");

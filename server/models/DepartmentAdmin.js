@@ -23,3 +23,9 @@ exports.create = (user) => {
     return knex('department_admins')
         .insert({ user_id: user.id, campus_id: 1 });
 }
+
+exports.delete = (id) => {
+    return knex('department_admins')
+        .delete()
+        .where('user_id', id);
+}

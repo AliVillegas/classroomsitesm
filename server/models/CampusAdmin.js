@@ -54,8 +54,8 @@ exports.findOrCreate = (user) => {
 
 exports.allSameCampus = (id) => {
     return knex('admins_campus')
-    .join('users', 'users.id', '=', 'admins_campus.user_id')
-    .where('campus_id', id)
+        .join('users', 'users.id', '=', 'admins_campus.user_id')
+        .where('campus_id', id)
 }
 
 /**
@@ -64,4 +64,10 @@ exports.allSameCampus = (id) => {
 exports.create = (user) => {
     return knex('admins_campus')
         .insert({ campus_id: 1, user_id: user.id });
+}
+
+exports.delete = (id) => {
+    return knex('admins_campus')
+        .delete()
+        .where('user_id', id);
 }

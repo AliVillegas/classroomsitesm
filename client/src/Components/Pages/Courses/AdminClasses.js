@@ -1,5 +1,5 @@
 import { Box, List, ListItem, Heading, Stack, SimpleGrid, Button } from '@chakra-ui/core';
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { BaseUrl } from '../../../constants';
 import axios from 'axios';
@@ -18,12 +18,11 @@ const AdminClasses= ({authenticated, user}) => {
     useEffect(() => {
         axios.get(BaseUrl + '/staff/allClasses/', { withCredentials: true })
         .then((response) => {
-           //console.log(response.data)
             setClasses(response.data.classes)
         }).catch(err => {
             console.log(err);
         })
-    },[BaseUrl])
+    }, [])
 
     const tableHeader = {
         'course': 'Course',
@@ -31,16 +30,21 @@ const AdminClasses= ({authenticated, user}) => {
         'building': 'Building',
     }
 
-    if (user && user.role === 'admin') {
+    if (user) {
         return (
             <Stack p={10}>
                 <Link to='/'>Return to dashboard </Link>
                 <Heading mt={5}>Admin Classes</Heading>
-                <Button mx="auto" variantColor="green" size="md">
-                    <Link to="/create_class">
-                        Create class
-                    </Link>
-                </Button>
+                {(user.role === 'admin' || user.role === 'adminDep') ? (
+                    <Button mx="auto" variantColor="green" size="md">
+                        <Link to="/create_class">
+                            Create class
+                        </Link>
+                    </Button>
+
+                ) : (
+                    <></>
+                )}
                 <SimpleGrid columns={4} border="2px" borderRadius="md" borderColor="gray.600" textAlign="center">
                     <Box>
                         <Heading bg="blue.500" color="white" p={1} size="sm">{tableHeader.course}</Heading>
@@ -58,7 +62,7 @@ const AdminClasses= ({authenticated, user}) => {
                     { classes.map((classR) => {
                         return (
                             <ListItem key={"class-"+classR.classId} >
-                                <ClassData classR={classR} handleChange={removeClass}></ClassData>
+                                <ClassData user={user} classR={classR} handleChange={removeClass}></ClassData>
                             </ListItem>
                         )
                     }) }

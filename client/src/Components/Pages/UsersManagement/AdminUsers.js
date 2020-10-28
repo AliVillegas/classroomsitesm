@@ -1,20 +1,22 @@
-import { Box, List, ListItem, Heading, Stack, SimpleGrid, Button } from '@chakra-ui/core';
-import React, { useEffect, useState, useReducer } from 'react';
+import { Box, List, ListItem, Heading, Stack, SimpleGrid } from '@chakra-ui/core';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { BaseUrl } from '../../../constants';
 import axios from 'axios';
 import UserData from '../../Widgets/UserData'
+
 const AdminUsers = ({authenticated, user}) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
         axios.get(BaseUrl + '/adminCampus/allUsers', { withCredentials: true })
         .then((response) => {
-            setUsers(response.data.users[0])
+            console.log(response.data.users)
+            setUsers(response.data.users)
         }).catch(err => {
             console.log(err);
         })
-    },[BaseUrl])
+    }, [])
 
     const tableHeader = {
         'name': 'Name',

@@ -70,6 +70,7 @@ router.get('/auth/office365/fail', (req, res) => {
 // accepts limit param
 
 router.get('/adminCampus/allClassrooms', admincampusController.classroomsAll)
+router.get('/adminCampus/allProfessors', admincampusController.professorsAll)
 
 //createClassroom
 //Given Classroom Data ( *Name , *Capacity, *Building , features) creates Classroom and returns its Data
