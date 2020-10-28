@@ -29,9 +29,9 @@ const AdminDashboard = ({authenticated, user}) => {
                 </Button>
             </Box>
             <Box border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
-                <Heading bg="blue.400" color="white" p={3}>Manage Courses</Heading>
+                <Heading bg="blue.400" color="white" p={3}>Manage Classes</Heading>
                 <Box m={4}>
-                    Here you can manage courses within your campus
+                    Here you can manage classes within your campus
                 </Box>
                 <Button mt={4} mb={3}>
                     <Link to="/admin_courses">

@@ -63,7 +63,7 @@ app.use(
 let methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 let bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // <--- Here
 
 // Route for static files

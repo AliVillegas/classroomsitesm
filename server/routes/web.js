@@ -20,11 +20,19 @@ router.get('/protected', authMiddleware.isAuth, (req, res) => {
  // AUTHENTICATION
 |+-----------------------------------------------------------------------*/
 
-router.get('/auth/office365/login', passport.authenticate('azure_ad_oauth2'));
+router.get('/auth/office365/login', function(req, res, next) {
+    console.log(req.url);
+    passport.authenticate('azure_ad_oauth2', function(err, user, info) {
+        console.log("authenticate");
+        console.log(err);
+        console.log(user);
+        console.log(info);
+    })(req, res, next);
+});
 router.get('/auth/office365/logout', dashboardController.logout);
 router.get('/auth/office365/callback',
     passport.authenticate('azure_ad_oauth2', { failureRedirect: '/auth/office365/fail' }),
-    function(req, res) {
+    function (req, res) {
         res.redirect(CLIENT_HOME_PAGE_URL);
     }
 );
@@ -43,8 +51,7 @@ router.get('/auth/office365/success', (req, res) => {
         });
     } else {
         res.status(401).json({
-            authenticated: false,
-            message: "user not authenticated"
+            message: "user failed to authenticate"
         });
     }
 
