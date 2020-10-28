@@ -5,8 +5,11 @@ import { BaseUrl } from './constants';
 import axios from 'axios';
 import HomePage from './Components/Pages/HomePage';
 import Header from './Components/Widgets/Header';
+
 import AdminCourses from './Components/Pages/AdminCourses';
-import AdminUsers from './Components/Pages/AdminUsers';
+import AdminUsers from './Components/Pages/UsersManagement/AdminUsers';
+import UpdateUserRole from './Components/Pages/UsersManagement/UpdateUserRole';
+
 import AdminClassrooms from './Components/Pages/Classrooms/AdminClassrooms';
 import CreateClassroom from './Components/Pages/Classrooms/CreateClassroom';
 import UpdateClassroom from './Components/Pages/Classrooms/UpdateClassroom';
@@ -51,6 +54,9 @@ function App() {
             </Route>
             <Route exact path="/admin_users">
               <AdminUsers authenticated={authenticated} user={user}></AdminUsers>
+            </Route>
+            <Route exact path="/update_user/:id">
+              <UpdateUserRole></UpdateUserRole>
             </Route>
             <Route exact path="/admin_courses">
               <AdminCourses authenticated={authenticated} user={user}></AdminCourses>

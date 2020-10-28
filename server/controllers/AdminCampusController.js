@@ -301,6 +301,36 @@ exports.allUsers = (req, res) => {
     }
 }
 
+exports.getUser= (req, res) => {
+    if (!req.params.id) {
+        res.status(200).json({
+            message: "No user id provided",
+        });
+    }
+    if (req.user) {
+        if (roleValidator.isCampusAdmin(req)) {
+            CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+                UserModel.find(req.params.id).then(user => {
+                    res.status(200).json({
+                        user: user,
+                        message: "User retrieved",
+                    });
+                })
+            })
+        } else {
+            res.status(401).json({
+                authenticated: false,
+                message: "Unauthorized access "
+            });
+        }
+    } else {
+        res.status(401).json({
+            authenticated: false,
+            message: "Unauthorized access "
+        });
+    }
+
+}
 exports.updateUserRole = (req, res) => {
     if (req.user === undefined) {
         res.status(401).json({

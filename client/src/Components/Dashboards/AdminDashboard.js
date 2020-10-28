@@ -23,7 +23,7 @@ const AdminDashboard = ({authenticated, user}) => {
                     Here you can manage users within your campus
                 </Box>
                 <Button mt={4} mb={3}>
-                    <Link to="/admin_courses">
+                    <Link to="/admin_users">
                         Go to
                     </Link>
                 </Button>

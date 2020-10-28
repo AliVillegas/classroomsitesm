@@ -105,6 +105,9 @@ router.get('/adminCampus/getClassroom/:id', admincampusController.getClassroom);
 // accepts limit param
 router.get('/adminCampus/allUsers/', admincampusController.allUsers)
 
+
+router.get('/adminCampus/getUser/:id', admincampusController.getUser);
+
 //Update user Role 
 // Receives newRole on body parameter
 // Fails if given user id does not exist 
