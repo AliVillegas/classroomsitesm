@@ -9,6 +9,7 @@ import Header from './Components/Widgets/Header';
 import AdminClasses from './Components/Pages/Courses/AdminClasses';
 import ClassInfo from './Components/Pages/Courses/ClassInfo'
 import CreateClass from './Components/Pages/Courses/CreateClass'
+import UpdateClass from './Components/Pages/Courses/UpdateClass';
 
 import AdminUsers from './Components/Pages/UsersManagement/AdminUsers';
 import UpdateUserRole from './Components/Pages/UsersManagement/UpdateUserRole';
@@ -60,6 +61,9 @@ function App() {
             </Route>
             <Route exact path="/create_class">
               <CreateClass authenticated={authenticated} user={user}></CreateClass>
+            </Route>
+            <Route exact path="/update_class/:id">
+              <UpdateClass authenticated={authenticated} user={user}></UpdateClass>
             </Route>
             <Route exact path="/admin_users">
               <AdminUsers authenticated={authenticated} user={user}></AdminUsers>

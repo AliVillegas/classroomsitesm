@@ -77,6 +77,64 @@ exports.allClasses = (req, res) => {
 
 }
 
+exports.getClass = (req,res) =>{
+    if(req.user === undefined){
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
+    if (req.params.id) {
+        classId = req.params.id
+    } else {
+        res.status(200).json({
+            message: "Given class id is invalid"
+        });
+    }
+    if (roleValidator.isCampusAdmin(req)) {
+        CampusAdminModel.findByUserID(req.user.id).then(user => {
+            campusId = user.campus_id
+            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+                res.status(200).json({
+                    class: classFound,
+                    message: "Class found",
+                });
+            })
+        })
+    }
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        DepAdminModel.findByUserID(req.user.id).then(user => {
+            campusId = user.campus_id
+            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+                res.status(200).json({
+                    class: classFound,
+                    message: "Class found",
+                });
+            })
+        })
+    }
+    else if (roleValidator.isStudent(req)) {
+        StudentModel.findByUserID(req.user.id).then(user => {
+            campusId = user.campus_id
+            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+                res.status(200).json({
+                    class: classFound,
+                    message: "Class found",
+                });
+            })
+        })
+    }
+    else if (roleValidator.isProfessor(req)) {
+        ProfessorModel.findByUserID(req.user.id).then(user => {
+            campusId = user.campus_id
+            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+                res.status(200).json({
+                    class: classFound,
+                    message: "Class found",
+                });
+            })
+        })
+    }
+}
 exports.classScheduleGivenClassroom = (req, res) => {
     if(req.user === undefined){
         res.status(401).json({

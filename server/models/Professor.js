@@ -13,8 +13,10 @@ exports.allSameCampus = (id) => {
 exports.findByUserID = (id) => {
     return knex
         .select('*')
-        .from('professors')
+        .from('users')
+        .join('professors', 'users.id', '=', 'professors.user_id')
         .where('user_id', id)
+        .andWhere('campus_id', id)
         .first();
 }
 

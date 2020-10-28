@@ -7,6 +7,17 @@ exports.find = (id) => {
         .where('classId', id)
         .first();
 }
+exports.findSameCampus = (id,campus_id) => {
+    return knex
+        .select('*')
+        .from('classes')
+        .join('classrooms', 'classrooms.id', '=', 'classes.classroom_id')
+        .join('professors', 'professors.id', '=', 'classes.professor_id')
+        .where('classId', id)
+        .andWhere('classrooms.campus_id',campus_id)
+        .first();
+}
+
 
 exports.allClassesSameCampus = (campusId,limit) => {
     return knex.from('classes')
@@ -20,7 +31,6 @@ exports.allClassesSameCampus = (campusId,limit) => {
 exports.createNewClass= (classR) => { 
     return knex('classes')
         .insert({
-            course_id: classR.course_id,
             timeFromMon: classR.timeFromMon,
             timeToMon:classR.timeToMon ,
             timeFromTu :classR.timeFromTu,
@@ -33,7 +43,7 @@ exports.createNewClass= (classR) => {
             timeToFr:classR.timeToFr ,
             timeFromSat:classR.timeFromSat,
             timeToSat:classR.timeToSat,
-            course: classR.courseName,
+            course: classR.course,
             classroom_id: classR.classroom_id
         }).then((id) => {
             return knex.select('*')

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Heading, FormControl, Stack, FormLabel, Input, Button, Select } from '@chakra-ui/core';
 import axios from 'axios';
 import { BaseUrl } from '../../../constants'
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useParams } from 'react-router-dom';
 
-const CreateClassroom = ({ user }) => {
+const UpdateClass = ({ user }) => {
 
     const [course, setCourse] = useState("");
     const [professor, setProfessor] = useState(null);
@@ -14,8 +14,18 @@ const CreateClassroom = ({ user }) => {
     const [professors, setProfessors] = useState([]);
 
     const [redirect, setRedirect] = useState("");
+    const { id } = useParams();
 
     useEffect(() => {
+        axios.get(BaseUrl + `/staff/getClass/${id}`, { withCredentials: true })
+            .then(response => {
+                setProfessor(response.data.class.professor_id)
+                setClassroom(response.data.class.classroom_id)
+                setCourse(response.data.class.course)
+            }).catch(err => {
+                console.log(err)
+            })
+
         axios.get(BaseUrl + '/adminCampus/allClassrooms', { withCredentials: true })
             .then((response) => {
                 setClassrooms(response.data.classrooms)
@@ -25,7 +35,6 @@ const CreateClassroom = ({ user }) => {
 
         axios.get(BaseUrl + '/adminCampus/allProfessors', { withCredentials: true })
             .then((response) => {
-                console.log(response.data.professors)
                 setProfessors(response.data.professors)
             }).catch(err => {
                 console.log(err);
@@ -47,27 +56,30 @@ const CreateClassroom = ({ user }) => {
                 console.log(err)
             })
     }
-
+    if (!professor || !classroom || !course) {
+        return <div>Loading...</div>;
+    }
     if (user && (user.role === 'admin' || user.role === 'adminDep')) {
         if (redirect === "") {
             return (
                 <Stack p={10}>
                     <Link to='/'>Return to dashboard </Link>
-                    <Heading mt={5}>Create Class</Heading>
+                    <Heading mt={5}>Update Class Information</Heading>
                     <FormControl px={10}>
                         <FormLabel isRequired htmlFor="course">Course</FormLabel>
-                        <Input isRequired id="course" placeholder="Course name" onChange={(e) => { setCourse(e.target.value) }} />
+                        <Input isRequired id="course" value={course} placeholder="Course name" onChange={(e) => { setCourse(e.target.value) }} />
 
                         <FormLabel isRequired htmlFor="classroom">Classroom</FormLabel>
-                        <Select placeholder="Select Classroom" onChange={(e) => { setClassroom(e.target.value) }}>
+                        <Select placeholder="Select Classroom" value={classroom} onChange={(e) => { setClassroom(e.target.value) }}>
                             {classrooms.map((c, i) => {
                                 return (
                                     <option key={`class_${i}`} value={c.id}>{c.name}</option>
                                 );
                             })}
                         </Select>
+                        {professor? "" :'value{professor}'}
                         <FormLabel htmlFor="professor">Professor</FormLabel>
-                        <Select placeholder="Select Professor" onChange={(e) => { setProfessor(e.target.value) }}>
+                        <Select placeholder="Select Professor" value={professor} onChange={(e) => { setProfessor(e.target.value) }}>
                             {professors.map((p, i) => {
                                 return (
                                     <option key={`prof_${i}`} value={p.id}>{p.name}</option>
@@ -90,4 +102,4 @@ const CreateClassroom = ({ user }) => {
 
 }
 
-export default CreateClassroom;
+export default UpdateClass;

@@ -187,6 +187,7 @@ router.post('/adminDep/deleteClass/:id', adminDepartmentController.deleteClass);
 //return array of classes, empty array if nothing matches query
 // error: missing querySearch on req.body or 
 router.post('/staff/searchClass/', staffController.classesByCourseName)
+router.get('/staff/getClass/:id', staffController.getClass)
 
 
 //classroomSchedule

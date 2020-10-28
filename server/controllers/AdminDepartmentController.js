@@ -408,9 +408,9 @@ exports.createClass = (req, res) => {
     let timeToSat = null
     let courseName = null
     let classroom_id = null
-    if (!req.body.course_id) {
+    if (!req.body.course) {
         res.status(401).json({
-            message: "No  course id was given"
+            message: "No  course  was given"
         });
     }
     else {
@@ -419,8 +419,8 @@ exports.createClass = (req, res) => {
     if (req.body.classroom_id) {
         classroom_id = req.body.classroom_id
     }
-    if (req.body.courseName) {
-        courseName = req.body.courseName
+    if (req.body.course) {
+        course = req.body.course
     }
     if (req.body.timeFromMon) {
         timeFromMon = req.body.timeFromMon
@@ -464,7 +464,6 @@ exports.createClass = (req, res) => {
         timeToSat = req.body.timeToSat
     }
     let newClass = {
-        course_id: course_id,
         timeFromMon: timeFromMon,
         timeToMon: timeToMon,
         timeFromTu: timeFromTu,
@@ -478,21 +477,21 @@ exports.createClass = (req, res) => {
         timeFromSat: timeFromSat,
         timeToSat: timeToSat,
         classroom_id: classroom_id,
-        courseName: courseName
+        course: course
     }
     //console.log(newClass)
     if (roleValidator.isCampusAdmin(req)) {
         let campusId = 1
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             campusId = campusAdmin.campus_id
-            CourseModel.find(course_id).then(course => {
-                if (course == null) {
+            ClassroomModel.find(classroom_id).then(classroom => {
+                if (classroom == null) {
                     res.status(200).json({
-                        error: "Course given doesn't exist"
+                        error: "Class given doesn't exist"
                     });
                 }
                 else {
-                    if (campusId === course.campus_id) {
+                    if (campusId === classroom.campus_id) {
                         ClassModel.createNewClass(newClass).then((classN) => {
                             res.status(200).json({
                                 class: classN,
@@ -507,20 +506,20 @@ exports.createClass = (req, res) => {
                     }
                 }
             })
-        })
+        } )
     }
     else if (roleValidator.isDepartmentAdmin(req)) {
         let campusId = 1
-        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
-            campusId = depAdmin.campus_id
-            CourseModel.find(course_id).then(course => {
-                if (course == null) {
+        DepAdminModel.findByUserID(req.user.id).then(admin => {
+            campusId = admin.campus_id
+            ClassroomModel.find(classroom_id).then(classroom => {
+                if (classroom == null) {
                     res.status(200).json({
-                        error: "Course given doesn't exist"
+                        error: "Class given doesn't exist"
                     });
                 }
                 else {
-                    if (campusId === course.campus_id) {
+                    if (campusId === classroom.campus_id) {
                         ClassModel.createNewClass(newClass).then((classN) => {
                             res.status(200).json({
                                 class: classN,
@@ -535,7 +534,7 @@ exports.createClass = (req, res) => {
                     }
                 }
             })
-        })
+        } )
     }
     else {
         res.status(401).json({
