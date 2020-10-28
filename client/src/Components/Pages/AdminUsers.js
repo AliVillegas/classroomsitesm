@@ -1,9 +1,9 @@
-import { Box, Button, Heading, SimpleGrid } from '@chakra-ui/core';
+import { Box } from '@chakra-ui/core';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 const AdminUsers = ({authenticated, user}) => {
-    if (user.role == 'admin') {
+    if (user.role === 'admin') {
         return (
             <Box>Admin Users</Box>
         )

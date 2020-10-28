@@ -93,6 +93,11 @@ router.post('/adminCampus/deleteClassroom/:id', admincampusController.deleteClas
 // accepts limit param
 router.post('/adminCampus/searchClassroom/', admincampusController.searchClassroom);
 
+
+//getClassroom
+router.get('/adminCampus/getClassroom/:id', admincampusController.getClassroom);
+
+
 //allUsers
 // returns all users from the campus of the campusAdmin
 // returns array with all combined users 
@@ -174,7 +179,7 @@ router.post('/staff/searchClass/', staffController.classesByCourseName)
 //classroomSchedule
 //Returns all classes on a classroom given a classroom id 
 //error: missing classroom id 
-router.post('/staff/classroomSchedule/:id',staffController.classScheduleGivenClassroom)
+router.post('/staff/classroomSchedule/:id', staffController.classScheduleGivenClassroom)
 
 
 //makeClass a Favorite 

@@ -1,11 +1,9 @@
-import { Stack, Box, Heading } from '@chakra-ui/core';
+import { Stack, Heading } from '@chakra-ui/core';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { CurrentSession} from '../atoms';
-import AdminDashboard from './AdminDashboard'
-import AdminDepDashboard from './AdminDepDashboard'
-import StudentDashboard from './StudentDashboard'
-import ProfessorDashboard from './ProfessorDashboard'
+import AdminDashboard from '../Dashboards/AdminDashboard'
+import AdminDepDashboard from '../Dashboards/AdminDepDashboard'
+import StudentDashboard from '../Dashboards/StudentDashboard'
+import ProfessorDashboard from '../Dashboards/ProfessorDashboard'
 
 import Landing from './Landing';
 
