@@ -64,6 +64,9 @@ const UpdateClass = ({ user }) => {
                 console.log(err)
             })
     }
+    if (!professor || !classroom || !course) {
+        return <div>Loading...</div>;
+    }
     if (user && (user.role === 'admin' || user.role === 'adminDep')) {
         if (redirect === "") {
             return (
@@ -75,15 +78,16 @@ const UpdateClass = ({ user }) => {
                         <Input isRequired id="course" value={course} placeholder="Course name" onChange={(e) => { setCourse(e.target.value) }} />
 
                         <FormLabel isRequired htmlFor="classroom">Classroom</FormLabel>
-                        <Select placeholder="Select Classroom" value={classroom ? classroom : ""} onChange={(e) => { setClassroom(e.target.value) }}>
+                        <Select placeholder="Select Classroom" value={classroom} onChange={(e) => { setClassroom(e.target.value) }}>
                             {classrooms.map((c, i) => {
                                 return (
                                     <option key={`class_${i}`} value={c.id}>{c.name}</option>
                                 );
                             })}
                         </Select>
+                        {professor ? "" : 'value{professor}'}
                         <FormLabel htmlFor="professor">Professor</FormLabel>
-                        <Select placeholder="Select Professor" value={professor ? professor : ""} onChange={(e) => { setProfessor(e.target.value) }}>
+                        <Select placeholder="Select Professor" value={professor} onChange={(e) => { setProfessor(e.target.value) }}>
                             {professors.map((p, i) => {
                                 return (
                                     <option key={`prof_${i}`} value={p.id}>{p.name}</option>
@@ -104,7 +108,7 @@ const UpdateClass = ({ user }) => {
                     >
                         <TimeGridScheduler
                             classes={classes}
-                            style={{ width: "105%", height: "100%" }}
+                            style={{ width: "100%", height: "100%" }}
                             originDate={new Date("2021-01-11")}
                             schedule={schedule}
                             onChange={setSchedule}
@@ -115,8 +119,8 @@ const UpdateClass = ({ user }) => {
                         />
                     </div>
                     <Button variantColor="blue" size="md" mt={3} onClick={handleClick}>
-                        Update Class
-                    </Button>
+                            Update Class
+                        </Button>
                 </Stack>
             )
         } else {

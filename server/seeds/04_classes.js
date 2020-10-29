@@ -4,12 +4,12 @@ exports.seed = function (knex) {
         .then(function () {
             // Inserts seed entries
             return knex('classes').insert([
-                { classId: 1, course: 'Physics II', classroom_id: 1, professor_id:1 },
-                { classId: 2, course: 'Ethics III', classroom_id: 5 ,professor_id:1},
+                { classId: 1, course: 'Physics II', classroom_id: 1, professor_id:1 ,schedule:'[["2021-01-11T8:30:00.000Z","2021-01-11T10:00:00.000Z"]]'},
+                { classId: 2, course: 'Ethics III', classroom_id: 5 ,professor_id:1,schedule:'[["2021-01-11T8:30:00.000Z","2021-01-11T10:00:00.000Z"]]'},
                 { classId: 3, course: 'Machine Learning', classroom_id: 6 ,professor_id:6},
                 { classId: 4, course: 'Machine Learning 2', classroom_id: 1,professor_id:2 },
-                { classId: 5, course: 'Ethics II', classroom_id: 1 ,professor_id:5},
-                { classId: 6, course: 'Physics V', classroom_id: 1 ,professor_id:5},
+                { classId: 5, course: 'Ethics II', classroom_id: 1 ,professor_id:5, schedule: '[["2021-01-12T14:00:00.000Z","2021-01-12T15:30:00.000Z"],["2021-01-14T14:00:00.000Z","2021-01-14T15:30:00.000Z"]]'},
+                { classId: 6, course: 'Physics V', classroom_id: 1 ,professor_id:5,schedule: '[["2021-01-14T01:00:00.000Z","2021-01-14T04:00:00.000Z"]]'},
                 { classId: 7, course: 'Physics VI',  classroom_id: 2 ,professor_id:5},
                 { classId: 8, course: 'Linear Algebra',  classroom_id: 1,professor_id:5 },
             ]);

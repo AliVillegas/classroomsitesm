@@ -5,8 +5,8 @@ exports.create = (user) => {
         .insert({ user_id: user.id, campus_id: 1 });
 }
 exports.allSameCampus = (id) => {
-    return knex('professors')
-        .join('users', 'users.id', '=', 'professors.user_id')
+    return knex('users')
+        .join('professors', 'users.id', '=', 'professors.user_id')
         .where('campus_id', id)
 
 }

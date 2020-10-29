@@ -78,7 +78,9 @@ exports.findAllClassesGivenClassroom = (campusId, classroom_id) => {
         .select("*")
         .from('classes')
         .join('classrooms', 'classrooms.id', '=', 'classes.classroom_id')
-        .where('campus_id', campusId)
+        .join('professors', 'professors.id', '=', 'classes.professor_id')
+        .join('users', 'professors.user_id', '=', 'users.id')
+        .where('professors.campus_id', campusId)
         .andWhere('classroom_id', classroom_id)
 }
 

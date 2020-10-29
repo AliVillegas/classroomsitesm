@@ -1,43 +1,107 @@
 import { Box } from '@chakra-ui/core';
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
-import { Heading,  Stack,} from '@chakra-ui/core';
+import { Heading, Stack, } from '@chakra-ui/core';
 import axios from 'axios';
 import { BaseUrl } from '../../../constants'
-import {List, ListItem, SimpleGrid, Button, FormControl, FormLabel, Input } from '@chakra-ui/core';
-
+import { List, ListItem, Flex, SimpleGrid, Button, FormControl, FormLabel, Input } from '@chakra-ui/core';
+import { TimeGridScheduler, classes } from 'react-weekly-scheduler'
+import 'react-weekly-scheduler/build/index.css';
 
 const ClassInfo = ({ authenticated, user }) => {
-    const [classes, setClasses] = useState([]);
+    const [classesR, setClassesR] = useState([]);
     const { id } = useParams();
+    const [schedule, setSchedule] = useState([]);
 
     useEffect(() => {
         axios.get(BaseUrl + `/staff/classroomSchedule/${id}`, { withCredentials: true })
-        .then((response) => {
-            console.log(response)
-            setClasses(response.data.classes)
-        }).catch(err => {
-            console.log(err);
-        });
+            .then((response) => {
+                setClassesR(response.data.classes)
+                let scheduleReceived = []
+                response.data.classes.forEach(classR => {
+                    if (classR.schedule != null) {
+                        let mainSchedule = JSON.parse(classR.schedule)
+                        mainSchedule.forEach(times => {
+                            scheduleReceived.push(times)
+
+                        });
+                        console.log(scheduleReceived)
+                    }
+                    setSchedule(scheduleReceived)
+                });
+
+            }).catch(err => {
+                console.log(err);
+            });
     }, [])
 
     if (user) {
         return (
             <>
-            <Stack p={10}>
-                <Link to='/'>Return to dashboard </Link>
-                <Heading mt={5}>Class information</Heading>
-            </Stack>
-            <List mt={1} spacing={1}>
-            { classes.map((classR) => {
-                return (
-                    <ListItem key={"class-"+classR.classId} >
+                <Stack p={10}>
+                    <Link to='/'>Return to dashboard </Link>
+                    <Heading mt={5}>Classroom Schedule</Heading>
+                </Stack>
+                <SimpleGrid columns={3} mb={5} mx="auto" border="2px" width="85vw" borderRadius="md" borderColor="gray.600" textAlign="center">
+                    <Box>
+                        <Heading bg="blue.500" color="white" p={1} size="sm">Course</Heading>
+                    </Box>
+                    <Box>
+                        <Heading bg="blue.500" color="white" p={1} size="sm">Professor</Heading>
+                    </Box>
+                    <Box>
+                        <Heading bg="blue.500" color="white" p={1} size="sm">Building</Heading>
+                    </Box>
+                    <Box>
+                    </Box>
+                </SimpleGrid>
+                {classesR.map((classR) => {
 
-                    </ListItem>
-                )
-            }) }
-        </List>
-        </>
+                    return (
+                        <SimpleGrid columns={3} mx="auto" width="85vw" border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
+                            <Box>
+                                <Heading bg="blue.300" color="white" p={1} size="sm">{classR.course}</Heading>
+                            </Box>
+                            <Box>{classR.name}</Box>
+                            {(classR.schedule === null) ? (
+                                <>
+                                <Box>{classR.building}</Box>
+
+                                </>
+                            ) : (
+                                    <Box>{classR.building}</Box>
+                                )}
+                        </SimpleGrid>
+                    )
+
+                })}
+                <div
+                    className="root"
+                    style={{
+                        margin: "auto",
+                        marginTop: "10px",
+                        width: "80vw",
+                        height: "500px",
+                        "--cell-height": "20px",
+                        "--cell-width": "10px",
+                    }}
+                >
+                    <TimeGridScheduler
+                        classes={classes}
+                        style={{ width: "100%", height: "100%" }}
+                        originDate={new Date("2021-01-11")}
+                        schedule={schedule}
+                        onChange={setSchedule}
+                        visualGridVerticalPrecision={15}
+                        verticalPrecision={15}
+                        cellClickPrecision={60}
+                        defaultHours={[7, 22]}
+                        disabled={true}
+
+
+                    />
+                </div>
+            </>
         )
     }
     else {

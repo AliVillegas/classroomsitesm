@@ -24,6 +24,11 @@ const ClassroomData = ({classroom, handleChange}) => {
             <Box>{classroom.capacity}</Box>
             <Box>{classroom.features}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
+            <Button size="xs" variantColor="green" >
+                    <Link to={`/info_class/${classroom.id}`}>
+                            Schedule
+                    </Link>
+                </Button>
                 <Button size="xs" variantColor="red" onClick={handleDeleteClick}>
                     Delete
                 </Button>

@@ -33,11 +33,6 @@ const ClassData = ({user, classR, handleChange}) => {
             <Box>{classR.name}</Box>
             <Box>{classR.building}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
-                <Button size="xs" variantColor="green" >
-                    <Link to={`/info_class/${classR.classroom_id}`}>
-                            Schedule
-                    </Link>
-                </Button>
                 <Button size="xs" variantColor="yellow" onClick={handleFavoriteClick}>
                     Add as favorite
                 </Button>

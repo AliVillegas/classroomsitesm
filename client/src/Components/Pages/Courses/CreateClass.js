@@ -79,7 +79,7 @@ const CreateClassroom = ({ user }) => {
                         <Select placeholder="Select Professor" onChange={(e) => { setProfessor(e.target.value) }}>
                             {professors.map((p, i) => {
                                 return (
-                                    <option key={`prof_${i}`} value={p.id}>{p.name}</option>
+                                    <option key={`prof_${p.id}`} value={p.id}>{p.name} - {p.id}</option>
                                 );
                             })}
                         </Select> 
