@@ -67,6 +67,7 @@ exports.findByCourseName = (campusId, name, limit) => {
     return knex
         .select("*")
         .from('classes')
+        .join('classrooms', 'classrooms.id', '=', 'classes.classroom_id')
         .where('campus_id', campusId)
         .andWhere('course', 'like', '%' + name + '%')
         .limit(limit)
@@ -76,7 +77,7 @@ exports.findAllClassesGivenClassroom = (campusId, classroom_id) => {
     return knex
         .select("*")
         .from('classes')
-        .join('classrooms', 'classroom.id', '=', 'classes.classroom_id')
+        .join('classrooms', 'classrooms.id', '=', 'classes.classroom_id')
         .where('campus_id', campusId)
         .andWhere('classroom_id', classroom_id)
 }

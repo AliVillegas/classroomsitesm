@@ -16,6 +16,11 @@ const AdminClassrooms = ({authenticated, user}) => {
     }
 
     useEffect(() => {
+
+        axios.post(BaseUrl + '/adminCampus/searchClassroom/', // delete/ClassroomId, 
+        { searchQuery: "R1" }, { withCredentials: true }).then((response) =>{
+            console.log(response.data)
+        })
         axios.get(BaseUrl + '/adminCampus/allClassrooms', { withCredentials: true })
         .then((response) => {
             // console.log(response.data)
@@ -23,7 +28,7 @@ const AdminClassrooms = ({authenticated, user}) => {
         }).catch(err => {
             console.log(err);
         })
-    })
+    },[])
 
     const tableHeader = {
         'name': 'Name',

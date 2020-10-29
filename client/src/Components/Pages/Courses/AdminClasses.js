@@ -16,6 +16,12 @@ const AdminClasses= ({authenticated, user}) => {
     }
 
     useEffect(() => {
+
+        axios.post(BaseUrl + '/staff/searchClass/', // delete/ClassroomId, 
+        { searchQuery: "Physics" }, { withCredentials: true }).then((response) =>{
+            console.log(response.data)
+        })
+        
         axios.get(BaseUrl + '/staff/allClasses/', { withCredentials: true })
         .then((response) => {
             setClasses(response.data.classes)
