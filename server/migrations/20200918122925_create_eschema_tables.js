@@ -71,18 +71,7 @@ exports.up = function (knex) {
         })
         .createTable('classes', (table) => {
             table.increments('classId').primary();
-            table.time('TimeFromMon', { precision: 0 })
-            table.time('TimeToMon', { precision: 0 })
-            table.time('TimeFromTu', { precision: 0 })
-            table.time('TimeToTu', { precision: 0 })
-            table.time('TimeFromWed', { precision: 0 })
-            table.time('TimeToWed', { precision: 0 })
-            table.time('TimeFromTh', { precision: 0 })
-            table.time('TimeToTh', { precision: 0 })
-            table.time('TimeFromFr', { precision: 0 })
-            table.time('TimeToFr', { precision: 0 })
-            table.time('TimeFromSat', { precision: 0 })
-            table.time('TimeToSat', { precision: 0 })
+            table.varchar('schedule', 10000)
             table.string('course', 255)
             table.integer('classroom_id').unsigned().notNullable().references('id').inTable('classrooms').onDelete('cascade');
             table.string('description', 255).notNullable().defaultTo("");            table.integer('professor_id').unsigned().references('id').inTable('professors').onDelete('cascade');

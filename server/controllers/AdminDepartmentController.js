@@ -175,6 +175,76 @@ exports.deleteClass = (req, res) => {
     }
 }
 
+exports.updateClass = (req, res) => {
+    if (req.user === undefined) {
+        res.status(401).json({
+            message: "Unauthorized access"
+        }); return
+    }
+    if (roleValidator.isCampusAdmin(req)) {
+        let id = req.params.id;
+        CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            ClassModel.find(id).then((classFound) => {
+                if (classFound == null) {
+                    res.status(200).json({
+                        error: "Class doesn't exist"
+                    });
+                }
+                else {
+                    let updatedClass = {
+                        classroom_id: req.body.classroom_id,
+                        course: req.body.course,
+                        schedule: req.body.schedule,
+                        professor_id:req.body.professor_id
+                    }
+                    ClassModel.update(id, updatedClass)
+                        .then((updatedClass) => {
+                            res.status(200).json({
+                                course: updatedClass,
+                                message: "Class updated successfully"
+                            });
+                        })
+                }
+            })
+        })
+    }
+    else if (roleValidator.isDepartmentAdmin(req)) {
+        let id = req.params.id;
+        DepAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+            ClassModel.find(id).then((classFound) => {
+                if (classFound == null) {
+                    res.status(200).json({
+                        error: "Class doesn't exist"
+                    });
+                }
+                else {
+                    let updatedClass = {
+                        classroom_id: req.body.classroom_id,
+                        course: req.body.course,
+                        schedule: req.body.schedule,
+                        professor_id:req.body.professor_id
+                    }
+                    ClassModel.update(id, updatedClass)
+                        .then((updatedClass) => {
+                            res.status(200).json({
+                                course: updatedClass,
+                                message: "Class updated successfully"
+                            });
+                        })
+                }
+            })
+        })
+
+
+    }
+    else {
+        res.status(401).json({
+            message: "Unauthorized access"
+        });
+    }
+}
+
+
 exports.updateCourse = (req, res) => {
     if (req.user === undefined) {
         res.status(401).json({
@@ -394,20 +464,9 @@ exports.createClass = (req, res) => {
         }); return
     }
     let course_id = null
-    let timeFromMon = null
-    let timeToMon = null
-    let timeFromTu = null
-    let timeToTu = null
-    let timeFromWed = null
-    let timeToWed = null
-    let timeFromTh = null
-    let timeToTh = null
-    let timeFromFr = null
-    let timeToFr = null
-    let timeFromSat = null
-    let timeToSat = null
     let courseName = null
     let classroom_id = null
+    let schedule = null
     if (!req.body.course) {
         res.status(401).json({
             message: "No  course  was given"
@@ -419,65 +478,18 @@ exports.createClass = (req, res) => {
     if (req.body.classroom_id) {
         classroom_id = req.body.classroom_id
     }
+    if (req.body.schedule) {
+        schedule = req.body.schedule
+    }
     if (req.body.course) {
         course = req.body.course
     }
-    if (req.body.timeFromMon) {
-        timeFromMon = req.body.timeFromMon
-    }
-    if (req.body.timeToMon) {
-        timeToMon = req.body.timeToMon
-    }
-
-    if (req.body.timeFromTu) {
-        timeFromTu = req.body.timeFromTu
-    }
-    if (req.body.timeToTu) {
-        timeToTu = req.body.timeToTu
-    }
-
-    if (req.body.timeFromWed) {
-        timeFromWed = req.body.timeFromWed
-    }
-    if (req.body.timeToWed) {
-        timeToWed = req.body.timeToWed
-    }
-
-    if (req.body.timeFromTh) {
-        timeFromTh = req.body.timeFromTh
-    }
-    if (req.body.timeToTh) {
-        timeToTh = req.body.timeToTh
-    }
-
-    if (req.body.timeFromFr) {
-        timeFromFr = req.body.timeFromFr
-    }
-    if (req.body.timeToFr) {
-        timeToFr = req.body.timeToFr
-    }
-
-    if (req.body.timeFromSat) {
-        timeFromSat = req.body.timeFromSat
-    }
-    if (req.body.timeToSat) {
-        timeToSat = req.body.timeToSat
-    }
+    
     let newClass = {
-        timeFromMon: timeFromMon,
-        timeToMon: timeToMon,
-        timeFromTu: timeFromTu,
-        timeToTu: timeToTu,
-        timeFromWed: timeFromWed,
-        timeToWed: timeToWed,
-        timeFromTh: timeFromTh,
-        timeToTh: timeToTh,
-        timeFromFr: timeFromFr,
-        timeToFr: timeToFr,
-        timeFromSat: timeFromSat,
-        timeToSat: timeToSat,
         classroom_id: classroom_id,
-        course: course
+        course: course,
+        schedule: req.body.schedule,
+        professor_id:req.body.professor_id
     }
     //console.log(newClass)
     if (roleValidator.isCampusAdmin(req)) {

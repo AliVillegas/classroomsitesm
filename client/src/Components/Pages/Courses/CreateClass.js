@@ -3,6 +3,8 @@ import { Heading, FormControl, Stack, FormLabel, Input, Button, Select } from '@
 import axios from 'axios';
 import { BaseUrl } from '../../../constants'
 import { Link, Redirect } from 'react-router-dom';
+import { TimeGridScheduler, classes } from 'react-weekly-scheduler'
+import 'react-weekly-scheduler/build/index.css';
 
 const CreateClassroom = ({ user }) => {
 
@@ -15,7 +17,11 @@ const CreateClassroom = ({ user }) => {
 
     const [redirect, setRedirect] = useState("");
 
+    
+    const [schedule, setSchedule] = useState([]);
+
     useEffect(() => {
+
         axios.get(BaseUrl + '/adminCampus/allClassrooms', { withCredentials: true })
             .then((response) => {
                 setClassrooms(response.data.classrooms)
@@ -35,17 +41,20 @@ const CreateClassroom = ({ user }) => {
     }, [])
 
     const handleClick = () => {
+        console.log(schedule)
+
         axios.post(BaseUrl + '/adminDep/createClass',
             {
                 professor_id: professor,
                 classroom_id: classroom,
                 course: course,
+                schedule: JSON.stringify(schedule)
             }, { withCredentials: true })
             .then(response => {
                 setRedirect("/admin_courses")
             }).catch(err => {
                 console.log(err)
-            })
+            }) 
     }
 
     if (user && (user.role === 'admin' || user.role === 'adminDep')) {
@@ -73,12 +82,33 @@ const CreateClassroom = ({ user }) => {
                                     <option key={`prof_${i}`} value={p.id}>{p.name}</option>
                                 );
                             })}
-                        </Select>
-
-                        <Button variantColor="blue" size="md" mt={3} onClick={handleClick}>
+                        </Select> 
+                    </FormControl>
+                    <div
+                        className="root"
+                        style={{
+                            margin: "auto",
+                            width: "75vw",
+                            height: "400px",
+                            "--cell-height": "20px",
+                            "--cell-width": "10px",
+                        }}
+                    >
+                        <TimeGridScheduler
+                            classes={classes}
+                            style={{ width: "100%", height: "100%" }}
+                            originDate={new Date("2021-01-11")}
+                            schedule={schedule}
+                            onChange={setSchedule}
+                            visualGridVerticalPrecision={15}
+                            verticalPrecision={15}
+                            cellClickPrecision={60}
+                            defaultHours = {[7,22]}
+                        />
+                    </div>
+                    <Button variantColor="blue" size="md" mt={3} onClick={handleClick}>
                             Create
                         </Button>
-                    </FormControl>
                 </Stack>
             )
         } else {

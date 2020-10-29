@@ -3,6 +3,8 @@ import { Heading, FormControl, Stack, FormLabel, Input, Button, Select } from '@
 import axios from 'axios';
 import { BaseUrl } from '../../../constants'
 import { Link, Redirect, useParams } from 'react-router-dom';
+import { TimeGridScheduler, classes } from 'react-weekly-scheduler'
+import 'react-weekly-scheduler/build/index.css';
 
 const UpdateClass = ({ user }) => {
 
@@ -15,6 +17,7 @@ const UpdateClass = ({ user }) => {
 
     const [redirect, setRedirect] = useState("");
     const { id } = useParams();
+    const [schedule, setSchedule] = useState([]);
 
     useEffect(() => {
         axios.get(BaseUrl + `/staff/getClass/${id}`, { withCredentials: true })
@@ -22,6 +25,9 @@ const UpdateClass = ({ user }) => {
                 setProfessor(response.data.class.professor_id)
                 setClassroom(response.data.class.classroom_id)
                 setCourse(response.data.class.course)
+                let data = response.data.class.schedule
+                if(data != null)
+                    setSchedule(JSON.parse(data))
             }).catch(err => {
                 console.log(err)
             })
@@ -44,11 +50,13 @@ const UpdateClass = ({ user }) => {
     }, [])
 
     const handleClick = () => {
-        axios.post(BaseUrl + '/adminDep/createClass',
+        axios.post(BaseUrl + `/adminDep/updateClass/${id}`,
             {
                 professor_id: professor,
                 classroom_id: classroom,
                 course: course,
+                schedule: JSON.stringify(schedule)
+
             }, { withCredentials: true })
             .then(response => {
                 setRedirect("/admin_courses")
@@ -77,7 +85,7 @@ const UpdateClass = ({ user }) => {
                                 );
                             })}
                         </Select>
-                        {professor? "" :'value{professor}'}
+                        {professor ? "" : 'value{professor}'}
                         <FormLabel htmlFor="professor">Professor</FormLabel>
                         <Select placeholder="Select Professor" value={professor} onChange={(e) => { setProfessor(e.target.value) }}>
                             {professors.map((p, i) => {
@@ -86,11 +94,33 @@ const UpdateClass = ({ user }) => {
                                 );
                             })}
                         </Select>
-
-                        <Button variantColor="blue" size="md" mt={3} onClick={handleClick}>
-                            Create
-                        </Button>
+                        
                     </FormControl>
+                    <div
+                        className="root"
+                        style={{
+                            margin: "auto",
+                            width: "75vw",
+                            height: "400px",
+                            "--cell-height": "20px",
+                            "--cell-width": "10px",
+                        }}
+                    >
+                        <TimeGridScheduler
+                            classes={classes}
+                            style={{ width: "100%", height: "100%" }}
+                            originDate={new Date("2021-01-11")}
+                            schedule={schedule}
+                            onChange={setSchedule}
+                            visualGridVerticalPrecision={15}
+                            verticalPrecision={15}
+                            cellClickPrecision={60}
+                            defaultHours = {[7,22]}
+                        />
+                    </div>
+                    <Button variantColor="blue" size="md" mt={3} onClick={handleClick}>
+                            Update Class
+                        </Button>
                 </Stack>
             )
         } else {

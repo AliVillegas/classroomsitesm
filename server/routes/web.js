@@ -163,6 +163,7 @@ router.post('/adminDep/searchCourse/', adminDepartmentController.searchCourse);
 //Error Class data is invalid or incomplete
 router.post('/adminDep/createClass/', adminDepartmentController.createClass);
 
+router.post('/adminDep/updateClass/:id', adminDepartmentController.updateClass);
 
 
 router.post('/adminDep/deleteClass/:id', adminDepartmentController.deleteClass);

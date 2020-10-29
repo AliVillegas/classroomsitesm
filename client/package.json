@@ -13,7 +13,9 @@
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "recoil": "0.0.13"
+    "react-weekly-scheduler": "0.0.1",
+    "recoil": "0.0.13",
+    "resize-observer-polyfill": "^1.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
