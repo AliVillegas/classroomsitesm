@@ -16,6 +16,15 @@ const ClassData = ({user, classR, handleChange}) => {
         })
     }
 
+    const handleFavoriteClick = () => {
+        axios.post(BaseUrl + `/staff/favoriteClass/${classR.classId}`, '', { withCredentials: true })
+        .then(response => {
+            console.log(response)
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <SimpleGrid columns={4} border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
             <Box>
@@ -25,9 +34,12 @@ const ClassData = ({user, classR, handleChange}) => {
             <Box>{classR.building}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
                 <Button size="xs" variantColor="green" >
-                    <Link to={`/info_class/${classR.classId}`}>
+                    <Link to={`/info_class/${classR.classroom_id}`}>
                             Schedule
                     </Link>
+                </Button>
+                <Button size="xs" variantColor="yellow" onClick={handleFavoriteClick}>
+                    Add as favorite
                 </Button>
                 {(user.role === 'admin' || user.role === 'adminDep') ? (
                     <>

@@ -4,15 +4,16 @@ exports.findAllGivenUserId = (userId) => {
     return knex
         .select('*')
         .from('favorite_classes')
-        .where('user_id', userId)
-        .first();
+        .join('classes', 'classes.classId', '=', 'favorite_classes.class_id')
+        .join('classrooms', 'classrooms.id', '=', 'classes.classroom_id')
+        .where('user_id', userId);
 }
 
-exports.createNewFavorite = (classId, userId) => { 
+exports.createNewFavorite = (classId, userId) => {
     return knex('favorite_classes')
         .insert({
-            class_id:classId,
-            user_id:userId
+            class_id: classId,
+            user_id: userId
         }).then((id) => {
             return knex.select('*')
                 .from('favorite_classes')
@@ -20,9 +21,9 @@ exports.createNewFavorite = (classId, userId) => {
         })
 }
 
-exports.find = (classId, userId) => { 
+exports.find = (classId, userId) => {
     return knex('favorite_classes')
-    .where('user_id',userId)
-    .andWhere('class_id',classId)
-    .first()
+        .where('user_id', userId)
+        .andWhere('class_id', classId)
+        .first()
 }

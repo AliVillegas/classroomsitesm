@@ -14,10 +14,11 @@ let FavoriteModel = require('../models/Favorite')
 
 
 exports.allClasses = (req, res) => {
-    if(req.user === undefined){
+    if (req.user === undefined) {
         res.status(401).json({
             message: "Unauthorized access"
-        }); return
+        });
+        return
     }
     limit = constants.queryLimit
     if (req.query.limit) {
@@ -34,8 +35,7 @@ exports.allClasses = (req, res) => {
             })
 
         })
-    }
-    else if (roleValidator.isDepartmentAdmin(req)) {
+    } else if (roleValidator.isDepartmentAdmin(req)) {
         DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
             ClassModel.allClassesSameCampus(depAdmin.campus_id, limit).then(classes => {
                 console.log("Retrieved all classes from the same cmapus")
@@ -45,8 +45,7 @@ exports.allClasses = (req, res) => {
                 });
             })
         })
-    }
-    else if (roleValidator.isProfessor(req)) {
+    } else if (roleValidator.isProfessor(req)) {
         ProfessorModel.findByUserID(req.user.id).then(prof => {
             ClassModel.allClassesSameCampus(prof.campus_id, limit).then(classes => {
                 console.log("Retrieved all classes from the same cmapus")
@@ -56,8 +55,7 @@ exports.allClasses = (req, res) => {
                 });
             })
         })
-    }
-    else if (roleValidator.isStudent(req)) {
+    } else if (roleValidator.isStudent(req)) {
         StudentModel.findByUserID(req.user.id).then(student => {
             ClassModel.allClassesSameCampus(student.campus_id, limit).then(classes => {
                 console.log("Retrieved all classes from the same cmapus")
@@ -67,8 +65,7 @@ exports.allClasses = (req, res) => {
                 });
             })
         })
-    }
-    else {
+    } else {
         res.status(401).json({
             authenticated: false,
             message: "Unauthorized access "
@@ -77,11 +74,12 @@ exports.allClasses = (req, res) => {
 
 }
 
-exports.getClass = (req,res) =>{
-    if(req.user === undefined){
+exports.getClass = (req, res) => {
+    if (req.user === undefined) {
         res.status(401).json({
             message: "Unauthorized access"
-        }); return
+        });
+        return
     }
     if (req.params.id) {
         classId = req.params.id
@@ -93,40 +91,37 @@ exports.getClass = (req,res) =>{
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(user => {
             campusId = user.campus_id
-            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+            ClassModel.findSameCampus(classId, campusId).then(classFound => {
                 res.status(200).json({
                     class: classFound,
                     message: "Class found",
                 });
             })
         })
-    }
-    else if (roleValidator.isDepartmentAdmin(req)) {
+    } else if (roleValidator.isDepartmentAdmin(req)) {
         DepAdminModel.findByUserID(req.user.id).then(user => {
             campusId = user.campus_id
-            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+            ClassModel.findSameCampus(classId, campusId).then(classFound => {
                 res.status(200).json({
                     class: classFound,
                     message: "Class found",
                 });
             })
         })
-    }
-    else if (roleValidator.isStudent(req)) {
+    } else if (roleValidator.isStudent(req)) {
         StudentModel.findByUserID(req.user.id).then(user => {
             campusId = user.campus_id
-            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+            ClassModel.findSameCampus(classId, campusId).then(classFound => {
                 res.status(200).json({
                     class: classFound,
                     message: "Class found",
                 });
             })
         })
-    }
-    else if (roleValidator.isProfessor(req)) {
+    } else if (roleValidator.isProfessor(req)) {
         ProfessorModel.findByUserID(req.user.id).then(user => {
             campusId = user.campus_id
-            ClassModel.findSameCampus(classId,campusId).then(classFound => {
+            ClassModel.findSameCampus(classId, campusId).then(classFound => {
                 res.status(200).json({
                     class: classFound,
                     message: "Class found",
@@ -136,10 +131,11 @@ exports.getClass = (req,res) =>{
     }
 }
 exports.classScheduleGivenClassroom = (req, res) => {
-    if(req.user === undefined){
+    if (req.user === undefined) {
         res.status(401).json({
             message: "Unauthorized access"
-        }); return
+        });
+        return
     }
     limit = constants.queryLimit
     if (req.query.limit) {
@@ -165,8 +161,7 @@ exports.classScheduleGivenClassroom = (req, res) => {
             })
 
         })
-    }
-    else if (roleValidator.isDepartmentAdmin(req)) {
+    } else if (roleValidator.isDepartmentAdmin(req)) {
         DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
             ClassroomModel.find(classroomId).then(classroom => {
                 CourseModel.findAllClassesGivenClassroom(depAdmin.campus_id, classroomId).then(classes => {
@@ -178,8 +173,7 @@ exports.classScheduleGivenClassroom = (req, res) => {
             })
 
         })
-    }
-    else if (roleValidator.isProfessor(req)) {
+    } else if (roleValidator.isProfessor(req)) {
         ProfessorModel.findByUserID(req.user.id).then(prof => {
             ClassroomModel.find(classroomId).then(classroom => {
                 CourseModel.findAllClassesGivenClassroom(prof.campus_id, classroomId).then(classes => {
@@ -191,8 +185,7 @@ exports.classScheduleGivenClassroom = (req, res) => {
             })
 
         })
-    }
-    else if (roleValidator.isStudent(req)) {
+    } else if (roleValidator.isStudent(req)) {
         StudentModel.findByUserID(req.user.id).then(student => {
             ClassroomModel.find(classroomId).then(classroom => {
                 CourseModel.findAllClassesGivenClassroom(student.campus_id, classroomId).then(classes => {
@@ -204,8 +197,7 @@ exports.classScheduleGivenClassroom = (req, res) => {
             })
 
         })
-    }
-    else {
+    } else {
         res.status(401).json({
             authenticated: false,
             message: "Unauthorized access "
@@ -215,22 +207,21 @@ exports.classScheduleGivenClassroom = (req, res) => {
 }
 
 exports.makeClassFavorite = (req, res) => {
-    if(req.user === undefined){
+    if (req.user === undefined) {
         res.status(401).json({
             message: "Unauthorized access"
-        }); return
-    }
-    else if (req.user) {
+        });
+        return
+    } else if (req.user) {
         if (req.params.id) {
             ClassModel.find(req.params.id).then(classFound => {
-                FavoriteModel.find(classFound.id, req.user.id).then(found => {
+                FavoriteModel.find(classFound.classId, req.user.id).then(found => {
                     if (found) {
                         res.status(200).json({
                             message: "Already favorite class"
                         });
-                    }
-                    else {
-                        FavoriteModel.createNewFavorite(classFound.id, req.user.id).then(favorited => {
+                    } else {
+                        FavoriteModel.createNewFavorite(classFound.classId, req.user.id).then(favorited => {
                             res.status(200).json({
                                 favoritedClass: favorited,
                                 message: "Added class to favorites"
@@ -240,14 +231,12 @@ exports.makeClassFavorite = (req, res) => {
                 })
 
             })
-        }
-        else {
+        } else {
             res.status(200).json({
                 error: "No given class Id"
             });
         }
-    }
-    else {
+    } else {
         res.status(401).json({
             message: "Unauthorized access"
         });
@@ -263,8 +252,7 @@ exports.allFavorites = (req, res) => {
             });
         })
 
-    }
-    else {
+    } else {
         res.status(401).json({
             message: "Unauthorized access"
         });
@@ -272,10 +260,11 @@ exports.allFavorites = (req, res) => {
 }
 
 exports.classesByCourseName = (req, res) => {
-    if(req.user === undefined){
+    if (req.user === undefined) {
         res.status(401).json({
             message: "Unauthorized access"
-        }); return
+        });
+        return
     }
     limit = constants.queryLimit
     if (req.query.limit) {
@@ -293,8 +282,7 @@ exports.classesByCourseName = (req, res) => {
             })
         })
 
-    }
-    else if (roleValidator.isDepartmentAdmin(req)) {
+    } else if (roleValidator.isDepartmentAdmin(req)) {
         let name = req.body.searchQuery
         DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
             ClassModel.findByCourseName(depAdmin.campus_id, name, limit).then(classes => {
@@ -305,8 +293,7 @@ exports.classesByCourseName = (req, res) => {
 
             })
         })
-    }
-    else if (roleValidator.isProfessor(req)) {
+    } else if (roleValidator.isProfessor(req)) {
         let name = req.body.searchQuery
         ProfessorModel.findByUserID(req.user.id).then(prof => {
             ClassModel.findByCourseName(prof.campus_id, name, limit).then(classes => {
@@ -317,8 +304,7 @@ exports.classesByCourseName = (req, res) => {
 
             })
         })
-    }
-    else if (roleValidator.isStudent(req)) {
+    } else if (roleValidator.isStudent(req)) {
         let name = req.body.searchQuery
         StudentModel.findByUserID(req.user.id).then(student => {
             ClassModel.findByCourseName(student.campus_id, name, limit).then(classes => {
@@ -329,8 +315,7 @@ exports.classesByCourseName = (req, res) => {
 
             })
         })
-    }
-    else {
+    } else {
         res.status(401).json({
             message: "Unauthorized access"
         });

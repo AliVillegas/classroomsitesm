@@ -3,25 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { BaseUrl } from '../../../constants';
 import axios from 'axios';
-import ClassData from '../../Widgets/ClassData'
+import FavClassData from '../../Widgets/FavClassData'
 
-const AdminClasses = ({authenticated, user}) => {
+const FavoriteClasses = ({authenticated, user}) => {
     const [classes, setClasses] = useState([]);
     const [filtered, setFiltered] = useState([]);
     const [search, setSearch] = useState("");
 
-    const removeClass = (classR) => {
-        const index = classes.findIndex(c => classR.classId === c.classId);
-        let modified = JSON.parse(JSON.stringify(classes));
-        modified.splice(index, 1);
-        setClasses(modified);
-    }
-
     useEffect(() => {        
-        axios.get(BaseUrl + '/staff/allClasses/', { withCredentials: true })
+        axios.get(BaseUrl + '/staff/allFavorites/', { withCredentials: true })
         .then((response) => {
-            setClasses(response.data.classes)
-            setFiltered(response.data.classes)
+            console.log(response)
+            if (response.data.favorites) {
+                setClasses(response.data.favorites)
+                setFiltered(response.data.favorites)
+            }
         }).catch(err => {
             console.log(err);
         })
@@ -34,15 +30,6 @@ const AdminClasses = ({authenticated, user}) => {
         setFiltered(filt)
     }
 
-    const userHeading = () => {
-        if (user) {
-            if (user.role == 'admin' || user.role == 'adminDep') {
-                return "Admin Classes";
-            }
-            return "Classes"
-        }
-    }
-
     const tableHeader = {
         'course': 'Course',
         'classroom': 'Classroom',
@@ -53,22 +40,12 @@ const AdminClasses = ({authenticated, user}) => {
         return (
             <Stack p={10}>
                 <Link to='/'>Return to dashboard </Link>
-                <Heading mt={5}>{ userHeading() }</Heading>
-                {(user.role === 'admin' || user.role === 'adminDep') ? (
-                    <Button mx="auto" variantColor="green" size="md">
-                        <Link to="/create_class">
-                            Create class
-                        </Link>
-                    </Button>
-
-                ) : (
-                    <></>
-                )}
+                <Heading mt={5}>Favorite Classes</Heading>
                 <FormControl>
                     <FormLabel htmlFor="search">Search classes</FormLabel>
                     <Input type="text" id="search" value={search} onChange={handleChangeSearch} />
                 </FormControl>
-                <SimpleGrid columns={4} border="2px" borderRadius="md" borderColor="gray.600" textAlign="center">
+                <SimpleGrid columns={3} border="2px" borderRadius="md" borderColor="gray.600" textAlign="center">
                     <Box>
                         <Heading bg="blue.500" color="white" p={1} size="sm">{tableHeader.course}</Heading>
                     </Box>
@@ -78,14 +55,12 @@ const AdminClasses = ({authenticated, user}) => {
                     <Box>
                         <Heading bg="blue.500" color="white" p={1} size="sm">{tableHeader.building}</Heading>
                     </Box>
-                    <Box>
-                    </Box>
                 </SimpleGrid>
                 <List mt={1} spacing={1}>
                     { filtered.map((classR) => {
                         return (
                             <ListItem key={"class-"+classR.classId} >
-                                <ClassData user={user} classR={classR} handleChange={removeClass}></ClassData>
+                                <FavClassData user={user} classR={classR}></FavClassData>
                             </ListItem>
                         )
                     }) }
@@ -97,4 +72,4 @@ const AdminClasses = ({authenticated, user}) => {
         return <Redirect to="/" />
     }
 }
-export default AdminClasses;
+export default FavoriteClasses;

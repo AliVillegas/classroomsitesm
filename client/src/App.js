@@ -7,6 +7,7 @@ import HomePage from './Components/Pages/HomePage';
 import Header from './Components/Widgets/Header';
 
 import AdminClasses from './Components/Pages/Courses/AdminClasses';
+import FavoriteClasses from './Components/Pages/Courses/FavoriteClasses';
 import ClassInfo from './Components/Pages/Courses/ClassInfo'
 import CreateClass from './Components/Pages/Courses/CreateClass'
 import UpdateClass from './Components/Pages/Courses/UpdateClass';
@@ -73,6 +74,9 @@ function App() {
             </Route>
             <Route exact path="/admin_courses">
               <AdminClasses authenticated={authenticated} user={user}></AdminClasses>
+            </Route>
+            <Route exact path="/fav_courses">
+              <FavoriteClasses authenticated={authenticated} user={user}></FavoriteClasses>
             </Route>
 
           </Switch>
