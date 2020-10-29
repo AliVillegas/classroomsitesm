@@ -5,7 +5,7 @@ import { BaseUrl } from '../../../constants';
 import axios from 'axios';
 import ClassData from '../../Widgets/ClassData'
 
-const AdminClasses= ({authenticated, user}) => {
+const AdminClasses = ({authenticated, user}) => {
     const [classes, setClasses] = useState([]);
 
     const removeClass = (classR) => {
@@ -16,7 +16,6 @@ const AdminClasses= ({authenticated, user}) => {
     }
 
     useEffect(() => {
-
         axios.post(BaseUrl + '/staff/searchClass/', // delete/ClassroomId, 
         { searchQuery: "Physics" }, { withCredentials: true }).then((response) =>{
             console.log(response.data)
