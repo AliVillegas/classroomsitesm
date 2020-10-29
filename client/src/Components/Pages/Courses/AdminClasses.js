@@ -1,4 +1,4 @@
-import { Box, List, ListItem, Heading, Stack, SimpleGrid, Button } from '@chakra-ui/core';
+import { Box, List, ListItem, Heading, Stack, SimpleGrid, Button, FormControl, FormLabel, Input } from '@chakra-ui/core';
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { BaseUrl } from '../../../constants';
@@ -7,6 +7,8 @@ import ClassData from '../../Widgets/ClassData'
 
 const AdminClasses = ({authenticated, user}) => {
     const [classes, setClasses] = useState([]);
+    const [filtered, setFiltered] = useState([]);
+    const [search, setSearch] = useState("");
 
     const removeClass = (classR) => {
         const index = classes.findIndex(c => classR.classId === c.classId);
@@ -15,19 +17,22 @@ const AdminClasses = ({authenticated, user}) => {
         setClasses(modified);
     }
 
-    useEffect(() => {
-        axios.post(BaseUrl + '/staff/searchClass/', // delete/ClassroomId, 
-        { searchQuery: "Physics" }, { withCredentials: true }).then((response) =>{
-            console.log(response.data)
-        })
-        
+    useEffect(() => {        
         axios.get(BaseUrl + '/staff/allClasses/', { withCredentials: true })
         .then((response) => {
             setClasses(response.data.classes)
+            setFiltered(response.data.classes)
         }).catch(err => {
             console.log(err);
         })
     }, [])
+
+    const handleChangeSearch = (e) => {
+        const s = e.target.value;
+        setSearch(s)
+        const filt = classes.filter(c => c.course.toLowerCase().includes(s.toLowerCase()))
+        setFiltered(filt)
+    }
 
     const tableHeader = {
         'course': 'Course',
@@ -50,6 +55,10 @@ const AdminClasses = ({authenticated, user}) => {
                 ) : (
                     <></>
                 )}
+                <FormControl>
+                    <FormLabel htmlFor="search">Search classes</FormLabel>
+                    <Input type="text" id="search" value={search} onChange={handleChangeSearch} />
+                </FormControl>
                 <SimpleGrid columns={4} border="2px" borderRadius="md" borderColor="gray.600" textAlign="center">
                     <Box>
                         <Heading bg="blue.500" color="white" p={1} size="sm">{tableHeader.course}</Heading>
@@ -64,7 +73,7 @@ const AdminClasses = ({authenticated, user}) => {
                     </Box>
                 </SimpleGrid>
                 <List mt={1} spacing={1}>
-                    { classes.map((classR) => {
+                    { filtered.map((classR) => {
                         return (
                             <ListItem key={"class-"+classR.classId} >
                                 <ClassData user={user} classR={classR} handleChange={removeClass}></ClassData>

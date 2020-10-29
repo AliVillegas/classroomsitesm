@@ -30,7 +30,7 @@ const AdminClassrooms = ({authenticated, user}) => {
     const handleChangeSearch = (e) => {
         const s = e.target.value;
         setSearch(s)
-        const filt = classrooms.filter(c => c.name.includes(s))
+        const filt = classrooms.filter(c => c.name.toLowerCase().includes(s.toLowerCase()))
         setFiltered(filt)
     }
 
