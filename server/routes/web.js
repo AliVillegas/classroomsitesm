@@ -194,7 +194,7 @@ router.get('/staff/getClass/:id', staffController.getClass)
 //classroomSchedule
 //Returns all classes on a classroom given a classroom id 
 //error: missing classroom id 
-router.post('/staff/classroomSchedule/:id', staffController.classScheduleGivenClassroom)
+router.get('/staff/classroomSchedule/:id', staffController.classScheduleGivenClassroom)
 
 
 //makeClass a Favorite 
