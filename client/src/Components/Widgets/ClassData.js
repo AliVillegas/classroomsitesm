@@ -24,7 +24,7 @@ const ClassData = ({user, classR, handleChange}) => {
             <Box>{classR.name}</Box>
             <Box>{classR.building}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
-                <Button size="xs" variantColor="green" onClick={handleDeleteClick}>
+                <Button size="xs" variantColor="green" >
                     <Link to={`/info_class/${classR.classId}`}>
                             Schedule
                     </Link>
