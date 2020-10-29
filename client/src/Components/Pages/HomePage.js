@@ -15,7 +15,7 @@ const HomePage = ({authenticated, user}) => {
         } else if (user.role === 'adminDep') {
             return <AdminDepDashboard />
         } else if (user.role === 'student') {
-            return <StudentDashboard />
+            return <StudentDashboard authenticated={authenticated} user={user} />
         } else if (user.role === 'professor') {
             return <ProfessorDashboard />
         }
