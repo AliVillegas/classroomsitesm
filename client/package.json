@@ -40,6 +40,8 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^9.5.0"
+    "@testing-library/react": "^9.5.0",
+    "mocha": "^8.2.0",
+    "mocha-axios": "^1.4.1"
   }
 }
