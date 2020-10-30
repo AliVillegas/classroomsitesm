@@ -18,7 +18,6 @@ const ClassData = ({user, classR, handleChange, isFavorite, handleAddFavorite}) 
     const handleFavoriteClick = () => {
         axios.post(BaseUrl + `/staff/favoriteClass/${classR.classId}`, '', { withCredentials: true })
         .then(response => {
-            console.log(response)
             handleAddFavorite(classR)
         }).catch(err => {
             console.log(err);

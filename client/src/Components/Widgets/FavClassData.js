@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Heading, SimpleGrid, Flex, Button } from '@chakra-ui/core';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/core';
 
 
 const FavClassData = ({user, classR, handleChange}) => {

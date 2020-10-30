@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, SimpleGrid, Heading, Button } from '@chakra-ui/core';
 import { Link } from 'react-router-dom';
-import AdminClasses from '../Pages/Courses/AdminClasses';
 
 const ProfessorDashboard = ({user,authenticated}) => {
     return (

@@ -41,14 +41,11 @@ const UpdateClass = ({ user }) => {
 
         axios.get(BaseUrl + '/adminCampus/allProfessors', { withCredentials: true })
             .then((response) => {
-                console.log(response)
                 setProfessors(response.data.professors)
             }).catch(err => {
                 console.log(err);
             });
-
-
-    }, [])
+    }, [id])
 
     const handleClick = () => {
         axios.post(BaseUrl + `/adminDep/updateClass/${id}`,

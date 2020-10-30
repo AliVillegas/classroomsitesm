@@ -14,7 +14,6 @@ const UpdateUserRole = ({authenticated, user}) => {
     useEffect(() => {
         axios.get(BaseUrl + `/adminCampus/getUser/${id}`, { withCredentials: true })
             .then(response => {
-                console.log(response.data)
                 setName(response.data.user.name)
                 setEmail(response.data.user.email)
                 setRole(response.data.user.role)

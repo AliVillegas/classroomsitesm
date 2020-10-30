@@ -11,7 +11,6 @@ const AdminUsers = ({authenticated, user}) => {
     useEffect(() => {
         axios.get(BaseUrl + '/adminCampus/allUsers', { withCredentials: true })
         .then((response) => {
-            console.log(response.data.users)
             setUsers(response.data.users)
         }).catch(err => {
             console.log(err);

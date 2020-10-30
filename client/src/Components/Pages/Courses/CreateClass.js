@@ -31,7 +31,6 @@ const CreateClassroom = ({ user }) => {
 
         axios.get(BaseUrl + '/adminCampus/allProfessors', { withCredentials: true })
             .then((response) => {
-                console.log(response.data.professors)
                 setProfessors(response.data.professors)
             }).catch(err => {
                 console.log(err);
@@ -41,8 +40,6 @@ const CreateClassroom = ({ user }) => {
     }, [])
 
     const handleClick = () => {
-        console.log(schedule)
-
         axios.post(BaseUrl + '/adminDep/createClass',
             {
                 professor_id: professor,

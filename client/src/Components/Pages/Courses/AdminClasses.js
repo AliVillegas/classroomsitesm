@@ -22,7 +22,6 @@ const AdminClasses = ({authenticated, user}) => {
         
         axios.get(BaseUrl + '/staff/allFavorites/', { withCredentials: true })
         .then((response) => {
-            console.log(response)
             if (response.data.favorites) {
                 setFavorites(response.data.favorites)
             }
@@ -33,7 +32,6 @@ const AdminClasses = ({authenticated, user}) => {
         const index = classes.findIndex(c => classR.classId === c.classId);
         let modified = JSON.parse(JSON.stringify(classes));
         modified.splice(index, 1);
-        console.log(modified)
         setClasses(modified);
         setFiltered(modified);
     }
@@ -53,7 +51,7 @@ const AdminClasses = ({authenticated, user}) => {
 
     const userHeading = () => {
         if (user) {
-            if (user.role == 'admin' || user.role == 'adminDep') {
+            if (user.role === 'admin' || user.role === 'adminDep') {
                 return "Admin Classes";
             }
             return "Classes"

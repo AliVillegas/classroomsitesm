@@ -1,4 +1,4 @@
-import { Box, List, ListItem, Heading, Stack, SimpleGrid, Button, FormControl, FormLabel, Input } from '@chakra-ui/core';
+import { Box, List, ListItem, Heading, Stack, SimpleGrid, FormControl, FormLabel, Input } from '@chakra-ui/core';
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { BaseUrl } from '../../../constants';
@@ -13,7 +13,6 @@ const FavoriteClasses = ({authenticated, user}) => {
     useEffect(() => {        
         axios.get(BaseUrl + '/staff/allFavorites/', { withCredentials: true })
         .then((response) => {
-            console.log(response)
             if (response.data.favorites) {
                 setClasses(response.data.favorites)
                 setFiltered(response.data.favorites)
