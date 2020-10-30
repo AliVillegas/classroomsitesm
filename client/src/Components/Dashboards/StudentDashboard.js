@@ -1,7 +1,6 @@
 import { Box, SimpleGrid, Heading, Button } from '@chakra-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AdminClasses from '../Pages/Courses/AdminClasses';
 
 const StudentDashboard = ({authenticated, user}) => {
     return (

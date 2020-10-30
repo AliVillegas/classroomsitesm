@@ -4,7 +4,7 @@ import { Link, Redirect, useParams } from 'react-router-dom';
 import { Heading, Stack, } from '@chakra-ui/core';
 import axios from 'axios';
 import { BaseUrl } from '../../../constants'
-import { List, ListItem, Flex, SimpleGrid, Button, FormControl, FormLabel, Input } from '@chakra-ui/core';
+import { SimpleGrid } from '@chakra-ui/core';
 import { TimeGridScheduler, classes } from 'react-weekly-scheduler'
 import 'react-weekly-scheduler/build/index.css';
 
@@ -17,7 +17,6 @@ const ClassInfo = ({ authenticated, user }) => {
         axios.get(BaseUrl + `/staff/classroomSchedule/${id}`, { withCredentials: true })
             .then((response) => {
 
-                console.log(response.data)
                 let scheduleReceived = []
                 response.data.classes.forEach(classR => {
                     if (classR.schedule != null) {
@@ -25,7 +24,6 @@ const ClassInfo = ({ authenticated, user }) => {
                         let time = ""
 
                         mainSchedule.forEach(times => {
-                            console.log(times)
                             times.forEach(eachTime => {
                                 let d = Date.parse(eachTime)
                                 const w = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(d);
@@ -34,14 +32,10 @@ const ClassInfo = ({ authenticated, user }) => {
                                 }).format(d);
                                 const m = new Intl.DateTimeFormat('en', { minute: '2-digit' }).format(d);
                                 time += `${w} ${h}:${m} `
-                                console.log(time)
                                 classR.time = time
-
                             });
-
                             scheduleReceived.push(times)
                         });
-                        console.log(response.data.classes)
                     }
                 });
                 setClassesR(response.data.classes)
@@ -49,7 +43,7 @@ const ClassInfo = ({ authenticated, user }) => {
             }).catch(err => {
                 console.log(err);
             });
-    }, [])
+    }, [id])
 
     if (user) {
         return (

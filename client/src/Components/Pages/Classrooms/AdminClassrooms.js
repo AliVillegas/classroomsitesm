@@ -44,7 +44,7 @@ const AdminClassrooms = ({ authenticated, user }) => {
     }
     const userHeading = () => {
         if (user) {
-            if (user.role == 'admin' || user.role == 'adminDep') {
+            if (user.role === 'admin' || user.role === 'adminDep') {
                 return "Admin Classrooms";
             }
             return "Classrooms"

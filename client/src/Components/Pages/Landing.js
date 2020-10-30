@@ -1,4 +1,4 @@
-import { Stack, Box, Heading, Flex, Text, Image } from '@chakra-ui/core';
+import { Stack, Box, Heading, Flex, Image } from '@chakra-ui/core';
 import React from 'react';
 
 const Landing = () => {
@@ -24,7 +24,7 @@ const Landing = () => {
                 color="primary.800"
                 textAlign={["center", "center", "left", "left"]}
                 >
-                    Itesm classroom
+                    The place to view all your classes
                 </Heading>
                 <Heading
                 as="h2"
@@ -35,21 +35,11 @@ const Landing = () => {
                 lineHeight={1.5}
                 textAlign={["center", "center", "left", "left"]}
                 >
-                    Subtitle
+                    Never miss a class again
                 </Heading>
-
-                <Text
-                fontSize="xs"
-                mt={2}
-                textAlign="center"
-                color="primary.800"
-                opacity="0.6"
-                >
-                    No credit card required.
-                </Text>
             </Stack>
             <Box w={{ base: "80%", sm: "60%", md: "50%" }} mb={{ base: 12, md: 0 }}>
-                <Image src="https://source.unsplash.com/collection/404339/800x600" size="100%" rounded="1rem" shadow="2xl" />
+                <Image src="https://source.unsplash.com/collection/332741/800x600" size="100%" rounded="1rem" shadow="2xl" />
             </Box>
         </Flex>
     );
