@@ -5,7 +5,7 @@ import { BaseUrl } from '../../../constants';
 import axios from 'axios';
 import ClasroomData from '../../Widgets/ClassroomData'
 
-const AdminClassrooms = ({authenticated, user}) => {
+const AdminClassrooms = ({ authenticated, user }) => {
     const [classrooms, setClassrooms] = useState([]);
     const [filtered, setFiltered] = useState([]);
     const [search, setSearch] = useState("");
@@ -15,17 +15,19 @@ const AdminClassrooms = ({authenticated, user}) => {
         let modified = JSON.parse(JSON.stringify(classrooms));
         modified.splice(index, 1);
         setClassrooms(modified);
+        setFiltered(modified);
+
     }
 
     useEffect(() => {
         axios.get(BaseUrl + '/adminCampus/allClassrooms', { withCredentials: true })
-        .then((response) => {
-            setClassrooms(response.data.classrooms)
-            setFiltered(response.data.classrooms)
-        }).catch(err => {
-            console.log(err);
-        })
-    },[])
+            .then((response) => {
+                setClassrooms(response.data.classrooms)
+                setFiltered(response.data.classrooms)
+            }).catch(err => {
+                console.log(err);
+            })
+    }, [])
 
     const handleChangeSearch = (e) => {
         const s = e.target.value;
@@ -40,17 +42,31 @@ const AdminClassrooms = ({authenticated, user}) => {
         'capacity': 'Capacity',
         'features': 'Features'
     }
-
-    if (user && user.role === 'admin') {
+    const userHeading = () => {
+        if (user) {
+            if (user.role == 'admin' || user.role == 'adminDep') {
+                return "Admin Classrooms";
+            }
+            return "Classrooms"
+        }
+    }
+    if (user) {
         return (
             <Stack p={10}>
                 <Link to='/'>Return to dashboard </Link>
-                <Heading mt={5}>Admin Classrooms</Heading>
-                <Button mx="auto" variantColor="green" size="md">
-                    <Link to="/create_classroom">
-                        Create classroom
+                <Heading mt={5}>{userHeading()}</Heading>
+                {(user.role === 'admin') ? (
+                    <>
+                        <Button mx="auto" variantColor="green" size="md">
+                            <Link to="/create_classroom">
+                                Create classroom
                     </Link>
-                </Button>
+                        </Button>
+                    </>
+                ) : (
+                        <></>
+                    )}
+
                 <FormControl>
                     <FormLabel htmlFor="search">Search classroom</FormLabel>
                     <Input type="text" id="search" value={search} onChange={handleChangeSearch} />
@@ -70,15 +86,15 @@ const AdminClassrooms = ({authenticated, user}) => {
                     </Box>
                 </SimpleGrid>
                 <List mt={1} spacing={1}>
-                    { filtered.map((classroom) => {
+                    {filtered.map((classroom) => {
                         return (
-                            <ListItem key={"cr-"+classroom.id} >
-                                <ClasroomData classroom={classroom} handleChange={removeClassroom}></ClasroomData>
+                            <ListItem key={"cr-" + classroom.id} >
+                                <ClasroomData user={user} classroom={classroom} handleChange={removeClassroom}></ClasroomData>
                             </ListItem>
                         )
-                    }) }
+                    })}
                 </List>
-                
+
             </Stack>
         )
     } else {

@@ -27,8 +27,8 @@ const ClassData = ({user, classR, handleChange, isFavorite, handleAddFavorite}) 
 
     return (
         <SimpleGrid columns={4} border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
-            <Box>
-                <Heading bg="blue.300" color="white" p={1} size="sm">{classR.course}</Heading>
+            <Box height="100%">
+                <Heading height="100%" bg="blue.300" color="white" p={1} size="sm">{classR.course}</Heading>
             </Box>
             <Box>{classR.name}</Box>
             <Box>{classR.building}</Box>

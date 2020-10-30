@@ -4,39 +4,46 @@ import axios from 'axios';
 import { BaseUrl } from '../../constants'
 import { Link } from 'react-router-dom';
 
-const ClassroomData = ({classroom, handleChange}) => {
+const ClassroomData = ({ classroom, handleChange, user }) => {
 
     const handleDeleteClick = () => {
         axios.post(BaseUrl + `/adminCampus/deleteClassroom/${classroom.id}`, '', { withCredentials: true })
-        .then(response => {
-            handleChange(classroom);
-        }).catch(err => {
-            console.log(err);
-        })
+            .then(response => {
+                handleChange(classroom);
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     return (
         <SimpleGrid columns={5} border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
-            <Box>
-                <Heading bg="blue.300" color="white" p={1} size="sm">{classroom.name}</Heading>
+            <Box height="100%">
+                <Heading height="100%" bg="blue.300" color="white" p={1} size="sm">{classroom.name}</Heading>
             </Box>
             <Box>{classroom.building}</Box>
             <Box>{classroom.capacity}</Box>
             <Box>{classroom.features}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
-            <Button size="xs" variantColor="green" >
+                <Button size="xs" variantColor="green" >
                     <Link to={`/info_class/${classroom.id}`}>
-                            Schedule
+                        Schedule
                     </Link>
                 </Button>
-                <Button size="xs" variantColor="red" onClick={handleDeleteClick}>
-                    Delete
-                </Button>
-                <Button size="xs" variantColor="blue">
-                    <Link to={`/update_classroom/${classroom.id}`}>
-                        Update
-                    </Link>
-                </Button>
+                {(user.role === 'admin') ? (
+                    <>
+                        <Button size="xs" variantColor="red" onClick={handleDeleteClick}>
+                            Delete
+                    </Button>
+
+                        <Button size="xs" variantColor="blue">
+                            <Link to={`/update_classroom/${classroom.id}`}>
+                                Update
+                                    </Link>
+                        </Button>
+                    </>
+                ) : (
+                        <></>
+                    )}
             </Flex>
         </SimpleGrid>
     );

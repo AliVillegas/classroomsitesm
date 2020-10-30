@@ -16,6 +16,8 @@ const ClassInfo = ({ authenticated, user }) => {
     useEffect(() => {
         axios.get(BaseUrl + `/staff/classroomSchedule/${id}`, { withCredentials: true })
             .then((response) => {
+
+                console.log(response.data)
                 let scheduleReceived = []
                 response.data.classes.forEach(classR => {
                     if (classR.schedule != null) {

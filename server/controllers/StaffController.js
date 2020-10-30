@@ -162,9 +162,9 @@ exports.classScheduleGivenClassroom = (req, res) => {
 
         })
     } else if (roleValidator.isDepartmentAdmin(req)) {
-        DepAdminModel.findByUserID(req.user.id).then(depAdmin => {
+        DepAdminModel.findByUserID(req.user.id).then(campusAdmin => {
             ClassroomModel.find(classroomId).then(classroom => {
-                CourseModel.findAllClassesGivenClassroom(depAdmin.campus_id, classroomId).then(classes => {
+                ClassModel.findAllClassesGivenClassroom(campusAdmin.campus_id, classroomId).then(classes => {
                     res.status(200).json({
                         classes: classes,
                         message: "All classes in the classroom",
@@ -174,9 +174,9 @@ exports.classScheduleGivenClassroom = (req, res) => {
 
         })
     } else if (roleValidator.isProfessor(req)) {
-        ProfessorModel.findByUserID(req.user.id).then(prof => {
+        ProfessorModel.findByUserID(req.user.id).then(campusAdmin => {
             ClassroomModel.find(classroomId).then(classroom => {
-                CourseModel.findAllClassesGivenClassroom(prof.campus_id, classroomId).then(classes => {
+                ClassModel.findAllClassesGivenClassroom(campusAdmin.campus_id, classroomId).then(classes => {
                     res.status(200).json({
                         classes: classes,
                         message: "All classes in the classroom",
@@ -186,9 +186,9 @@ exports.classScheduleGivenClassroom = (req, res) => {
 
         })
     } else if (roleValidator.isStudent(req)) {
-        StudentModel.findByUserID(req.user.id).then(student => {
+        StudentModel.findByUserID(req.user.id).then(campusAdmin => {
             ClassroomModel.find(classroomId).then(classroom => {
-                CourseModel.findAllClassesGivenClassroom(student.campus_id, classroomId).then(classes => {
+                ClassModel.findAllClassesGivenClassroom(campusAdmin.campus_id, classroomId).then(classes => {
                     res.status(200).json({
                         classes: classes,
                         message: "All classes in the classroom",
@@ -197,6 +197,7 @@ exports.classScheduleGivenClassroom = (req, res) => {
             })
 
         })
+
     } else {
         res.status(401).json({
             authenticated: false,

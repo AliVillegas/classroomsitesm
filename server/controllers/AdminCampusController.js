@@ -3,6 +3,7 @@ let CampusAdminModel = require('../models/CampusAdmin')
 let UserModel = require('../models/User')
 let StudentModel = require('../models/Student')
 let ProfessorModel = require('../models/Professor')
+let DepAdminModel = require('../models/DepartmentAdmin')
 
 let roleValidator = require('../validators/AuthValidators')
 let constants = require('../constants')
@@ -16,7 +17,7 @@ exports.classroomsAll = (req, res) => {
         if (req.query.limit) {
             limit = req.query.limit
         }
-        if (roleValidator.isCampusAdmin(req)) {
+        if (true) {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
                 classroomModel.allClassroomsSameCampus(campusAdmin.campus_id, limit).then(classrooms => {
                     //console.log("CLASSROOMS", classrooms)
@@ -57,7 +58,20 @@ exports.professorsAll = (req, res) => {
                     });
                 })
             })
-        } else {
+        } 
+        if (roleValidator.isDepartmentAdmin(req)) {
+            DepAdminModel.findByUserID(req.user.id).then(campusAdmin => {
+                ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors => {
+                    //console.log("CLASSROOMS", classrooms)
+                    res.status(200).json({
+                        professors: professors,
+                        message: "Classrooms from same campus",
+                    });
+                })
+            })
+        }
+        
+        else {
             res.status(401).json({
                 authenticated: false,
                 message: "Unauthorized access "

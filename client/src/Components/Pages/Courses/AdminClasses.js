@@ -33,7 +33,9 @@ const AdminClasses = ({authenticated, user}) => {
         const index = classes.findIndex(c => classR.classId === c.classId);
         let modified = JSON.parse(JSON.stringify(classes));
         modified.splice(index, 1);
+        console.log(modified)
         setClasses(modified);
+        setFiltered(modified);
     }
     
     const addFavorite = (classToAdd) => {
@@ -109,7 +111,7 @@ const AdminClasses = ({authenticated, user}) => {
                                     handleChange={removeClass} 
                                     isFavorite={isFavorite}
                                     handleAddFavorite={addFavorite}>
-                                
+                                    
                                 </ClassData>
                             </ListItem>
                         )
