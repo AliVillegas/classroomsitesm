@@ -51,10 +51,8 @@ exports.professorsAll = (req, res) => {
         if (roleValidator.isCampusAdmin(req)) {
             CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
                 ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors => {
-                    //console.log("CLASSROOMS", classrooms)
                     res.status(200).json({
                         professors: professors,
-                        message: "Classrooms from same campus",
                     });
                 })
             })
@@ -62,20 +60,11 @@ exports.professorsAll = (req, res) => {
         if (roleValidator.isDepartmentAdmin(req)) {
             DepAdminModel.findByUserID(req.user.id).then(campusAdmin => {
                 ProfessorModel.allSameCampus(campusAdmin.campus_id).then(professors => {
-                    //console.log("CLASSROOMS", classrooms)
                     res.status(200).json({
                         professors: professors,
-                        message: "Classrooms from same campus",
                     });
                 })
             })
-        }
-        
-        else {
-            res.status(401).json({
-                authenticated: false,
-                message: "Unauthorized access "
-            });
         }
     } else {
         res.status(401).json({
