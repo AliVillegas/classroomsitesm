@@ -26,7 +26,7 @@ exports.allClasses = (req, res) => {
     }
     if (roleValidator.isCampusAdmin(req)) {
         CampusAdminModel.findByUserID(req.user.id).then(campusAdmin => {
-            ClassModel.allClassesSameCampus(campusAdmin.campus_id, limit).then(classes => {
+            ClassModel.allClassesSameCampus(campusAdmin.campus_id, limit,req.user).then(classes => {
                 console.log("Retrieved all classes from the same cmapus")
                 res.status(200).json({
                     classes: classes,

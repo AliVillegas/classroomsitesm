@@ -16,20 +16,34 @@ const ClassInfo = ({ authenticated, user }) => {
     useEffect(() => {
         axios.get(BaseUrl + `/staff/classroomSchedule/${id}`, { withCredentials: true })
             .then((response) => {
-                setClassesR(response.data.classes)
                 let scheduleReceived = []
                 response.data.classes.forEach(classR => {
                     if (classR.schedule != null) {
                         let mainSchedule = JSON.parse(classR.schedule)
+                        let time = ""
+
                         mainSchedule.forEach(times => {
+                            console.log(times)
+                            times.forEach(eachTime => {
+                                let d = Date.parse(eachTime)
+                                const w = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(d);
+                                const h = new Intl.DateTimeFormat('en', {
+                                    hour: '2-digit', hour12: false,
+                                }).format(d);
+                                const m = new Intl.DateTimeFormat('en', { minute: '2-digit' }).format(d);
+                                time += `${w} ${h}:${m} `
+                                console.log(time)
+                                classR.time = time
+
+                            });
+
                             scheduleReceived.push(times)
-
                         });
-                        console.log(scheduleReceived)
+                        console.log(response.data.classes)
                     }
-                    setSchedule(scheduleReceived)
                 });
-
+                setClassesR(response.data.classes)
+                setSchedule(scheduleReceived)
             }).catch(err => {
                 console.log(err);
             });
@@ -50,7 +64,7 @@ const ClassInfo = ({ authenticated, user }) => {
                         <Heading bg="blue.500" color="white" p={1} size="sm">Professor</Heading>
                     </Box>
                     <Box>
-                        <Heading bg="blue.500" color="white" p={1} size="sm">Building</Heading>
+                        <Heading bg="blue.500" color="white" p={1} size="sm">Time</Heading>
                     </Box>
                     <Box>
                     </Box>
@@ -59,17 +73,17 @@ const ClassInfo = ({ authenticated, user }) => {
 
                     return (
                         <SimpleGrid columns={3} mx="auto" width="85vw" border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
-                            <Box>
-                                <Heading bg="blue.300" color="white" p={1} size="sm">{classR.course}</Heading>
+                            <Box height="100%">
+                                <Heading height="100%" bg="blue.300" color="white" p={1} size="sm">{classR.course}</Heading>
                             </Box>
                             <Box>{classR.name}</Box>
                             {(classR.schedule === null) ? (
                                 <>
-                                <Box>{classR.building}</Box>
+                                    <Box>{classR.time}</Box>
 
                                 </>
                             ) : (
-                                    <Box>{classR.building}</Box>
+                                    <Box>{classR.time}</Box>
                                 )}
                         </SimpleGrid>
                     )
