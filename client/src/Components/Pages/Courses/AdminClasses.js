@@ -7,16 +7,10 @@ import ClassData from '../../Widgets/ClassData'
 
 const AdminClasses = ({authenticated, user}) => {
     const [classes, setClasses] = useState([]);
+    const [favorites, setFavorites] = useState([]);
     const [filtered, setFiltered] = useState([]);
     const [search, setSearch] = useState("");
-
-    const removeClass = (classR) => {
-        const index = classes.findIndex(c => classR.classId === c.classId);
-        let modified = JSON.parse(JSON.stringify(classes));
-        modified.splice(index, 1);
-        setClasses(modified);
-    }
-
+    
     useEffect(() => {        
         axios.get(BaseUrl + '/staff/allClasses/', { withCredentials: true })
         .then((response) => {
@@ -25,7 +19,28 @@ const AdminClasses = ({authenticated, user}) => {
         }).catch(err => {
             console.log(err);
         })
+        
+        axios.get(BaseUrl + '/staff/allFavorites/', { withCredentials: true })
+        .then((response) => {
+            console.log(response)
+            if (response.data.favorites) {
+                setFavorites(response.data.favorites)
+            }
+        })
     }, [])
+    
+    const removeClass = (classR) => {
+        const index = classes.findIndex(c => classR.classId === c.classId);
+        let modified = JSON.parse(JSON.stringify(classes));
+        modified.splice(index, 1);
+        setClasses(modified);
+    }
+    
+    const addFavorite = (classToAdd) => {
+        let modified = JSON.parse(JSON.stringify(favorites));
+        modified.push(classToAdd);
+        setFavorites([...modified]);
+    }
 
     const handleChangeSearch = (e) => {
         const s = e.target.value;
@@ -65,7 +80,7 @@ const AdminClasses = ({authenticated, user}) => {
                     <></>
                 )}
                 <FormControl>
-                    <FormLabel htmlFor="search">Search classes</FormLabel>
+                <FormLabel htmlFor="search">Search classes</FormLabel>
                     <Input type="text" id="search" value={search} onChange={handleChangeSearch} />
                 </FormControl>
                 <SimpleGrid columns={4} border="2px" borderRadius="md" borderColor="gray.600" textAlign="center">
@@ -83,9 +98,19 @@ const AdminClasses = ({authenticated, user}) => {
                 </SimpleGrid>
                 <List mt={1} spacing={1}>
                     { filtered.map((classR) => {
+                        const isFavorite = favorites.find(elem => {
+                            return (elem.class_id === classR.classId || elem.classId === classR.classId)
+                        }) !== undefined;
                         return (
                             <ListItem key={"class-"+classR.classId} >
-                                <ClassData user={user} classR={classR} handleChange={removeClass}></ClassData>
+                                <ClassData 
+                                    user={user} 
+                                    classR={classR} 
+                                    handleChange={removeClass} 
+                                    isFavorite={isFavorite}
+                                    handleAddFavorite={addFavorite}>
+                                
+                                </ClassData>
                             </ListItem>
                         )
                     }) }

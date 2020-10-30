@@ -4,12 +4,11 @@ import axios from 'axios';
 import { BaseUrl } from '../../constants'
 import { Link } from 'react-router-dom';
 
-const ClassData = ({user, classR, handleChange}) => {
+const ClassData = ({user, classR, handleChange, isFavorite, handleAddFavorite}) => {
 
     const handleDeleteClick = () => {
         axios.post(BaseUrl + `/adminDep/deleteClass/${classR.classId}`, '', { withCredentials: true })
         .then(response => {
-            //console.log(response)
             handleChange(classR);
         }).catch(err => {
             console.log(err);
@@ -20,6 +19,7 @@ const ClassData = ({user, classR, handleChange}) => {
         axios.post(BaseUrl + `/staff/favoriteClass/${classR.classId}`, '', { withCredentials: true })
         .then(response => {
             console.log(response)
+            handleAddFavorite(classR)
         }).catch(err => {
             console.log(err);
         })
@@ -33,9 +33,14 @@ const ClassData = ({user, classR, handleChange}) => {
             <Box>{classR.name}</Box>
             <Box>{classR.building}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
-                <Button size="xs" variantColor="yellow" onClick={handleFavoriteClick}>
-                    Add as favorite
-                </Button>
+                {(user.role === 'student' && !isFavorite) ? (
+                    <Button size="xs" variantColor="yellow" onClick={handleFavoriteClick}>
+                        Add as favorite
+                    </Button>
+                ) : (
+                    <></>
+                )}
+                
                 {(user.role === 'admin' || user.role === 'adminDep') ? (
                     <>
                     <Button size="xs" variantColor="red" onClick={handleDeleteClick}>
