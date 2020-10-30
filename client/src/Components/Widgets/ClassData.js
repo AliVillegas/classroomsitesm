@@ -33,7 +33,7 @@ const ClassData = ({user, classR, handleChange, isFavorite, handleAddFavorite}) 
             <Box>{classR.name}</Box>
             <Box>{classR.building}</Box>
             <Flex justifyContent="space-evenly" alignItems="center">
-                {(user.role === 'student' && !isFavorite) ? (
+                {((user.role === 'student' || user.role === 'professor') && !isFavorite) ? (
                     <Button size="xs" variantColor="yellow" onClick={handleFavoriteClick}>
                         Add as favorite
                     </Button>

@@ -13,13 +13,10 @@ exports.allSameCampus = (id) => {
 exports.findByUserID = (id) => {
     return knex
         .select('*')
-        .from('users')
-        .join('professors', 'users.id', '=', 'professors.user_id')
+        .from('professors')
         .where('user_id', id)
-        .andWhere('campus_id', id)
         .first();
 }
-
 exports.delete = (id) => {
     return knex('professors')
         .delete()
