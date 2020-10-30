@@ -203,6 +203,7 @@ router.get('/staff/classroomSchedule/:id', staffController.classScheduleGivenCla
 router.post('/staff/favoriteClass/:id', staffController.makeClassFavorite)
 
 
+
 //getFavorites
 //Get all favorite classes from the user 
 router.get('/staff/allFavorites/', staffController.allFavorites)

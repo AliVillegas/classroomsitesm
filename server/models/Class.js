@@ -40,6 +40,8 @@ exports.allClassesSameCampus = (campusId, limit) => {
         .where('campus_id', campusId)
         .limit(limit)
 }
+
+
 exports.createNewClass = (classR) => {
     return knex('classes')
         .insert({
@@ -83,7 +85,6 @@ exports.findAllClassesGivenClassroom = (campusId, classroom_id) => {
         .where('professors.campus_id', campusId)
         .andWhere('classroom_id', classroom_id)
 }
-
 
 
 
