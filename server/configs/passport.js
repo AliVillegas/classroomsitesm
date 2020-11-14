@@ -41,7 +41,7 @@ passport.use(new officeStrategy({
         proxy: {
             host: 'myProxyHost',
             port: 'myProxyPort',
-            protocol: 'https' // http / https
+            protocol: 'http' // http / https
         }
     },
 
@@ -90,6 +90,7 @@ passport.use(new officeStrategy({
 
     }));
 passport.serializeUser((user, done) => {
+    console.log("Done Serializing user")
     done(null, user.id);
 });
 
