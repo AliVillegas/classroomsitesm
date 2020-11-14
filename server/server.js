@@ -9,6 +9,7 @@ let flash = require('express-flash');
 let passport = require('passport');
 const cookieSession = require("cookie-session");
 const cors = require("cors");
+const https = require('https');
 
 // Express app creation
 const app = express();
