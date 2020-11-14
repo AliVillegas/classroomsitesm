@@ -21,7 +21,6 @@ const path = require('path');
 
 var key = fs.readFileSync(path.resolve(__dirname, '../cert/key.pem'));
 var cert = fs.readFileSync(path.resolve(__dirname, '../cert/cert.pem'));
-var ca = fs.readFileSync(path.resolve(__dirname, '../cert/cai.pem'));
 // View engine configs
 const exphbs = require('express-handlebars');
 const hbshelpers = require("handlebars-helpers");
@@ -79,5 +78,4 @@ app.use('/', webRoutes);
 https.createServer({
     key: key,
     cert: cert,
-    ca: ca
     }, app).listen(appConfig.expressPort);
