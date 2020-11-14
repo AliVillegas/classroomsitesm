@@ -16,7 +16,12 @@ const app = express();
 
 // Configurations
 const appConfig = require('./configs/app');
+fs = require('fs');
+const path = require('path');
 
+var key = fs.readFileSync(path.resolve(__dirname, '../cert/key.pem'));
+var cert = fs.readFileSync(path.resolve(__dirname, '../cert/cert.pem'));
+var ca = fs.readFileSync(path.resolve(__dirname, '../cert/cai.pem'));
 // View engine configs
 const exphbs = require('express-handlebars');
 const hbshelpers = require("handlebars-helpers");
@@ -71,8 +76,8 @@ app.use('/', express.static(__dirname + '/public'));
 
 // Routes
 app.use('/', webRoutes);
-
-// App init
-app.listen(appConfig.expressPort, () => {
-    console.log(`Server is listenning on ${appConfig.expressPort}! (https://localhost:${appConfig.expressPort})`);
-});
+https.createServer({
+    key: key,
+    cert: cert,
+    ca: ca
+    }, app).listen(appConfig.expressPort);
