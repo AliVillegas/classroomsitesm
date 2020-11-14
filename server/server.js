@@ -63,7 +63,7 @@ app.use(
     cors({
         origin: "http://classroomsmplify-20201114113648-hostingbucket-dev.s3-website-us-east-1.amazonaws.com", // allow to server to accept request from different origin
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        credentials: false,
+        credentials: true,
     })
 );
 //app.use(express.urlencoded({ extended: true }));
