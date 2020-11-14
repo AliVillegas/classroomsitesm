@@ -48,7 +48,8 @@ app.use(
         name: "session",
         keys: [appConfig.cookie],
         maxAge: 24 * 60 * 60 * 100,
-        secure: false,
+        secure: true,
+        httpOnly:false,
         sameSite: 'none'// allow session cookie from browser to pass through
     })
 );
