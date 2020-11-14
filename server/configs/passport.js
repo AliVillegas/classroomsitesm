@@ -41,7 +41,7 @@ passport.use(new officeStrategy({
         proxy: {
             host: 'myProxyHost',
             port: 'myProxyPort',
-            protocol: 'http' // http / https
+            protocol: 'https' // http / https
         }
     },
 
