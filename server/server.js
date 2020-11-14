@@ -48,11 +48,11 @@ app.use(
         name: "session",
         keys: [appConfig.cookie],
         maxAge: 24 * 60 * 60 * 100,
-        secure: true
+        secure: false
     })
 );
 
-
+app.enable('trust proxy')
 app.use(cookieParser());
 require('./configs/passport');
 app.use(passport.initialize());
@@ -62,7 +62,8 @@ app.use(
     cors({
         origin: "http://classroomsmplify-20201114113648-hostingbucket-dev.s3-website-us-east-1.amazonaws.com", // allow to server to accept request from different origin
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        credentials: true // allow session cookie from browser to pass through
+        credentials: false,
+        sameSite: 'none'// allow session cookie from browser to pass through
     })
 );
 //app.use(express.urlencoded({ extended: true }));
