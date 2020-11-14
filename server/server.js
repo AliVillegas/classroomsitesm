@@ -54,7 +54,7 @@ app.use(passport.session());
 
 app.use(
     cors({
-        origin: "http://localhost:3000", // allow to server to accept request from different origin
+        origin: "http://classroomsmplify-20201114113648-hostingbucket-dev.s3-website-us-east-1.amazonaws.com", // allow to server to accept request from different origin
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true // allow session cookie from browser to pass through
     })
@@ -74,5 +74,5 @@ app.use('/', webRoutes);
 
 // App init
 app.listen(appConfig.expressPort, () => {
-    console.log(`Server is listenning on ${appConfig.expressPort}! (http://localhost:${appConfig.expressPort})`);
+    console.log(`Server is listenning on ${appConfig.expressPort}! (https://localhost:${appConfig.expressPort})`);
 });

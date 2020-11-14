@@ -65,7 +65,10 @@ passport.use(new officeStrategy({
                                 SuperAdminModel.create(user).then(newUser => {
                                     if(user.email.charAt(0).toLowerCase() === 'a'){
                                         StudentModel.create(user).then(newUser => {
-                                            done(null, user)
+                                            ProfessorModel.create(user).then(newUser => {
+                                                done(null, user)
+                                                //update user role to professor
+                                            })
                                             //update user role to student
                                         })
                                     }
