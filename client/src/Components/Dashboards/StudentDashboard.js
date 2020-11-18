@@ -17,7 +17,7 @@ const StudentDashboard = ({authenticated, user}) => {
                 </Button>
             </Box>
             <Box border="1px" borderRadius="md" borderColor="gray.600" textAlign="center">
-                <Heading bg="blue.400" color="white" p={3}>View favorites</Heading>
+                <Heading bg="blue.400" color="white" p={3}>View Favorites</Heading>
                 <Box m={4}>
                     Here you can view and search your favorite classes
                 </Box>

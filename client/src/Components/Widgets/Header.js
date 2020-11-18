@@ -15,7 +15,7 @@ const Header = ({ authenticated, handleLogout }) => {
     return (
         <SimpleGrid bg="blue.500" columns={4} textAlign="center">
             <Box my="auto">
-                <Heading lineHeight={'10px'} verticalAlign="middle" color="white" p={1} size="lg">ClassroomsITESM</Heading>
+                <Heading lineHeight={'10px'} verticalAlign="middle" color="white" p={1} size="lg">Classrooms ITESM</Heading>
             </Box>
             <Box></Box>
             <Box></Box>
