@@ -1,0 +1,13 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        build:
+          commands: npm run build
+      artifacts:
+        baseDirectory: /client/build
+        files:
+          - '**/*'
+      cache:
+        paths: []
+    appRoot: /
