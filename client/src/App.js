@@ -12,6 +12,7 @@ import ClassInfo from './Components/Pages/Courses/ClassInfo'
 import CreateClass from './Components/Pages/Courses/CreateClass'
 import UpdateClass from './Components/Pages/Courses/UpdateClass';
 
+
 import AdminUsers from './Components/Pages/UsersManagement/AdminUsers';
 import UpdateUserRole from './Components/Pages/UsersManagement/UpdateUserRole';
 
