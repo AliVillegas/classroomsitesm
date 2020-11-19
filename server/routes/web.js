@@ -10,7 +10,7 @@ const admincampusController = require('../controllers/AdminCampusController');
 const adminDepartmentController = require('../controllers/AdminDepartmentController');
 const staffController = require('../controllers/StaffController');
 const passport = require('passport');
-const CLIENT_HOME_PAGE_URL = "http://classroomsitesm.tech";
+const CLIENT_HOME_PAGE_URL = "http://classroomsmplify-20201114113648-hostingbucket-dev.s3-website-us-east-1.amazonaws.com/";
 router.get('/', homepageController.index);
 router.get('/protected', authMiddleware.isAuth, (req, res) => {
     res.send('Protected route, user correctly authenticated');
