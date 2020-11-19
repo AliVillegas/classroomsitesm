@@ -10,7 +10,7 @@ const admincampusController = require('../controllers/AdminCampusController');
 const adminDepartmentController = require('../controllers/AdminDepartmentController');
 const staffController = require('../controllers/StaffController');
 const passport = require('passport');
-const CLIENT_HOME_PAGE_URL = "http://classroomsitesm.tech";
+const CLIENT_HOME_PAGE_URL = "classroomsitesm.tech";
 router.get('/', homepageController.index);
 router.get('/protected', authMiddleware.isAuth, (req, res) => {
     res.send('Protected route, user correctly authenticated');
